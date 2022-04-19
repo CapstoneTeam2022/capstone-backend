@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { HealthCenterDto } from './dto';
 import { HealthCenterService } from './health-center.service';
@@ -26,5 +27,13 @@ export class HealthCenterController {
   @Get(':id')
   getHealthCenter(@Param('id', ParseIntPipe) id: number) {
     return this.healthCenterService.getHealthCenter(id);
+  }
+
+  @Put(':id')
+  async updateHealthCenter(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: HealthCenterDto,
+  ) {
+    return this.healthCenterService.updateHealthCenter(id, dto);
   }
 }
