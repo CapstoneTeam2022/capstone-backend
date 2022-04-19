@@ -11,12 +11,22 @@ datasource db {
 }
 
 model Address {
-  id      Int    @id @default(autoincrement())
-  city    String
-  subCity String
-  zone    String
-  woreda  String
-  kebelle String
-  street  String
-  houseNo String
+  id           Int            @id @default(autoincrement())
+  city         String
+  subCity      String
+  zone         String
+  woreda       String
+  kebelle      String
+  street       String
+  houseNo      String
+  HealthCenter HealthCenter[]
+}
+
+model HealthCenter {
+  id        Int     @id @default(autoincrement())
+  name      String
+  email     String  @unique()
+  type      String
+  addressId Int
+  address   Address @relation(fields: [addressId], references: [id])
 }
