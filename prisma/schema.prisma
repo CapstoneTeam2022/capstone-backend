@@ -9,3 +9,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Address {
+  id      Int    @id @default(autoincrement())
+  city    String
+  subCity String
+  zone    String
+  woreda  String
+  kebelle String
+  street  String
+  houseNo String
+}
