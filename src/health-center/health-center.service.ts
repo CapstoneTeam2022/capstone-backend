@@ -96,4 +96,21 @@ export class HealthCenterService {
     exclude(updatedHealthCenter, 'addressId');
     return updatedHealthCenter;
   }
+
+  async deleteHealthCenter(id: number) {
+    const healthCenter = await this.prisma.healthCenter.findUnique({
+      where: { id },
+    });
+    if (healthCenter === null) {
+      throw new NotFoundException(`Health center with id ${id} not found`);
+    }
+    await this.prisma.healthCenter.delete({
+      where: {
+        id,
+      },
+    });
+    return {
+      msg: 'success',
+    };
+  }
 }
