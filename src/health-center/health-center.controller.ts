@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { HealthCenterDto } from './dto';
 import { HealthCenterService } from './health-center.service';
 
@@ -14,5 +21,10 @@ export class HealthCenterController {
   @Post()
   createHealthCenter(@Body() dto: HealthCenterDto) {
     return this.healthCenterService.createHealthCenter(dto);
+  }
+
+  @Get(':id')
+  getHealthCenter(@Param('id', ParseIntPipe) id: number) {
+    return this.healthCenterService.getHealthCenter(id);
   }
 }
