@@ -7,7 +7,14 @@ export class HealthCenterService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAllHealthCenters() {
-    return this.prisma.healthCenter.findMany();
+    return this.prisma.healthCenter.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        address: true,
+      },
+    });
   }
 
   async createHealthCenter(body: HealthCenterDto) {
