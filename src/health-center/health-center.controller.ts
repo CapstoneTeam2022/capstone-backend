@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -35,5 +36,10 @@ export class HealthCenterController {
     @Body() dto: HealthCenterDto,
   ) {
     return this.healthCenterService.updateHealthCenter(id, dto);
+  }
+
+  @Delete(':id')
+  async deleteHealthCenter(@Param('id', ParseIntPipe) id: number) {
+    return this.healthCenterService.deleteHealthCenter(id);
   }
 }
