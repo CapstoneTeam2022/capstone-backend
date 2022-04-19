@@ -64,4 +64,36 @@ export class HealthCenterService {
       throw err;
     }
   }
+
+  async updateHealthCenter(id: number, body: HealthCenterDto) {
+    const healthCenter = await this.prisma.healthCenter.findUnique({
+      where: { id },
+    });
+
+    if (healthCenter === null) {
+      throw new NotFoundException(`Health center with id ${id} not found`);
+    }
+
+    const updatedHealthCenter = await this.prisma.healthCenter.update({
+      where: {
+        id,
+      },
+      data: {
+        name: body.name,
+        email: body.email,
+        type: body.type,
+        address: {
+          update: {
+            ...body.address,
+          },
+        },
+      },
+      include: {
+        address: true,
+      },
+    });
+    exclude(updatedHealthCenter.address, 'id');
+    exclude(updatedHealthCenter, 'addressId');
+    return updatedHealthCenter;
+  }
 }
