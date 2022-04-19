@@ -34,9 +34,9 @@ If you are not using docker then setup a PostgreSQL database and modify the .env
 Once you setup the database run
 
 ```bash
-npx prisma generate
+npx prisma migrate dev
 ```
-to generate the prisma client. This step is needed to start the app
+to migrate the db and generate the prisma client. This step is needed to start the app
 
 ## Running the app
 
