@@ -1,5 +1,7 @@
-import { Injectable, Post } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { PrismaService } from 'src/prisma/prisma.service';
+import { exclude } from 'src/utils/helpers/exclude';
 import { HealthCenterDto } from './dto';
 
 @Injectable()
@@ -32,5 +34,34 @@ export class HealthCenterService {
       },
     });
     return newHealthCenter;
+  }
+
+  async getHealthCenter(id: number) {
+    try {
+      const healthCenter = await this.prisma.healthCenter.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          address: true,
+        },
+      });
+      if (healthCenter === null || healthCenter == undefined) {
+        throw new NotFoundException(`Health center with id ${id} not found`);
+      }
+
+      //Remove id property from health center address
+      exclude(healthCenter.address, 'id');
+
+      //Remove the address and health center
+      exclude(healthCenter, 'addressId');
+
+      return {
+        ...healthCenter,
+      };
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
   }
 }
