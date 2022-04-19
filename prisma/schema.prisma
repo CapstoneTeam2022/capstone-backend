@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Address {
-  id           Int            @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   city         String
   subCity      String
   zone         String
@@ -19,7 +19,7 @@ model Address {
   kebelle      String
   street       String
   houseNo      String
-  HealthCenter HealthCenter[]
+  HealthCenter HealthCenter?
 }
 
 model HealthCenter {
@@ -27,6 +27,6 @@ model HealthCenter {
   name      String
   email     String  @unique()
   type      String
-  addressId Int
+  addressId Int     @unique
   address   Address @relation(fields: [addressId], references: [id])
 }

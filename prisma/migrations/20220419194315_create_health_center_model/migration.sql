@@ -12,5 +12,8 @@ CREATE TABLE "HealthCenter" (
 -- CreateIndex
 CREATE UNIQUE INDEX "HealthCenter_email_key" ON "HealthCenter"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "HealthCenter_addressId_key" ON "HealthCenter"("addressId");
+
 -- AddForeignKey
 ALTER TABLE "HealthCenter" ADD CONSTRAINT "HealthCenter_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
