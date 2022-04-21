@@ -58,4 +58,21 @@ model User {
   roleId Int
   role   Role @relation(fields: [roleId], references: [id])
 
+  //The patient relation (only if the user is a patient)
+  patient Patient? @relation("patient")
+
+  //The patients registered by this user
+  registeredPatients Patient[] @relation("register")
+}
+
+model Patient {
+  id                    Int    @id @default(autoincrement())
+  emergencyContactName  String
+  emergencyContactPhone String
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], name: "patient")
+
+  registeredById Int
+  registeredBy   User @relation(fields: [registeredById], references: [id], name: "register")
 }
