@@ -20,6 +20,7 @@ model Address {
   street       String
   houseNo      String
   HealthCenter HealthCenter?
+  user         User?
 }
 
 model HealthCenter {
@@ -34,5 +35,27 @@ model HealthCenter {
 model Role {
   id   Int    @id @default(autoincrement())
   name String
+
+  //The users in the db with this role
+  User User[]
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  name         String
+  phone        String
+  age          String
+  gender       String
+  email        String  @unique()
+  password     String
+  isActive     Boolean
+  isAdmin      Boolean
+  isResearcher Boolean
+
+  addressId Int     @unique
+  address   Address @relation(fields: [addressId], references: [id])
+
+  roleId Int
+  role   Role @relation(fields: [roleId], references: [id])
 
 }
