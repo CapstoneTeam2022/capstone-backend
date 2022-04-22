@@ -69,6 +69,9 @@ model User {
 
   //Vitals filled by user
   filledVitals Vitals[] @relation("filledBy")
+
+  //requested Investigation Requests
+  investigationRequests InvestigationRequest[]
 }
 
 model Patient {
@@ -79,9 +82,10 @@ model Patient {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id], name: "patient")
 
-  registeredById Int
-  registeredBy   User     @relation(fields: [registeredById], references: [id], name: "register")
-  vitals         Vitals[]
+  registeredById        Int
+  registeredBy          User                   @relation(fields: [registeredById], references: [id], name: "register")
+  vitals                Vitals[]
+  investigationRequests InvestigationRequest[]
 }
 
 model Vitals {
@@ -102,6 +106,22 @@ model Vitals {
   requestedById Int
   requestedBy   User @relation(name: "requestedBy", fields: [requestedById], references: [id])
 
-  filledById Int
-  filledBy   User @relation(name: "filledBy", fields: [filledById], references: [id])
+  filledById            Int
+  filledBy              User                   @relation(name: "filledBy", fields: [filledById], references: [id])
+  investigationRequests InvestigationRequest[]
+}
+
+model InvestigationRequest {
+  id   Int      @id @default(autoincrement())
+  note String
+  date DateTime
+
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  requestorId Int
+  requestedBy User @relation(fields: [requestorId], references: [id])
+
+  vitalsId Int    @unique()
+  vitals   Vitals @relation(fields: [vitalsId], references: [id])
 }
