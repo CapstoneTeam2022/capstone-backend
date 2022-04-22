@@ -72,6 +72,9 @@ model User {
 
   //requested Investigation Requests
   investigationRequests InvestigationRequest[]
+
+  //Lab results filled by this user
+  filledLabResults LabResult[]
 }
 
 model Patient {
@@ -122,9 +125,14 @@ model InvestigationRequest {
   requestorId Int
   requestedBy User @relation(fields: [requestorId], references: [id])
 
-  vitalsId Int       @unique()
-  vitals   Vitals    @relation(fields: [vitalsId], references: [id])
-  LabTest  LabTest[]
+  vitalsId Int    @unique()
+  vitals   Vitals @relation(fields: [vitalsId], references: [id])
+
+  //Lab Tests for this request
+  labTests LabTest[]
+
+  //Lab Results for this request
+  labResults LabResult[]
 }
 
 model LabTest {
@@ -136,4 +144,20 @@ model LabTest {
 
   invReqId Int
   invReq   InvestigationRequest @relation(fields: [invReqId], references: [id])
+}
+
+model LabResult {
+  id         Int      @id @default(autoincrement())
+  name       String
+  type       String
+  filledDate DateTime
+  result     String
+  isAbnormal String
+  comment    String
+
+  invReqId Int
+  invReq   InvestigationRequest @relation(fields: [invReqId], references: [id])
+
+  filledById Int
+  filledBy   User @relation(fields: [filledById], references: [id])
 }
