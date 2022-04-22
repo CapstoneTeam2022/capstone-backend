@@ -122,6 +122,18 @@ model InvestigationRequest {
   requestorId Int
   requestedBy User @relation(fields: [requestorId], references: [id])
 
-  vitalsId Int    @unique()
-  vitals   Vitals @relation(fields: [vitalsId], references: [id])
+  vitalsId Int       @unique()
+  vitals   Vitals    @relation(fields: [vitalsId], references: [id])
+  LabTest  LabTest[]
+}
+
+model LabTest {
+  id           Int    @id @default(autoincrement())
+  name         String
+  normalRange  String
+  measuredIn   String
+  testCategory String
+
+  invReqId Int
+  invReq   InvestigationRequest @relation(fields: [invReqId], references: [id])
 }
