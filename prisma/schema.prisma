@@ -63,6 +63,12 @@ model User {
 
   //The patients registered by this user
   registeredPatients Patient[] @relation("register")
+
+  //Vitals requested by user
+  requestedVitals Vitals[] @relation("requestedBy")
+
+  //Vitals filled by user
+  filledVitals Vitals[] @relation("filledBy")
 }
 
 model Patient {
@@ -74,5 +80,28 @@ model Patient {
   user   User @relation(fields: [userId], references: [id], name: "patient")
 
   registeredById Int
-  registeredBy   User @relation(fields: [registeredById], references: [id], name: "register")
+  registeredBy   User     @relation(fields: [registeredById], references: [id], name: "register")
+  vitals         Vitals[]
+}
+
+model Vitals {
+  id              Int      @id @default(autoincrement())
+  temperature     Float
+  pulse           Float
+  respiratoryRate Float
+  bloodPressure   Float
+  weight          Float
+  spo2Level       Float
+  heartRate       Float
+  requestedDate   DateTime //TODO add default now
+  filledDate      DateTime
+
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  requestedById Int
+  requestedBy   User @relation(name: "requestedBy", fields: [requestedById], references: [id])
+
+  filledById Int
+  filledBy   User @relation(name: "filledBy", fields: [filledById], references: [id])
 }
