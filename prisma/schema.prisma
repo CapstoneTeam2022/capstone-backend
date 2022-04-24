@@ -58,4 +58,129 @@ model User {
   roleId Int
   role   Role @relation(fields: [roleId], references: [id])
 
+  //The patient relation (only if the user is a patient)
+  patient Patient? @relation("patient")
+
+  //The patients registered by this user
+  registeredPatients Patient[] @relation("register")
+
+  //Vitals requested by user
+  requestedVitals Vitals[] @relation("requestedBy")
+
+  //Vitals filled by user
+  filledVitals Vitals[] @relation("filledBy")
+
+  //requested Investigation Requests
+  investigationRequests InvestigationRequest[]
+
+  //Lab results filled by this user
+  filledLabResults LabResult[]
+
+  //Radiology tests filled by this user
+  filledRadiology Radiology[]
+}
+
+model Patient {
+  id                    Int    @id @default(autoincrement())
+  emergencyContactName  String
+  emergencyContactPhone String
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], name: "patient")
+
+  registeredById        Int
+  registeredBy          User                   @relation(fields: [registeredById], references: [id], name: "register")
+  vitals                Vitals[]
+  investigationRequests InvestigationRequest[]
+}
+
+model Vitals {
+  id              Int      @id @default(autoincrement())
+  temperature     Float
+  pulse           Float
+  respiratoryRate Float
+  bloodPressure   Float
+  weight          Float
+  spo2Level       Float
+  heartRate       Float
+  requestedDate   DateTime //TODO add default now
+  filledDate      DateTime
+
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  requestedById Int
+  requestedBy   User @relation(name: "requestedBy", fields: [requestedById], references: [id])
+
+  filledById            Int
+  filledBy              User                   @relation(name: "filledBy", fields: [filledById], references: [id])
+  investigationRequests InvestigationRequest[]
+}
+
+model InvestigationRequest {
+  id   Int      @id @default(autoincrement())
+  note String
+  date DateTime
+
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
+
+  requestorId Int
+  requestedBy User @relation(fields: [requestorId], references: [id])
+
+  vitalsId Int    @unique()
+  vitals   Vitals @relation(fields: [vitalsId], references: [id])
+
+  //Lab Tests for this request
+  labTests LabTest[]
+
+  //Lab Results for this request
+  labResults LabResult[]
+
+  //Radiology tests recorded by this user
+  radiologies Radiology[]
+}
+
+model LabTest {
+  id           Int    @id @default(autoincrement())
+  name         String
+  normalRange  String
+  measuredIn   String
+  testCategory String
+
+  invReqId Int
+  invReq   InvestigationRequest @relation(fields: [invReqId], references: [id])
+}
+
+model LabResult {
+  id         Int      @id @default(autoincrement())
+  name       String
+  type       String
+  filledDate DateTime
+  result     String
+  isAbnormal String
+  comment    String
+
+  invReqId Int
+  invReq   InvestigationRequest @relation(fields: [invReqId], references: [id])
+
+  filledById Int
+  filledBy   User @relation(fields: [filledById], references: [id])
+}
+
+model Radiology {
+  id         Int      @id @default(autoincrement())
+  name       String
+  focalArea  String
+  filledDate DateTime
+  report     String
+  images     String[] // test what String[] does in the db
+  comment    String
+
+  invReqId Int
+  invReq   InvestigationRequest @relation(fields: [invReqId], references: [id])
+
+  filledById Int
+  filledBy   User @relation(fields: [filledById], references: [id])
+
 }
