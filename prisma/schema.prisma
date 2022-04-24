@@ -48,7 +48,7 @@ model User {
   gender       String
   email        String  @unique()
   password     String
-  isActive     Boolean
+  isActive     Boolean @default(true)
   isAdmin      Boolean
   isResearcher Boolean
 
