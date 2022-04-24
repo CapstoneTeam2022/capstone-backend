@@ -44,8 +44,8 @@ export class UserDto {
   isResearcher: boolean;
 
   @IsNotEmpty()
-  @IsString()
-  role: string;
+  @IsInt()
+  roleId: number;
 
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
