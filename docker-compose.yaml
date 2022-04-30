@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=sennay
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/data/postgres
+volumes:
+  postgres:

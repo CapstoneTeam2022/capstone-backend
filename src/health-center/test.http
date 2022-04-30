@@ -1,0 +1,17 @@
+POST http://localhost:4000/health-center
+Content-Type: application/json
+
+{
+  "name": "Bethel Hospital",
+  "email": "wsennay@gmail.com",
+  "type": "type 1",
+  "address": {
+    "city": "addis",
+    "subCity": "kolfe",
+    "zone": "o",
+    "woreda": "07",
+    "kebelle": "none",
+    "street": "1234",
+    "houseNo": "1234"
+  }
+}
