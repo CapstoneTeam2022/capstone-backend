@@ -28,4 +28,11 @@ export class UserController {
   addUser(@Body() body: CreateUserDto) {
     return this.userService.addUser(body);
   }
+  @Put(':id')
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: CreateUserDto,
+  ) {
+    return this.userService.updateUserInfo(id, body);
+  }
 }

@@ -11,6 +11,9 @@ export class AddressService {
     private addressRepository: Repository<Address>,
   ) {}
 
+  async getAddress(id) {
+    return this.addressRepository.findOne(id);
+  }
   async saveAddress(body: AddressDto) {
     const address = this.addressRepository.create({ ...body });
     return this.addressRepository.save(address);
