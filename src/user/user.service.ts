@@ -3,7 +3,11 @@ import { AddressService } from './../address/address.service';
 import { CreateUserDto } from './dtos';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -15,7 +19,16 @@ export class UserService {
   ) {}
 
   getAllUsers(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['address', 'role'] });
+  }
+
+  async getUser(id: number): Promise<User> {
+    const user = await this.userRepository.findOne(id, {
+      relations: ['address', 'role'],
+    });
+    if (!user)
+      throw new NotFoundException(`The User with this ${id} NOT FOUND !!!`);
+    return user;
   }
 
   async isEmailTaken(email) {
