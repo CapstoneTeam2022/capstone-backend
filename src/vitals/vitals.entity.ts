@@ -1,56 +1,53 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Patient } from '../patient/patient.entity';
-import { User } from '../user/user.entity';
-import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
-
+    IsInt,
+    IsDate
+} from 'class-validator';
 @Entity()
-export class Vitals {
+export class vitals{
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
+  
+  @Column()
+    patientId: number;
+    
+  @Column()
+    @IsInt()
+    temprature: number;
+
+    @Column()
+    @IsInt()
+    pulse: number;
 
   @Column()
-  temperature: number;
+    @IsInt()
+    respiratoryRate: number;
 
   @Column()
-  pulse: number;
+    @IsInt()
+    bloodPressure: number;
+    
+    @Column()
+    @IsInt()
+    weight: number;
+    
+    @Column()
+    @IsInt()
+    spo2level: number;
+    
+    @Column()
+    @IsInt()
+    heartRate: number;
+    
+    @Column()
+    requestedDate: number;
+    
+    @Column()
+    filledDate: number;
 
+    @Column()
+    requestedBy: string;
+    
   @Column()
-  respiratoryRate: number;
-
-  @Column()
-  bloodPressure: number;
-
-  @Column()
-  weight: number;
-
-  @Column()
-  spo2Level: number;
-
-  @Column()
-  heartRate: number;
-
-  @CreateDateColumn()
-  requestedDate: Date;
-
-  @Column({ nullable: true })
-  filledDate: Date;
-
-  @ManyToOne(() => Patient, (patient) => patient.vitals)
-  patient: Patient;
-
-  @ManyToOne(() => User, (user) => user.requestedVitals)
-  requestedBy: User;
-
-  @ManyToOne(() => User, (user) => user.filledVitals)
-  filledBy: User;
-
-  @OneToMany(() => InvestigationRequest, (inv) => inv.vitals)
-  investigationRequests: InvestigationRequest[];
+  filledBy: string;
 }
