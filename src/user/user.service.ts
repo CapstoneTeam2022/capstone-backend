@@ -3,6 +3,7 @@ import { AddressService } from './../address/address.service';
 import { CreateUserDto } from './dtos';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import {
   Injectable,
   BadRequestException,
@@ -49,6 +50,10 @@ export class UserService {
     const createdAddress = await this.addressService.saveAddress(
       userData.address,
     );
+    // Hashing the password
+
+    const salt = await bcrypt.genSalt(10);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
 
     const user = this.userRepository.create({
       ...newUser,
