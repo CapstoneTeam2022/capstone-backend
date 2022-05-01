@@ -40,7 +40,7 @@ export class User {
   isResearcher: boolean;
 
   @Column()
-  isAdmin: string;
+  isAdmin: boolean;
 
   @OneToOne(() => Address, (address) => address.user)
   @JoinColumn()

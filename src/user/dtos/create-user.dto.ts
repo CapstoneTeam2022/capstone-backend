@@ -1,5 +1,14 @@
 import { Type } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Max,
+  Min,
+  ValidateNested,
+} from 'class-validator';
 import { AddressDto } from 'src/address/dto';
 import { RoleDto } from 'src/role/dto';
 
@@ -10,7 +19,15 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsString()
   phone: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  age: number;
 
   @IsNotEmpty()
   @IsString()
@@ -18,11 +35,11 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsBoolean()
   isResearcher: boolean;
 
   @IsNotEmpty()
-  @IsString()
+  @IsBoolean()
   isAdmin: boolean;
 
   @ValidateNested({ each: true })
@@ -30,7 +47,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   address: AddressDto;
 
-  @ValidateNested({ each: true })
-  @Type(() => RoleDto)
-  role: RoleDto;
+  @IsNotEmpty()
+  @IsString()
+  role: string;
 }
