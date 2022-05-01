@@ -75,4 +75,10 @@ export class UserService {
     console.log(newUser);
     return this.userRepository.save(newUser);
   }
+
+  async disActiveUser(id: number) {
+    const user = await this.getUser(id);
+    user.isActive = false;
+    return this.userRepository.save(user);
+  }
 }

@@ -35,4 +35,9 @@ export class UserController {
   ) {
     return this.userService.updateUserInfo(id, body);
   }
+
+  @Put('/disactive/:id')
+  disactiveUserProfile(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.disActiveUser(id);
+  }
 }
