@@ -1,0 +1,36 @@
+### Create new users 
+# # GET  http://localhost:3000/auth/1
+#  GET http://localhost:4000/health-center/1
+
+
+PUT http://localhost:4000/health-center/disactive/1
+content-type:application/json
+
+
+
+
+
+POST  http://localhost:4000/health-center
+content-type:application/json
+
+
+ {
+    "name":"yerari",
+    "email":"yekatit@gmail.com",
+    "type":"private",
+    "address":{
+        "city":"addis ababa",
+        "subCity":"yerari city",
+        "kebelle":"yerari",
+        "woreda":"01",
+        "houseNo":"11",
+        "street":"yerari street",
+        "zone":"zone 3"
+    }
+
+ }
+
+
+
+ ### get the specific users 
+

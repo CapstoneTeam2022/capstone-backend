@@ -11,6 +11,10 @@ import { VitalsModule } from './vitals/vitals.module';
 import { InvestigationRequestModule } from './investigation-request/investigation-request.module';
 import { LabTestModule } from './lab-test/lab-test.module';
 import { LabResultModule } from './lab-result/lab-result.module';
+import { PrescriptionModule } from './prescription/prescription.module';
+import { SymptomModule } from './symptom/symptom.module';
+import { DiagnosisModule } from './diagnosis/diagnosis.module';
+import { MedicationEntryModule } from './medication-entry/medication-entry.module';
 import dbConfig from '../ormconfig';
 
 @Module({
@@ -25,6 +29,10 @@ import dbConfig from '../ormconfig';
     InvestigationRequestModule,
     LabTestModule,
     LabResultModule,
+    PrescriptionModule,
+    SymptomModule,
+    DiagnosisModule,
+    MedicationEntryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
