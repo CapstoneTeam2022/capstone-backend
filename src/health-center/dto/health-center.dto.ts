@@ -17,6 +17,5 @@ export class HealthCenterDto {
 
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
-  @IsNotEmpty()
   address: AddressDto;
 }

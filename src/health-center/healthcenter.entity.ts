@@ -21,6 +21,9 @@ export class HealthCenter {
   @Column()
   type: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @OneToOne(() => Address, (address) => address.healthCenter)
   @JoinColumn()
   address: Address;

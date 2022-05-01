@@ -1,8 +1,8 @@
 # compiled output
 /dist
 /node_modules
-# http request
 
+# http request
 /request.http
 
 # Logs

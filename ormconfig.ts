@@ -7,7 +7,7 @@ const dbConfig: PostgresConnectionOptions = {
   database: 'EMR',
   port: 5432,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
   migrations: ['dist/src/db/migrations/*.js'],
   cli: {
     migrationsDir: 'src/db/migrations',

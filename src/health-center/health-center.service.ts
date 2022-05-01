@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HealthCenter } from './healthcenter.entity';
 import { Connection, Repository } from 'typeorm';
@@ -16,16 +22,49 @@ export class HealthCenterService {
   ) {}
 
   getAllHealthCenters() {
-    return this.healthCenterRepository.find();
+    return this.healthCenterRepository.find({
+      relations: ['address'],
+    });
   }
 
-  async create({ address, ...health }: HealthCenterDto) {
-    const createdAddress = await this.addressService.saveAddress(address);
-    const hc = this.healthCenterRepository.create({
-      ...health,
-      address: createdAddress,
+  async getOneHealthCenter(hcId: number): Promise<HealthCenter> {
+    const healthCenter = await this.healthCenterRepository.findOne(hcId, {
+      relations: ['address'],
     });
-    return this.healthCenterRepository.save(hc);
+    if (healthCenter) return healthCenter;
+
+    throw new HttpException(
+      'Health Center with this id NOT Found !!!!',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  async disActiveHealthCenter(hcId: number): Promise<HealthCenter> {
+    console.log('this is the first');
+    let healthCenter = await this.getOneHealthCenter(hcId);
+
+    healthCenter.isActive = false;
+
+    return this.healthCenterRepository.save(healthCenter);
+  }
+
+  // async create({ address, ...health }: HealthCenterDto) {
+  //   const createdAddress = await this.addressService.saveAddress(address);
+  //   const hc = this.healthCenterRepository.create({
+  //     ...health,
+  //     address: createdAddress,
+  //   });
+  //   return this.healthCenterRepository.save(hc);
+  // }
+
+  async updateHealthCenter(
+    hcId: number,
+    updateHCData: HealthCenterDto,
+  ): Promise<HealthCenter> {
+    const healthCenter = await this.getOneHealthCenter(hcId);
+
+    Object.assign(healthCenter, updateHCData);
+    return this.healthCenterRepository.save(healthCenter);
   }
 
   async isEmailTaken(email: string) {
