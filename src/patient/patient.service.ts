@@ -38,4 +38,10 @@ export class PatientService {
       throw new NotFoundException(`The patient with this ${id} NOT FOUND !!!`);
     return user;
   }
+
+  async updatePatientInfo(id: number, PatientInfo) {
+    const patient = await this.getPatientInfo(id);
+
+    const user = await this.userService.getUser(PatientInfo.user.id);
+  }
 }
