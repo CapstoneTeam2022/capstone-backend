@@ -1,7 +1,14 @@
 import { CreatePatientDto } from './dtos/create-patient.dto';
 import { CreateUserDto } from './../user/dtos/create-user.dto';
 import { PatientService } from './patient.service';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 
 @Controller('patient')
 export class PatientController {
@@ -14,5 +21,9 @@ export class PatientController {
   @Get()
   getAll() {
     return this.patientService.getAllPatient();
+  }
+  @Get(':id')
+  getOnePatient(@Param('id', ParseIntPipe) id: number) {
+    return this.patientService.getPatientInfo(id);
   }
 }

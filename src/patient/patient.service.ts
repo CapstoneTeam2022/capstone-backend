@@ -1,6 +1,6 @@
 import { UserService } from './../user/user.service';
 import { CreatePatientDto } from './dtos/create-patient.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Patient } from './patient.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -28,5 +28,14 @@ export class PatientService {
   getAllPatient() {
     const patient = this.patientRepository.find({ relations: ['user'] });
     return patient;
+  }
+
+  async getPatientInfo(id: number) {
+    const user = await this.patientRepository.findOne(id, {
+      relations: ['user'],
+    });
+    if (!user)
+      throw new NotFoundException(`The patient with this ${id} NOT FOUND !!!`);
+    return user;
   }
 }
