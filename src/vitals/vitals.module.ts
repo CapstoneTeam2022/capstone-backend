@@ -1,14 +1,14 @@
 import { Module } from "@nestjs/common";
-import { DatabaseModule } from "src/database/database.module";
-import { vitalsProvider } from "./vitals.provider";
+import { Vitals } from './vitals.entity';
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { VitalsController } from "./vitals.controller";
 import { VitalsService } from "./vitals.service";
 
 @Module({
     imports: [
-        DatabaseModule
+        TypeOrmModule.forFeature([Vitals]),
     ],
     controllers: [VitalsController],
-    providers:[...vitalsProvider, VitalsService]
+    providers:[VitalsService]
 })
-export class vitalsModule{}
+export class VitalsModule{}
