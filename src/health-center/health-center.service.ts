@@ -43,7 +43,7 @@ export class HealthCenterService {
     console.log('this is the first');
     let healthCenter = await this.getOneHealthCenter(hcId);
 
-    healthCenter.isActive = false;
+    healthCenter['isActive'] = false;
 
     return this.healthCenterRepository.save(healthCenter);
   }
