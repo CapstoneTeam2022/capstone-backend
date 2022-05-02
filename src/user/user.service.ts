@@ -82,17 +82,8 @@ export class UserService {
     user.isAdmin = userData.isAdmin || user.isAdmin;
     user.isResearcher = userData.isResearcher || user.isResearcher;
     user.phone = userData.phone || user.phone;
-    console.log(
-      'sdkfjskskdjf kjsdk jfskdjf ksdj ksdjfk sdjk fjksdf kdjf',
-      userData.role,
-    );
 
     const value = await this.roleService.addRole(userData.role);
-
-    console.log(
-      'sdkfjskskdjf kjsdk jfskdjf ksdj ksdjfk sdjk fjksdf kdjf',
-      value,
-    );
 
     user.age = userData.age || user.age;
     user.email = userData.email || user.email;
