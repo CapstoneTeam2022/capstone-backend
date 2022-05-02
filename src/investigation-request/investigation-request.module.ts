@@ -8,5 +8,6 @@ import { InvestigationRequestService } from './investigation-request.service';
   imports: [TypeOrmModule.forFeature([InvestigationRequest])],
   controllers: [InvestigationRequestController],
   providers: [InvestigationRequestService],
+  exports: [InvestigationRequestService],
 })
 export class InvestigationRequestModule {}

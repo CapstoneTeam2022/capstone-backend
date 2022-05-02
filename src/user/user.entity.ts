@@ -1,3 +1,5 @@
+import { Radiology } from './../radiology/radiology.entity';
+import { Diagnosis } from './../diagnosis/diagnosis.entity';
 import {
   Column,
   Entity,
@@ -61,6 +63,11 @@ export class User {
   @OneToMany(() => Vitals, (vitals) => vitals.filledBy)
   filledVitals: Vitals[];
 
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.filledBy)
+  filledBy: User[];
+
+  @OneToMany(() => Radiology, (radiology) => radiology.requestedBy)
+  requestedRadiology: Radiology[];
   @OneToMany(() => InvestigationRequest, (inv) => inv.registeredBy)
   investigationRequests: InvestigationRequest[];
 }

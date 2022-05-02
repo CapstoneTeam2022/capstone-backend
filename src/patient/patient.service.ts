@@ -19,7 +19,7 @@ export class PatientService {
       ...patientData,
       user,
     });
-    console.log(patient);
+
     patient.user.id = createdUser['id'];
 
     const result = await this.patientRepository.save(patient);

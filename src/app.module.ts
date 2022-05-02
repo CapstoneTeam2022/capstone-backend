@@ -15,6 +15,8 @@ import { PrescriptionModule } from './prescription/prescription.module';
 import { SymptomModule } from './symptom/symptom.module';
 import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { MedicationEntryModule } from './medication-entry/medication-entry.module';
+import { DiseaseModule } from './disease/disease.module';
+import { RadiologyModule } from './radiology/radiology.module';
 import dbConfig from '../ormconfig';
 
 @Module({
@@ -33,6 +35,8 @@ import dbConfig from '../ormconfig';
     SymptomModule,
     DiagnosisModule,
     MedicationEntryModule,
+    DiseaseModule,
+    RadiologyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

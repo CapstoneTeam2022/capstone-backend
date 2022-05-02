@@ -1,3 +1,5 @@
+import { Radiology } from './../radiology/radiology.entity';
+import { Diagnosis } from './../diagnosis/diagnosis.entity';
 import {
   Column,
   Entity,
@@ -28,4 +30,10 @@ export class InvestigationRequest {
 
   @OneToMany(() => LabTest, (test) => test.investigationRequest)
   labTests: LabTest[];
+
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.investigationRequest)
+  diagnosis: Diagnosis[];
+
+  @OneToMany(() => Radiology, (radiology) => radiology.investigationRequests)
+  radiology: Radiology;
 }
