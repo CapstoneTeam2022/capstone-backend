@@ -26,7 +26,9 @@ export class PatientService {
     return result;
   }
   getAllPatient() {
-    const patient = this.patientRepository.find({ relations: ['user'] });
+    const patient = this.patientRepository.find({
+      relations: ['user,address'],
+    });
     return patient;
   }
 
@@ -39,9 +41,13 @@ export class PatientService {
     return user;
   }
 
-  async updatePatientInfo(id: number, PatientInfo) {
+  async updatePatientInfo(id: number, patientInfo) {
     const patient = await this.getPatientInfo(id);
 
-    const user = await this.userService.getUser(PatientInfo.user.id);
+    const user = await this.userService.updateUserInfo(
+      patientInfo.user.id,
+      patientInfo.user,
+    );
+    console.log(user);
   }
 }

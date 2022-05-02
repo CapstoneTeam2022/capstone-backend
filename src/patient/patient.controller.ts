@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 
 @Controller('patient')
@@ -25,5 +26,13 @@ export class PatientController {
   @Get(':id')
   getOnePatient(@Param('id', ParseIntPipe) id: number) {
     return this.patientService.getPatientInfo(id);
+  }
+
+  @Put(':id')
+  updatePatient(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: CreatePatientDto,
+  ) {
+    return this.patientService.updatePatientInfo(id, body);
   }
 }
