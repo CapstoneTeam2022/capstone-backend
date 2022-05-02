@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class CreateLabResultDto {
+export class CreateLabTestDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -17,4 +17,8 @@ export class CreateLabResultDto {
   @IsNotEmpty()
   @IsString()
   testCategory: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  investigationRequest: number;
 }
