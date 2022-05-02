@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { UserDto } from '../../user/dto';
 
-export class CreatePatientDto {
+export class PatientDto {
   @IsNotEmpty()
   @IsString()
   emergencyContactName: string;
