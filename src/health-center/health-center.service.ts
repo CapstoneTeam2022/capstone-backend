@@ -77,4 +77,14 @@ export class HealthCenterService {
 
     throw new NotFoundException(`Health Center with id ${id} not found`);
   }
+
+  async updateHealthCenter(
+    hcId: number,
+    updateHCData: HealthCenterDto,
+  ): Promise<HealthCenter> {
+    const healthCenter = await this.getOneHealthCenter(hcId);
+
+    Object.assign(healthCenter, updateHCData);
+    return this.healthCenterRepository.save(healthCenter);
+  }
 }
