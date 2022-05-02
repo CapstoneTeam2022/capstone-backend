@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
-export class MedicationDto{
+export class PrescriptionDto{
     
     @IsNotEmpty()
     @IsString()
-    medication: string;
+    comment: string;
 }
