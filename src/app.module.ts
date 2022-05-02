@@ -4,12 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import dbConfig from '../ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { VitalsModule } from './vitals/vitals.module';
+import { LabResultModule } from './labResult/labResult.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dbConfig),
-    VitalsModule,
+    LabResultModule
   ],
   controllers: [AppController],
   providers: [AppService],
