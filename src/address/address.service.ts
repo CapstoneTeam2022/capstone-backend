@@ -14,6 +14,13 @@ export class AddressService {
   async getAddress(id) {
     return this.addressRepository.findOne(id);
   }
+
+  async updateAddress(id, newAddress: AddressDto) {
+    const address = await this.getAddress(id);
+    Object.assign(address, newAddress);
+    return this.addressRepository.save(address);
+  }
+
   async saveAddress(body: AddressDto) {
     const address = this.addressRepository.create({ ...body });
     return this.addressRepository.save(address);

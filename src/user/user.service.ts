@@ -1,3 +1,4 @@
+import { Role } from './../role/role.entity';
 import { RoleService } from './../role/role.service';
 import { AddressService } from './../address/address.service';
 import { CreateUserDto } from './dtos';
@@ -66,19 +67,37 @@ export class UserService {
   }
 
   async updateUserInfo(id: number, userData) {
-    const { address, ...userInfo } = userData;
-    let user = await this.getUser(id);
-    const updatedAddress = this.addressService.getAddress(address.id);
+    const user = await this.getUser(id);
 
-    Object.assign(updatedAddress, userData.address);
-    console.log(updatedAddress);
+    if (userData.address) {
+      const updatedAddress = await this.addressService.updateAddress(
+        userData.address.id,
+        userData.address,
+      );
+      user.address = updatedAddress;
+    }
 
-    const newUser = this.userRepository.create({
-      ...userInfo,
-      updatedAddress,
-    });
-    console.log(newUser);
-    return this.userRepository.save(newUser);
+    user.name = userData.name || user.name;
+    user.password = userData.password || user.password;
+    user.isAdmin = userData.isAdmin || user.isAdmin;
+    user.isResearcher = userData.isResearcher || user.isResearcher;
+    user.phone = userData.phone || user.phone;
+    console.log(
+      'sdkfjskskdjf kjsdk jfskdjf ksdj ksdjfk sdjk fjksdf kdjf',
+      userData.role,
+    );
+
+    const value = await this.roleService.addRole(userData.role);
+
+    console.log(
+      'sdkfjskskdjf kjsdk jfskdjf ksdj ksdjfk sdjk fjksdf kdjf',
+      value,
+    );
+
+    user.age = userData.age || user.age;
+    user.email = userData.email || user.email;
+
+    return this.userRepository.save(user);
   }
 
   async disActiveUser(id: number) {
