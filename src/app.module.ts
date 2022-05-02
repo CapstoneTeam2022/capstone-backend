@@ -12,9 +12,11 @@ import { InvestigationRequestModule } from './investigation-request/investigatio
 import { LabTestModule } from './lab-test/lab-test.module';
 import { LabResultModule } from './lab-result/lab-result.module';
 import dbConfig from '../ormconfig';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(dbConfig),
     AddressModule,
     UserModule,
