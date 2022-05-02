@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HealthCenter } from './healthcenter.entity';
 import { Connection, Repository } from 'typeorm';
@@ -63,5 +67,14 @@ export class HealthCenterService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async getOneHealthCenter(id: number): Promise<HealthCenter> {
+    const healthCenter = await this.healthCenterRepository.findOne(id, {
+      relations: ['address'],
+    });
+    if (healthCenter) return healthCenter;
+
+    throw new NotFoundException(`Health Center with id ${id} not found`);
   }
 }
