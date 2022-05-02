@@ -34,6 +34,8 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+/src/health-center/test.http
+
 # Environment
 .env
-*.http
+
