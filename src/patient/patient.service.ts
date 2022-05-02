@@ -48,6 +48,11 @@ export class PatientService {
       patientInfo.user.id,
       patientInfo.user,
     );
-    console.log(user);
+    patient.emergencyContactName =
+      patientInfo.emergencyContactName || patient.emergencyContactName;
+    patient.emergencyContactPhone =
+      patientInfo.emergencyContactPhone || patient.emergencyContactPhone;
+    patient.user = user;
+    return this.patientRepository.save(patient);
   }
 }

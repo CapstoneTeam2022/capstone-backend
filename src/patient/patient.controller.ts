@@ -29,10 +29,7 @@ export class PatientController {
   }
 
   @Put(':id')
-  updatePatient(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: CreatePatientDto,
-  ) {
+  updatePatient(@Param('id', ParseIntPipe) id: number, @Body() body) {
     return this.patientService.updatePatientInfo(id, body);
   }
 }
