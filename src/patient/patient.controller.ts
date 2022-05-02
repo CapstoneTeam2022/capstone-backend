@@ -1,17 +1,18 @@
+import { CreatePatientDto } from './dtos/create-patient.dto';
 import { CreateUserDto } from './../user/dtos/create-user.dto';
 import { PatientService } from './patient.service';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
-@Controller('patients')
+@Controller('patient')
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}
 
   @Post()
-  addPatientInfo(@Body() body: CreateUserDto) {
+  addPatientInfo(@Body() body: CreatePatientDto) {
     return this.patientService.addPatient(body);
   }
   @Get()
   getAll() {
-    console.log('dlksjfk sdj fksdj ksdjf k');
+    return this.patientService.getAllPatient();
   }
 }

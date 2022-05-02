@@ -12,37 +12,21 @@ export class PatientService {
     private userService: UserService,
   ) {}
 
-  async addPatient(patientInfo) {
-    const {
-      name,
-      phone,
-      email,
-      age,
-      isAdmin,
-      isResearcher,
-      role,
-      address,
-      patientId,
-      ...patientData
-    } = patientInfo;
+  async addPatient({ user, ...patientData }) {
+    const createdUser = await this.userService.addUser(user);
 
-    const userData = {
-      name,
-      phone,
-      email,
-      age,
-      isAdmin,
-      isResearcher,
-      role,
-      address,
-    };
-    console.log(userData);
-    const newuser = await this.userService.addUser(userData);
-    console.log(newuser);
+    const patient = this.patientRepository.create({
+      ...patientData,
+      user,
+    });
+    console.log(patient);
+    patient.user.id = createdUser['id'];
 
-    // const patient = this.patientRepository.create({ ...patientData });
-    // // console.log(patient);
-    // patient['userId'] = newuser[""];
-    // // return this.patientRepository.save(patient);
+    const result = await this.patientRepository.save(patient);
+    return result;
+  }
+  getAllPatient() {
+    const patient = this.patientRepository.find({ relations: ['user'] });
+    return patient;
   }
 }
