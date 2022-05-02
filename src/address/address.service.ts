@@ -26,4 +26,10 @@ export class AddressService {
 
     throw new NotFoundException(`Address with id ${id} not found`);
   }
+
+  async updateAddress(id, newAddress: AddressDto) {
+    const address = await this.getAddress(id);
+    Object.assign(address, newAddress);
+    return this.addressRepository.save(address);
+  }
 }
