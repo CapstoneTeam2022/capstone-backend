@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Exclude, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -19,6 +19,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
+  @Exclude()
   password: string;
 
   @IsNotEmpty()

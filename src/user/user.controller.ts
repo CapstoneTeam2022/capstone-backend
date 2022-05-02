@@ -8,6 +8,8 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { param } from 'express-validator';
 
@@ -15,10 +17,12 @@ import { param } from 'express-validator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   getAll() {
     return this.userService.getAllUsers();
   }
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   getUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUser(id);

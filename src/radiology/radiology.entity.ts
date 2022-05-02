@@ -33,6 +33,9 @@ export class Radiology {
   @Column()
   focalarea: string;
 
-  @ManyToOne(() => InvestigationRequest, (inv) => inv.radiology)
-  investigationRequests: InvestigationRequest;
+  @ManyToOne(() => User, (user) => user.requestedRadiology)
+  requestedBy: User;
+
+  @OneToMany(() => InvestigationRequest, (inv) => inv.radiology)
+  investigationRequests: InvestigationRequest[];
 }
