@@ -12,7 +12,7 @@ export class VitalsService{
         private vitalsRepository: Repository<Vitals>
     ) { }
     
-    async getAllVitals(): Promise<VitalsDto[]> {
+    async getAllVitals(): Promise<Vitals[]> {
         return await  this.vitalsRepository.find();
     }
 
@@ -20,7 +20,7 @@ export class VitalsService{
         return await this.vitalsRepository.insert(vitals);
     }
 
-    async getVital(id: number): Promise<Vitals>{
+    async getVital(id: number): Promise<VitalsDto>{
         return this.vitalsRepository.findOne({
             where: {
                 id,
@@ -30,7 +30,7 @@ export class VitalsService{
 
     
 
-    async update(id: number, vital: VitalsDto): Promise<Vitals>{
+    async update(id: number, vital: VitalsDto): Promise<VitalsDto>{
         const vitaltoUpdate = await this.getVital(id);
         if (vitaltoUpdate === undefined) {
             throw new NotFoundException();

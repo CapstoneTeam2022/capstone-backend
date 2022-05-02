@@ -35,10 +35,10 @@ export class Vitals {
   spo2Level: number;
 
   @CreateDateColumn()
-  requestedDate: String;
+  requestedDate: Date;
 
-  @Column({ nullable: true, default: Timestamp })
-  filledDate: String;
+  @Column({ nullable: true })
+  filledDate: Date;
 
   // @ManyToOne(() => Patient, (patient) => patient.vitals)
   // patient: Patient;

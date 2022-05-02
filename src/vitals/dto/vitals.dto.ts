@@ -26,10 +26,10 @@ export class VitalsDto{
     spo2Level: number;
   
   @IsNotEmpty()
-//   @IsDate()
-  requestedDate: String;
+  @IsDate()
+  requestedDate: Date;
 
-//   @IsDate()
   @IsNotEmpty()
-  filledDate: String;
+  @IsDate()
+  filledDate: Date;
 }
