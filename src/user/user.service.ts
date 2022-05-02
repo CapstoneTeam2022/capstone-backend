@@ -67,18 +67,21 @@ export class UserService {
 
   async updateUserInfo(id: number, userData) {
     const { address, ...userInfo } = userData;
-    let user = await this.getUser(id);
-    const updatedAddress = this.addressService.getAddress(address.id);
 
-    Object.assign(updatedAddress, userData.address);
+    let user = await this.getUser(id);
+    console.log(user);
+    const updatedAddress = await this.addressService.getAddress(address.id);
     console.log(updatedAddress);
 
-    const newUser = this.userRepository.create({
-      ...userInfo,
-      updatedAddress,
-    });
-    console.log(newUser);
-    return this.userRepository.save(newUser);
+    // // Object.assign(updatedAddress, userData.address);
+    // console.log(updatedAddress);
+
+    // const newUser = this.userRepository.create({
+    //   ...userInfo,
+    //   updatedAddress,
+    // });
+    // console.log(newUser);
+    // return this.userRepository.save(newUser);
   }
 
   async disActiveUser(id: number) {
