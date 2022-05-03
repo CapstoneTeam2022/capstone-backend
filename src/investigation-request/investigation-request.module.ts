@@ -14,5 +14,6 @@ import { InvestigationRequestController } from './investigation-request.controll
     VitalsModule,
   ],
   controllers: [InvestigationRequestController],
+  exports: [InvestigationRequestService],
 })
 export class InvestigationRequestModule {}
