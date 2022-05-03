@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class LabResult {
@@ -32,4 +33,7 @@ export class LabResult {
 
   @ManyToOne(() => InvestigationRequest, (invReq) => invReq.labResults)
   investigationRequest: InvestigationRequest;
+
+  @ManyToOne(() => User, (user) => user.filledLabResults)
+  filledBy: User;
 }

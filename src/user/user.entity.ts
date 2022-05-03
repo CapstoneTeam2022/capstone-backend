@@ -12,6 +12,7 @@ import { Role } from '../role/role.entity';
 import { Patient } from '../patient/patient.entity';
 import { Vitals } from '../vitals/vitals.entity';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
+import { LabResult } from '../lab-result/labResult.entity';
 
 @Entity()
 export class User {
@@ -63,4 +64,7 @@ export class User {
 
   @OneToMany(() => InvestigationRequest, (inv) => inv.registeredBy)
   investigationRequests: InvestigationRequest[];
+
+  @OneToMany(() => LabResult, (results) => results.filledBy)
+  filledLabResults: LabResult[];
 }
