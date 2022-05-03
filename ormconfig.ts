@@ -2,8 +2,8 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 
 const dbConfig: PostgresConnectionOptions = {
   type: 'postgres',
-  username: 'sennay',
-  password: 'password',
+  username: 'postgres',
+  password: 'root',
   database: 'db',
   port: 5432,
   entities: ['dist/**/*.entity{.ts,.js}'],
