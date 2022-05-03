@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { HealthCenterService } from './health-center.service';
 import { HealthCenterDto } from './dto';
 
@@ -11,8 +19,22 @@ export class HealthCenterController {
     return this.service.getAllHealthCenters();
   }
 
+  @Get(':id')
+  getSingleHealthCenter(@Param('id', ParseIntPipe) id: number) {
+    console.log(typeof id);
+    return this.service.getOneHealthCenter(id);
+  }
+
   @Post()
   create(@Body() body: HealthCenterDto) {
     return this.service.createWithTransaction(body);
+  }
+
+  @Put(':id')
+  updateHealthCenter(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: HealthCenterDto,
+  ) {
+    return this.service.updateHealthCenter(id, body);
   }
 }

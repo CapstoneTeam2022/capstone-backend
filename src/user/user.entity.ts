@@ -30,17 +30,17 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @Column()
   isResearcher: boolean;
 
   @Column()
-  isAdmin: string;
+  isAdmin: boolean;
 
   @OneToOne(() => Address, (address) => address.user)
   @JoinColumn()

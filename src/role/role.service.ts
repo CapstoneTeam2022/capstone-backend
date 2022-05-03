@@ -35,6 +35,12 @@ export class RoleService {
     }
   }
 
+  async getRoleByName(name: string) {
+    const role = this.roleRepository.findOne({ where: { name } });
+    if (role) return role;
+    throw new NotFoundException(`Role with name ${name} not found`);
+  }
+
   async addRole(name: string) {
     try {
       const role = this.roleRepository.create({
