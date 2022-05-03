@@ -28,4 +28,8 @@ export class VitalsDto {
   @IsNumber()
   @IsNotEmpty()
   patientId: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  requestedById: number;
 }
