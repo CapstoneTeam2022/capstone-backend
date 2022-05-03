@@ -3,7 +3,6 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -30,8 +29,8 @@ export class Radiology {
   @Column()
   report: string;
 
-  @Column()
-  images: string;
+  @Column('text', { array: true, default: {} })
+  images: string[];
 
   @Column()
   comment: string;
