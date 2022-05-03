@@ -9,5 +9,6 @@ import { PatientController } from './patient.controller';
   imports: [TypeOrmModule.forFeature([Patient]), UserModule],
   providers: [PatientService],
   controllers: [PatientController],
+  exports: [PatientService],
 })
 export class PatientModule {}
