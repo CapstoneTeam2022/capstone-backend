@@ -24,4 +24,8 @@ export class VitalsDto {
   @IsNumber()
   @IsNotEmpty()
   spo2Level: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  patientId: number;
 }
