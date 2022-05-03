@@ -34,7 +34,7 @@ export class RadiologyService {
     investigationRequestId,
     requestedById,
     ...data
-  }: RadiologyDto) {
+  }: RadiologyDto): Promise<Radiology> {
     const investigationRequest =
       await this.invRequestService.getInvestigationRequest(
         investigationRequestId,
@@ -46,5 +46,6 @@ export class RadiologyService {
       investigationRequest,
       requestedBy,
     });
+    return this.radiologyRepository.save(radiologyTest);
   }
 }
