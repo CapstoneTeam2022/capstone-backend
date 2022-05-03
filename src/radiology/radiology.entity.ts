@@ -15,7 +15,7 @@ export class Radiology {
   id: number;
 
   @Column()
-  name: number;
+  name: string;
 
   @Column()
   focalArea: string;
