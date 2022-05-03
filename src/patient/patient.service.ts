@@ -39,6 +39,6 @@ export class PatientService {
       user: newUser,
       registeredBy: registerer,
     });
-    return patient;
+    return this.patientRepository.save(patient);
   }
 }
