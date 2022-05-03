@@ -13,6 +13,7 @@ import { LabTestModule } from './lab-test/lab-test.module';
 import { LabResultModule } from './lab-result/lab-result.module';
 import dbConfig from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
+import { RadiologyModule } from './radiology/radiology.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ConfigModule } from '@nestjs/config';
     InvestigationRequestModule,
     LabTestModule,
     LabResultModule,
+    RadiologyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
