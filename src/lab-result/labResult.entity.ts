@@ -1,4 +1,3 @@
-import { IsBoolean, IsInt } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
