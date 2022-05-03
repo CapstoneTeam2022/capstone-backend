@@ -9,6 +9,7 @@ import {
 import { Vitals } from '../vitals/vitals.entity';
 import { User } from '../user/user.entity';
 import { LabTest } from '../lab-test/labTest.entity';
+import { LabResult } from '../lab-result/labResult.entity';
 
 @Entity()
 export class InvestigationRequest {
@@ -29,4 +30,7 @@ export class InvestigationRequest {
 
   @OneToMany(() => LabTest, (test) => test.investigationRequest)
   labTests: LabTest[];
+
+  @OneToMany(() => LabResult, (test) => test.investigationRequest)
+  labResults: LabResult[];
 }
