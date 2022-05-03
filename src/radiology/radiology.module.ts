@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Radiology } from './radiology.entity';
 import { UserModule } from '../user/user.module';
 import { InvestigationRequestModule } from '../investigation-request/investigation-request.module';
+import { RadiologyController } from './radiology.controller';
 
 @Module({
   providers: [RadiologyService],
@@ -12,5 +13,6 @@ import { InvestigationRequestModule } from '../investigation-request/investigati
     UserModule,
     InvestigationRequestModule,
   ],
+  controllers: [RadiologyController],
 })
 export class RadiologyModule {}
