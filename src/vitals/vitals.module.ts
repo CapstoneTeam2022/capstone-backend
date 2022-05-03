@@ -10,5 +10,6 @@ import { PatientModule } from '../patient/patient.module';
   providers: [VitalsService],
   imports: [TypeOrmModule.forFeature([Vitals]), UserModule, PatientModule],
   controllers: [VitalsController],
+  exports: [VitalsService],
 })
 export class VitalsModule {}
