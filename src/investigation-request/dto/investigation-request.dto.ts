@@ -1,6 +1,6 @@
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
-export class InvestigationRequest {
+export class InvestigationRequestDto {
   @IsNotEmpty()
   @IsString()
   note: string;
