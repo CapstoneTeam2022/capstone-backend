@@ -33,9 +33,6 @@ export class Vitals {
   @Column()
   spo2Level: number;
 
-  @Column()
-  heartRate: number;
-
   @CreateDateColumn()
   requestedDate: Date;
 
