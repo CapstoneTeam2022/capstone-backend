@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Vitals } from './vitals.entity';
 import { Repository } from 'typeorm';
 import { VitalsDto } from './dto';
+import { UserService } from '../user/user.service';
+import { PatientService } from '../patient/patient.service';
 
 @Injectable()
 export class VitalsService {
   constructor(
     @InjectRepository(Vitals)
     private vitalsRepository: Repository<Vitals>,
+    private userService: UserService,
+    private patientService: PatientService,
   ) {}
 
   getAll(): Promise<Vitals[]> {
@@ -26,9 +30,13 @@ export class VitalsService {
     throw new NotFoundException(`Vital with id ${id} not found`);
   }
 
-  async createVital(body: VitalsDto) {
+  async createVital({ patientId, requestedById, ...body }: VitalsDto) {
+    const patient = await this.patientService.getPatient(patientId);
+    const requestedBy = await this.userService.getUser(requestedById);
     const vital = this.vitalsRepository.create({
       ...body,
+      patient,
+      requestedBy,
     });
     return this.vitalsRepository.save(vital);
   }
