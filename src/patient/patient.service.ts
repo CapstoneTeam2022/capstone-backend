@@ -20,14 +20,13 @@ export class PatientService {
   }
 
   async getPatient(id: number): Promise<Patient> {
-    const patient = this.patientRepository.findOne({
+    const patient = await this.patientRepository.findOne({
       where: {
         id,
       },
-      relations: ['address', 'user'],
+      relations: ['user'],
     });
     if (patient) return patient;
-
     throw new NotFoundException(`Patient with id ${id} not found`);
   }
 
