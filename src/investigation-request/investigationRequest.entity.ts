@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -17,7 +18,7 @@ export class InvestigationRequest {
   @Column()
   note: string;
 
-  @Column()
+  @CreateDateColumn()
   date: Date;
 
   @ManyToOne(() => Vitals, (vitals) => vitals.investigationRequests)
