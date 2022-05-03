@@ -32,6 +32,7 @@ export class PatientService {
   }
 
   async addPatient({ user, registeredBy, ...data }: PatientDto) {
+    //Pass the patient role here
     const newUser = await this.userService.addUser(user, 'patient');
     const registerer = await this.userService.getUser(registeredBy);
     const patient = this.patientRepository.create({
