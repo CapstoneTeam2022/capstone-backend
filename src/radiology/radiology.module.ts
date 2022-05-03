@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { RadiologyService } from './radiology.service';
 
-@Module({})
+@Module({
+  providers: [RadiologyService],
+})
 export class RadiologyModule {}
