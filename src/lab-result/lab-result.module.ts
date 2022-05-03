@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { LabResultService } from './lab-result.service';
 
-@Module({})
+@Module({
+  providers: [LabResultService],
+})
 export class LabResultModule {}
