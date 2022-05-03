@@ -13,7 +13,7 @@ export class LabTestService {
     private invRequestService: InvestigationRequestService,
   ) {}
 
-  getAllLabTest(): Promise<LabTest[]> {
+  getAllLabTests(): Promise<LabTest[]> {
     return this.labTestRepository.find({ relations: ['investigationRequest'] });
   }
 
