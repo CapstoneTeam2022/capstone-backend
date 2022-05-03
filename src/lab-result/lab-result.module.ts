@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LabResult } from './labResult.entity';
 import { UserModule } from '../user/user.module';
 import { InvestigationRequestModule } from '../investigation-request/investigation-request.module';
+import { LabResultController } from './lab-result.controller';
 
 @Module({
   providers: [LabResultService],
@@ -12,5 +13,6 @@ import { InvestigationRequestModule } from '../investigation-request/investigati
     UserModule,
     InvestigationRequestModule,
   ],
+  controllers: [LabResultController],
 })
 export class LabResultModule {}
