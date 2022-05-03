@@ -47,8 +47,8 @@ export class UserDto {
   @IsNotEmpty()
   address: AddressDto;
 
-  @ValidateNested({ each: true })
-  @Type(() => RoleDto)
-  @IsNotEmpty()
-  role: Role;
+  // @ValidateNested({ each: true })
+  // @Type(() => RoleDto)
+  // @IsNotEmpty()
+  // role: Role;
 }

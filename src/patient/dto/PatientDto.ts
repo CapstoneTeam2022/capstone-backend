@@ -25,3 +25,18 @@ export class PatientDto {
   @IsNotEmpty()
   user: UserDto;
 }
+
+class UpdatePatientDto {
+  @IsNotEmpty()
+  @IsString()
+  emergencyContactName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  emergencyContactPhone: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => UserDto)
+  @IsNotEmpty()
+  user: UserDto;
+}

@@ -40,12 +40,14 @@ export class UserService {
     return user !== undefined;
   }
 
-  async addUser(userData: UserDto) {
+  async addUser(userData: UserDto, roleName: string) {
     const { address, ...newUser } = userData;
 
     if (await this.isEmailTaken(newUser.email)) {
       throw new BadRequestException('The Email is Already in use');
     }
+
+    const role = await this.roleService.getRoleByName(roleName);
 
     const createdAddress = await this.addressService.saveAddress(address);
 
@@ -55,6 +57,7 @@ export class UserService {
     const user = this.userRepository.create({
       ...newUser,
       address: createdAddress,
+      role,
     });
 
     return this.userRepository.save(user);
