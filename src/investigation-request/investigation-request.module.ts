@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { InvestigationRequestService } from './investigation-request.service';
 
-@Module({})
+@Module({
+  providers: [InvestigationRequestService]
+})
 export class InvestigationRequestModule {}
