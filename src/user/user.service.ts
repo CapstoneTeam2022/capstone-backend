@@ -88,4 +88,14 @@ export class UserService {
   deleteUser(id: number): Promise<DeleteResult> {
     return this.userRepository.delete(id);
   }
+
+  findAllByRole(roleId: number) {
+    return this.userRepository.find({
+      where: {
+        role: {
+          id: roleId,
+        },
+      },
+    });
+  }
 }
