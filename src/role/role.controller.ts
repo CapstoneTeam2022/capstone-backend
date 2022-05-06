@@ -23,6 +23,11 @@ export class RoleController {
     return this.roleService.getRoleById(id);
   }
 
+  @Get('/name/:name')
+  getRoleByName(@Param('name') name: string) {
+    return this.roleService.getRoleByName(name);
+  }
+
   @Post()
   createRole(@Body() role: RoleDto) {
     return this.roleService.addRole(role.name);
