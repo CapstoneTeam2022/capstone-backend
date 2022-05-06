@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
@@ -60,7 +60,9 @@ export class UserService {
       role,
     });
 
-    return this.userRepository.save(user);
+    const createdUser = await this.userRepository.save(user);
+    delete createdUser.password;
+    return createdUser;
   }
 
   async updateUser(id: number, data: UpdateUserDto) {
@@ -75,5 +77,9 @@ export class UserService {
     const user = await this.getUser(id);
     user.isActive = false;
     return this.userRepository.save(user);
+  }
+
+  deleteUser(id: number): Promise<DeleteResult> {
+    return this.userRepository.delete(id);
   }
 }
