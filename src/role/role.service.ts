@@ -36,7 +36,8 @@ export class RoleService {
   }
 
   async getRoleByName(name: string) {
-    const role = this.roleRepository.findOne({ where: { name } });
+    const role = await this.roleRepository.findOne({ where: { name } });
+    console.log(`Role ${name}`, role);
     if (role) return role;
     throw new NotFoundException(`Role with name ${name} not found`);
   }
