@@ -48,6 +48,10 @@ export class CreateUserWithRoleDto {
   @IsString()
   role: string;
 
+  @IsNotEmpty()
+  @IsNumber()
+  healthCenterId: number;
+
   // @ValidateNested({ each: true })
   // @Type(() => RoleDto)
   // @IsNotEmpty()
