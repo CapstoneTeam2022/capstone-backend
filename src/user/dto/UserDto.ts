@@ -37,7 +37,7 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  isAdmin: boolean;
+  isAdmin: boolean = false;
 
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
