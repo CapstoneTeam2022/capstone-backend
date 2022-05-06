@@ -21,14 +21,8 @@ async function bootstrap() {
     }),
   );
 
-  let PORT = Number(process.env.APP_PORT);
+  const PORT = process.env.APP_PORT || 4000;
 
-  if (PORT === null || PORT === undefined) {
-    console.log(
-      `APP_PORT environment variable not found, setting port to 4001`,
-    );
-    PORT = 4001;
-  }
   await app.listen(PORT);
 
   console.log(`Server running on port ${PORT}`);
