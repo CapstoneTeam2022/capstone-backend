@@ -1,6 +1,16 @@
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import 'dotenv/config';
 
+//Check if ssl is enabled
+const sslVal = process.env.ENABLE_SSL;
+console.log('Value', sslVal, typeof sslVal);
+let isSSlEnabled = false;
+if (sslVal === 'true') {
+  isSSlEnabled = true;
+}
+
+const ssl = isSSlEnabled ? { rejectUnauthorized: false } : false;
+
 const dbConfig: PostgresConnectionOptions = {
   type: 'postgres',
   username: process.env.POSTGRES_USER,
@@ -15,9 +25,7 @@ const dbConfig: PostgresConnectionOptions = {
     migrationsDir: 'src/db/migrations',
   },
   logging: true,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl,
 };
 
 export default dbConfig;
