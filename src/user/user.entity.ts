@@ -14,6 +14,7 @@ import { Vitals } from '../vitals/vitals.entity';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
 import { LabResult } from '../lab-result/labResult.entity';
 import { Radiology } from '../radiology/radiology.entity';
+import { HealthCenter } from '../health-center/healthcenter.entity';
 
 @Entity()
 export class User {
@@ -71,4 +72,7 @@ export class User {
 
   @OneToMany(() => Radiology, (radiology) => radiology.requestedBy)
   requestedRadiology: Radiology[];
+
+  @ManyToOne(() => HealthCenter, (healthCenter) => healthCenter.users)
+  healthCenter: HealthCenter;
 }
