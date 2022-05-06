@@ -1,4 +1,4 @@
-import { Exclude, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -8,8 +8,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { AddressDto } from 'src/address/dto';
-import { Role } from '../../role/role.entity';
-import { RoleDto } from '../../role/dto';
 
 export class UserDto {
   @IsNotEmpty()
@@ -18,7 +16,6 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsString()
-  @Exclude()
   password: string;
 
   @IsNotEmpty()
