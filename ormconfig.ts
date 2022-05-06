@@ -15,6 +15,9 @@ const dbConfig: PostgresConnectionOptions = {
     migrationsDir: 'src/db/migrations',
   },
   logging: true,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 export default dbConfig;
