@@ -9,5 +9,6 @@ import { AddressModule } from '../address/address.module';
   imports: [TypeOrmModule.forFeature([HealthCenter]), AddressModule],
   providers: [HealthCenterService],
   controllers: [HealthCenterController],
+  exports: [HealthCenterService],
 })
 export class HealthCenterModule {}
