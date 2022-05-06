@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -26,5 +27,10 @@ export class PatientController {
   @Post()
   addPatient(@Body() body: PatientDto) {
     return this.patientService.addPatient(body);
+  }
+
+  @Delete(':id')
+  deletePatient(@Param('id', ParseIntPipe) id: number) {
+    return this.patientService.deletePatient(id);
   }
 }
