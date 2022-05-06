@@ -44,6 +44,10 @@ export class UserDto {
   @IsNotEmpty()
   address: AddressDto;
 
+  @IsNotEmpty()
+  @IsNumber()
+  healthCenterId: number;
+
   // @ValidateNested({ each: true })
   // @Type(() => RoleDto)
   // @IsNotEmpty()
