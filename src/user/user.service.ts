@@ -10,6 +10,7 @@ import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
 import { UpdateUserDto, UserDto } from './dto';
+import { HealthCenterService } from '../health-center/health-center.service';
 
 @Injectable()
 export class UserService {
@@ -18,6 +19,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private addressService: AddressService,
     private roleService: RoleService,
+    private healthCenterService: HealthCenterService,
   ) {}
 
   getAllUsers(): Promise<User[]> {
@@ -41,13 +43,16 @@ export class UserService {
   }
 
   async addUser(userData: UserDto, roleName: string) {
-    const { address, ...newUser } = userData;
+    const { address, healthCenterId, ...newUser } = userData;
 
     if (await this.isEmailTaken(newUser.email)) {
       throw new BadRequestException('The Email is Already in use');
     }
 
     const role = await this.roleService.getRoleByName(roleName);
+    const healthCenter = await this.healthCenterService.getOneHealthCenter(
+      healthCenterId,
+    );
 
     const createdAddress = await this.addressService.saveAddress(address);
 
@@ -58,6 +63,7 @@ export class UserService {
       ...newUser,
       address: createdAddress,
       role,
+      healthCenter,
     });
 
     const createdUser = await this.userRepository.save(user);
