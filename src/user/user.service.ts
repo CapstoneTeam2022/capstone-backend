@@ -89,7 +89,7 @@ export class UserService {
     return this.userRepository.delete(id);
   }
 
-  findAllByRole(roleId: number) {
+  findAllByRoleId(roleId: number) {
     return this.userRepository.find({
       where: {
         role: {
@@ -97,5 +97,30 @@ export class UserService {
         },
       },
     });
+  }
+
+  findAllByRoleName(name: string) {
+    return this.userRepository.find({
+      where: {
+        role: {
+          name,
+        },
+      },
+      relations: ['role'],
+    });
+  }
+
+  async findOneByRoleName(id: number, name: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+        role: {
+          name,
+        },
+      },
+      relations: ['role'],
+    });
+    if (user) return user;
+    throw new NotFoundException(`${name} with id ${id} not found`);
   }
 }
