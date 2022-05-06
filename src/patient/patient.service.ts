@@ -15,7 +15,7 @@ export class PatientService {
 
   getAllPatients(): Promise<Patient[]> {
     return this.patientRepository.find({
-      relations: ['user', 'address'],
+      relations: ['user'],
     });
   }
 
@@ -41,4 +41,9 @@ export class PatientService {
     });
     return this.patientRepository.save(patient);
   }
+
+  // async deletePatient(id: number) {
+  //   const patient = await this.getPatient(id);
+  //   const user = await this.userService.getUser(id);
+  // }
 }
