@@ -21,17 +21,37 @@ export class UserService {
   ) {}
 
   getAllUsers(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['address', 'role'] });
+    
+    const user = this.userRepository.find({ relations: ['address', 'role'] });
+    console.log(user);
+    return user;
   }
 
   async getUser(id: number): Promise<User> {
-    const user = await this.userRepository.findOne(id, {
-      relations: ['address', 'role'],
+    const user = await this.userRepository.findOne({
+      where: {
+        id
+      }
     });
+
+    
+  
     if (user) return user;
 
     throw new NotFoundException(`The user with id ${id} not found`);
   }
+
+
+  getUserByEmail(email: string) {
+    const user = this.userRepository.findOne({
+      where: {
+        email
+      }
+    })
+    
+    return user;
+  }
+
 
   async isEmailTaken(email) {
     const user = await this.userRepository.findOne({
@@ -52,7 +72,7 @@ export class UserService {
     const createdAddress = await this.addressService.saveAddress(address);
 
     // Hashing the password
-    newUser.password = await argon2.hash(newUser.password);
+    // newUser.password = await argon2.hash(newUser.password);
 
     const user = this.userRepository.create({
       ...newUser,
@@ -61,7 +81,7 @@ export class UserService {
     });
 
     const createdUser = await this.userRepository.save(user);
-    delete createdUser.password;
+    // delete createdUser.password;
     return createdUser;
   }
 

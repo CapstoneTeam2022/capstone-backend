@@ -14,6 +14,8 @@ import { LabResultModule } from './lab-result/lab-result.module';
 import dbConfig from '../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { RadiologyModule } from './radiology/radiology.module';
+import { AuthModule } from './user/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -29,6 +31,11 @@ import { RadiologyModule } from './radiology/radiology.module';
     LabTestModule,
     LabResultModule,
     RadiologyModule,
+    AuthModule,
+     JwtModule.register({
+      secret: 'SECRET',
+      signOptions: { expiresIn: '60s' },
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
