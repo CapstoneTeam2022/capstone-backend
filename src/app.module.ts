@@ -16,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RadiologyModule } from './radiology/radiology.module';
 import { HospitalAdminModule } from './hospital-admin/hospital-admin.module';
 import { ResearcherModule } from './researcher/researcher.module';
+import { EmployeeModule } from './employee/employee.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ResearcherModule } from './researcher/researcher.module';
     RadiologyModule,
     HospitalAdminModule,
     ResearcherModule,
+    EmployeeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
