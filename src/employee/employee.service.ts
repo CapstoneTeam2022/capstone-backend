@@ -4,7 +4,7 @@ import { UserDto } from '../user/dto';
 
 @Injectable()
 export class EmployeeService {
-  readonly roleName = 'employee';
+  readonly roleName = 'Employee';
 
   constructor(private userService: UserService) {}
 
