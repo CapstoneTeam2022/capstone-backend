@@ -18,7 +18,7 @@ export class LabTestController {
     return this.labTestService.getAllLabTests();
   }
 
-  @Get('id')
+  @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.labTestService.getLabTest(id);
   }

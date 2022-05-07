@@ -18,7 +18,7 @@ export class RadiologyController {
     return this.radiologyService.getAll();
   }
 
-  @Get('id')
+  @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.radiologyService.getOne(id);
   }
