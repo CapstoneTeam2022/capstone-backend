@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 //Check if ssl is enabled
 const sslVal = process.env.ENABLE_SSL;
-console.log('Value', sslVal, typeof sslVal);
+
 let isSSlEnabled = false;
 if (sslVal === 'true') {
   isSSlEnabled = true;
