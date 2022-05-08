@@ -15,6 +15,10 @@ export class HealthCenterDto {
   @IsString()
   type: string;
 
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
   @IsNotEmpty()

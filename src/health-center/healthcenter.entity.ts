@@ -20,6 +20,9 @@ export class HealthCenter {
   @Column({ unique: true })
   email: string;
 
+  @Column({ default: '' })
+  phone: string;
+
   @Column()
   type: string;
 
