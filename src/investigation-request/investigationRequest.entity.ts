@@ -29,8 +29,8 @@ export class InvestigationRequest {
   @ManyToOne(() => User, (user) => user.investigationRequests)
   registeredBy: User;
 
-  @OneToMany(() => LabTest, (test) => test.investigationRequest)
-  labTests: LabTest[];
+  // @OneToMany(() => LabTest, (test) => test.investigationRequest)
+  // labTests: LabTest[];
 
   @OneToMany(() => LabResult, (test) => test.investigationRequest)
   labResults: LabResult[];

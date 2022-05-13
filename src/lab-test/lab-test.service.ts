@@ -24,16 +24,15 @@ export class LabTestService {
   }
 
   async createLabTest({
-    investigationRequestId,
+    // investigationRequestId,
     ...data
   }: LabTestDto): Promise<LabTest> {
-    const investigationRequest =
-      await this.invRequestService.getInvestigationRequest(
-        investigationRequestId,
-      );
+    // const investigationRequest =
+    //   await this.invRequestService.getInvestigationRequest(
+    //     investigationRequestId,
+    //   );
     const labTest = this.labTestRepository.create({
       ...data,
-      investigationRequest,
     });
     return this.labTestRepository.save(labTest);
   }

@@ -18,7 +18,7 @@ export class LabTestDto {
   @IsString()
   testCategory: string;
 
-  @IsNotEmpty()
-  @IsInt()
-  investigationRequestId: number;
+  // @IsNotEmpty()
+  // @IsInt()
+  // investigationRequestId: number;
 }

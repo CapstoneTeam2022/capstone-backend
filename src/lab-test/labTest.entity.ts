@@ -18,6 +18,6 @@ export class LabTest {
   @Column()
   testCategory: string;
 
-  @ManyToOne(() => InvestigationRequest, (invReq) => invReq.labTests)
-  investigationRequest: InvestigationRequest;
+  // @ManyToOne(() => InvestigationRequest, (invReq) => invReq.labTests)
+  // investigationRequest: InvestigationRequest;
 }
