@@ -14,7 +14,7 @@ export class LabTestService {
   ) {}
 
   getAllLabTests(): Promise<LabTest[]> {
-    return this.labTestRepository.find({ relations: ['investigationRequest'] });
+    return this.labTestRepository.find();
   }
 
   async getLabTest(id: number) {
