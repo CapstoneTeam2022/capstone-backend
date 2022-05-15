@@ -26,9 +26,9 @@ export class PatientService {
       },
       relations: ['user'],
     });
-    const user = await this.userService.getUser(patient.user.id);
 
-    if (patient)
+    if (patient) {
+      const user = await this.userService.getUser(patient.user.id);
       return {
         ...patient,
         user: {
@@ -36,6 +36,7 @@ export class PatientService {
           address: user.address,
         },
       };
+    }
     throw new NotFoundException(`Patient with id ${id} not found`);
   }
 
