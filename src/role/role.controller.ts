@@ -10,6 +10,8 @@ import {
 import { RoleService } from './role.service';
 import { RoleDto } from './dto';
 import { JwtAuthGuard } from 'src/user/auth/jwt-auth.guard';
+import { Roles } from '../user/authorization/roles.decorator';
+import { Role } from '../user/authorization/role.enum';
 
 @Controller('role')
 export class RoleController {

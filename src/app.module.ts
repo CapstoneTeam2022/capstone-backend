@@ -16,6 +16,8 @@ import { ConfigModule } from '@nestjs/config';
 import { RadiologyModule } from './radiology/radiology.module';
 import { AuthModule } from './user/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './user/authorization/roles.guard';
 
 @Module({
   imports: [
@@ -38,6 +40,9 @@ import { JwtModule } from '@nestjs/jwt';
     })
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: RolesGuard
+  }],
 })
 export class AppModule {}

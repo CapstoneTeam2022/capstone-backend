@@ -17,6 +17,8 @@ import { LoginDto } from '../loginDto';
 import { LocalStrategy } from 'src/user/auth/local.strategy';
 import { AuthenticatedGuard } from 'src/user/auth/authenticated.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { Roles } from '../authorization/roles.decorator';
+import { Role } from '../authorization/role.enum';
 
 @Controller('user')
 export class AuthController {
@@ -33,6 +35,7 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Roles(Role.Admin)
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
       return this.userService.getUser(id);
