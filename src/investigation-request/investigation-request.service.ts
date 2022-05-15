@@ -36,6 +36,7 @@ export class InvestigationRequestService {
     registeredById,
     vitalId,
     note,
+    labTests,
   }: InvestigationRequestDto): Promise<InvestigationRequest> {
     const registeredBy = await this.userService.getUser(registeredById);
     const vitals = await this.vitalService.getVital(vitalId);
@@ -43,6 +44,7 @@ export class InvestigationRequestService {
       note,
       registeredBy,
       vitals,
+      labTests,
     });
     return this.investigationRequestRepository.save(invRequest);
   }

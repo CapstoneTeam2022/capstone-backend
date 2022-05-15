@@ -29,8 +29,8 @@ export class InvestigationRequest {
   @ManyToOne(() => User, (user) => user.investigationRequests)
   registeredBy: User;
 
-  // @OneToMany(() => LabTest, (test) => test.investigationRequest)
-  // labTests: LabTest[];
+  @Column('int', { array: true })
+  labTests: number[];
 
   @OneToMany(() => LabResult, (test) => test.investigationRequest)
   labResults: LabResult[];

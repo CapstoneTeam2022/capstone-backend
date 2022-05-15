@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class InvestigationRequestDto {
   @IsNotEmpty()
@@ -12,4 +12,7 @@ export class InvestigationRequestDto {
   @IsNotEmpty()
   @IsInt()
   registeredById: number;
+
+  @IsNumber({}, { each: true })
+  labTests: number[];
 }
