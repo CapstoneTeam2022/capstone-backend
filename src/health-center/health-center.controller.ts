@@ -21,7 +21,6 @@ export class HealthCenterController {
 
   @Get(':id')
   getSingleHealthCenter(@Param('id', ParseIntPipe) id: number) {
-    console.log(typeof id);
     return this.service.getOneHealthCenter(id);
   }
 

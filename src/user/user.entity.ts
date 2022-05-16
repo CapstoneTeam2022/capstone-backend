@@ -14,6 +14,7 @@ import { Vitals } from '../vitals/vitals.entity';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
 import { LabResult } from '../lab-result/labResult.entity';
 import { Radiology } from '../radiology/radiology.entity';
+import { Diagnosis } from 'src/diagnosis/diagnosis.entity';
 
 @Entity()
 export class User {
@@ -68,6 +69,9 @@ export class User {
 
   @OneToMany(() => LabResult, (results) => results.filledBy)
   filledLabResults: LabResult[];
+
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.filledBy)
+  diagnosis: Diagnosis[];
 
   @OneToMany(() => Radiology, (radiology) => radiology.requestedBy)
   requestedRadiology: Radiology[];

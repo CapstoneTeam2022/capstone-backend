@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Vitals } from '../vitals/vitals.entity';
+import { Diagnosis } from 'src/diagnosis/diagnosis.entity';
 
 @Entity()
 export class Patient {
@@ -27,6 +28,9 @@ export class Patient {
 
   @ManyToOne(() => User, (user) => user.registeredPatients)
   registeredBy: User;
+
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.patient)
+  diagnosis: Diagnosis[];
 
   @OneToMany(() => Vitals, (vitals) => vitals.patient)
   vitals: Vitals[];
