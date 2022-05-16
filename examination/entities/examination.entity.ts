@@ -10,4 +10,7 @@ export class Examination {
 
     @Column()
     physical_examination
+
+    @Column({ type: 'timestamptz' })
+     date_time: Date;
  }

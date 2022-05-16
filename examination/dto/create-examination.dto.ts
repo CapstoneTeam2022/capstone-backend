@@ -7,4 +7,5 @@ export class ExaminationDto {
     @IsString()
     @IsNotEmpty()
     physical_examination: string;
+
 }
