@@ -1,15 +1,15 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-Entity()
+@Entity()
 export class Examination {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    symptom
+    symptom: string;
 
     @Column()
-    physical_examination
+    physical_examination: string;
 
     @Column({ type: 'timestamptz' })
      date_time: Date;

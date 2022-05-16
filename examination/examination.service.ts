@@ -8,9 +8,10 @@ import { Examination } from './entities/examination.entity';
 export class ExaminationService {
 
   constructor(
-  @InjectRepository(Examination)
-    private examinationRepository: Repository<Examination>
-){}
+    @InjectRepository(Examination)
+    private readonly examinationRepository: Repository<Examination>,
+    
+  ) {}
 
   create(examinationDto: ExaminationDto) {
     const examination = this.examinationRepository.create({ ...examinationDto });
