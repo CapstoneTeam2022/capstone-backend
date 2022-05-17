@@ -26,4 +26,8 @@ export class DiseaseService {
 
     return null;
   }
+  getAllDisease() {
+    const diseases = this.diseaseRepository.find();
+    return diseases;
+  }
 }
