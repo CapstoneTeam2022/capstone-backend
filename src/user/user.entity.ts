@@ -40,7 +40,7 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column()
+  @Column({ default: false })
   isResearcher: boolean;
 
   @Column()
