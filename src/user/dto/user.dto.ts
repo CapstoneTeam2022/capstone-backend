@@ -31,9 +31,8 @@ export class UserDto {
   @IsEmail()
   email: string;
 
-  // @IsNotEmpty()
-  // @IsBoolean()
-  // isResearcher: boolean;
+  @IsBoolean()
+  isResearcher = false;
 
   @IsNotEmpty()
   @IsBoolean()
