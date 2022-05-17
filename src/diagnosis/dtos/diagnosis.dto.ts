@@ -18,9 +18,9 @@ export class DiagnosisDto {
   @IsString()
   measuredIn: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => DiseaseDto)
-  disease: DiseaseDto;
+  @IsNotEmpty()
+  @IsString()
+  disease: string;
 
   @IsNotEmpty()
   @IsNumber()
@@ -28,5 +28,5 @@ export class DiagnosisDto {
 
   @IsNotEmpty()
   @IsNumber()
-  patientId: number;
+  investigationReqId: number;
 }

@@ -29,9 +29,6 @@ export class Patient {
   @ManyToOne(() => User, (user) => user.registeredPatients)
   registeredBy: User;
 
-  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.patient)
-  diagnosis: Diagnosis[];
-
   @OneToMany(() => Vitals, (vitals) => vitals.patient)
   vitals: Vitals[];
 }

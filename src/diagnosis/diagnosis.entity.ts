@@ -1,3 +1,4 @@
+import { InvestigationRequest } from './../investigation-request/investigationRequest.entity';
 import { Patient } from './../patient/patient.entity';
 import { Disease } from './../disease/disease.entity';
 import { User } from './../user/user.entity';
@@ -27,6 +28,9 @@ export class Diagnosis {
   @ManyToOne(() => User, (user) => user.diagnosis)
   filledBy: User;
 
-  @ManyToOne(() => Patient, (patient) => patient.diagnosis)
-  patient: Patient;
+  @ManyToOne(
+    () => InvestigationRequest,
+    (investigationReq) => investigationReq.diagnosis,
+  )
+  investigationRequest: InvestigationRequest;
 }

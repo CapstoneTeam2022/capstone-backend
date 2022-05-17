@@ -16,7 +16,7 @@ export class DiseaseService {
     return this.diseaseRepository.save(disease);
   }
 
-  getDiseaseByName(name: String) {
+  getDiseaseByName(name: string) {
     const disease = this.diseaseRepository.findOne({
       where: {
         name,

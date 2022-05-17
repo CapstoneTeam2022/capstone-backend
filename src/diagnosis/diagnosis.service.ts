@@ -1,5 +1,3 @@
-import { PatientService } from './../patient/patient.service';
-import { Patient } from './../patient/patient.entity';
 import { UserService } from './../user/user.service';
 import { DiseaseService } from './../disease/disease.service';
 
@@ -17,24 +15,31 @@ export class DiagnosisService {
     private diagnosisRepository: Repository<Diagnosis>,
     private userService: UserService,
     private diseaseService: DiseaseService,
-    private patientService: PatientService,
+    private InvestigationServiceService: InvestigationRequestService,
   ) {}
 
   async addDiagnosis({
-    patientId,
+    investigationReqId,
     filledById,
     disease,
     ...diagnosisInfo
   }: DiagnosisDto) {
     const filledBy = await this.userService.getUser(filledById);
-    const patient = await this.patientService.getPatient(patientId);
-    const createdDisease = await this.diseaseService.saveDisease(disease);
+    const investigationRequest =
+      await this.InvestigationServiceService.getInvestigationRequest(
+        investigationReqId,
+      );
+    const diseaseData = await this.diseaseService.getDiseaseByName(disease);
+
+    // if  not found Disease will occur  ,it will becreate  by the hospital admin !!!
+
+    // const createdDisease = await this.diseaseService.saveDisease(disease);
 
     const diagnosis = this.diagnosisRepository.create({
       ...diagnosisInfo,
-      disease: [createdDisease],
+      disease: [diseaseData],
       filledBy,
-      patient,
+      investigationRequest,
     });
 
     return this.diagnosisRepository.save(diagnosis);
@@ -45,7 +50,7 @@ export class DiagnosisService {
 
   async getOneDiagnosis(id: number) {
     const diagnosis = await this.diagnosisRepository.findOne(id, {
-      relations: ['user', 'patient', 'disease'],
+      relations: ['user', 'InvestigationService', 'disease'],
     });
     if (!diagnosis)
       throw new NotFoundException(

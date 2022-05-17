@@ -1,3 +1,4 @@
+import { Diagnosis } from 'src/diagnosis/diagnosis.entity';
 import {
   Column,
   CreateDateColumn,
@@ -37,4 +38,7 @@ export class InvestigationRequest {
 
   @OneToMany(() => Radiology, (radiology) => radiology.investigationRequest)
   radiologyTests: Radiology[];
+
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.investigationRequest)
+  diagnosis: Diagnosis[];
 }
