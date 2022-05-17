@@ -17,6 +17,7 @@ import { RadiologyModule } from './radiology/radiology.module';
 import { HospitalAdminModule } from './hospital-admin/hospital-admin.module';
 import { ResearcherModule } from './researcher/researcher.module';
 import { EmployeeModule } from './employee/employee.module';
+import { MohEmployeeModule } from './moh-employee/moh-employee.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { EmployeeModule } from './employee/employee.module';
     HospitalAdminModule,
     ResearcherModule,
     EmployeeModule,
+    MohEmployeeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
