@@ -4,7 +4,7 @@ import { UserDto } from '../user/dto';
 
 @Injectable()
 export class ResearcherService {
-  readonly roleName = 'researcher';
+  readonly roleName = 'Researcher';
   constructor(private userService: UserService) {}
 
   getAll() {
@@ -16,6 +16,7 @@ export class ResearcherService {
   }
 
   create(user: UserDto) {
+    user.isResearcher = true;
     return this.userService.addUser(user, this.roleName);
   }
 }
