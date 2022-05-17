@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
-import { CreateMohEmployeeDto } from './dto/create-moh-employee.dto';
-import { UpdateMohEmployeeDto } from './dto/update-moh-employee.dto';
+import { CreateMohEmployeeDto } from './dto';
+import { UpdateMohEmployeeDto } from './dto';
 
 @Controller('moh-employee')
 export class MohEmployeeController {
@@ -22,13 +30,16 @@ export class MohEmployeeController {
     return this.mohEmployeeService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMohEmployeeDto: UpdateMohEmployeeDto) {
-    return this.mohEmployeeService.update(+id, updateMohEmployeeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.mohEmployeeService.remove(+id);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateMohEmployeeDto: UpdateMohEmployeeDto,
+  // ) {
+  //   return this.mohEmployeeService.update(+id, updateMohEmployeeDto);
+  // }
+  //
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.mohEmployeeService.remove(+id);
+  // }
 }
