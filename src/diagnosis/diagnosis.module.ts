@@ -1,4 +1,4 @@
-import { Diagnosis } from 'src/diagnosis/diagnosis.entity';
+import { Diagnosis } from './diagnosis.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { DiagnosisController } from './diagnosis.controller';

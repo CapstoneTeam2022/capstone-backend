@@ -32,9 +32,9 @@ export class DiagnosisService {
 
     const diagnosis = this.diagnosisRepository.create({
       ...diagnosisInfo,
+      disease: [createdDisease],
       filledBy,
       patient,
-      disease: createdDisease,
     });
 
     return this.diagnosisRepository.save(diagnosis);
@@ -43,7 +43,7 @@ export class DiagnosisService {
     return this.diagnosisRepository.find();
   }
 
-  async getDiagnosis(id: number) {
+  async getOneDiagnosis(id: number) {
     const diagnosis = await this.diagnosisRepository.findOne(id, {
       relations: ['user', 'patient', 'disease'],
     });
