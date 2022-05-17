@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/user.entity";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm"
 
 @Entity()
 export class Examination {
@@ -12,5 +13,8 @@ export class Examination {
     physical_examination: string;
 
     @Column({ type: 'timestamptz' })
-     date_time: Date;
+    date_time: Date;
+    
+    @ManyToOne(() => User, (user) => user.examination)
+    examination: User;
  }
