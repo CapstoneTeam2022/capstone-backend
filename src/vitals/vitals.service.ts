@@ -30,7 +30,7 @@ export class VitalsService {
         },
       },
       order: {
-        requestedDate: 'DESC',
+        requestedDate: 'ASC',
       },
     });
   }
