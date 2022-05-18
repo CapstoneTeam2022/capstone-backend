@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DiagnosisService } from './diagnosis.service';
 import { CreateDiagnosisDto } from './dto/create-diagnosis.dto';
@@ -26,8 +27,18 @@ export class DiagnosisController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.diagnosisService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.diagnosisService.findOne(id);
+  }
+
+  @Get('/invRequest/:id')
+  findAllForInvestigationRequest(@Param('id') id: number) {
+    return this.diagnosisService.findAllForInvestigationRequest(id);
+  }
+
+  @Get('/patient/:id')
+  findAllForPatient(@Param('id') id: number) {
+    return this.diagnosisService.findAllForPatient(id);
   }
 
   // @Patch(':id')
