@@ -7,14 +7,14 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
-import { UserDto } from '../user/dto';
+import { CreateUserWithRoleDto, UserDto } from '../user/dto';
 
 @Controller('employee')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Post()
-  create(@Body() userDto: UserDto) {
+  create(@Body() userDto: CreateUserWithRoleDto) {
     return this.employeeService.create(userDto);
   }
 

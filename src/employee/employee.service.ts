@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { UserDto } from '../user/dto';
+import { CreateUserWithRoleDto, UserDto } from '../user/dto';
 
 @Injectable()
 export class EmployeeService {
@@ -8,8 +8,8 @@ export class EmployeeService {
 
   constructor(private userService: UserService) {}
 
-  create(user: UserDto) {
-    return this.userService.addUser(user, this.roleName);
+  create({ role, ...data }: CreateUserWithRoleDto) {
+    return this.userService.addUser({ ...data, isResearcher: false }, role);
   }
 
   findAll() {
