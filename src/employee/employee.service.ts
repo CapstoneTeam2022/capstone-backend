@@ -9,7 +9,7 @@ export class EmployeeService {
   constructor(private userService: UserService) {}
 
   create({ role, ...data }: CreateUserWithRoleDto) {
-    return this.userService.addUser({ ...data, isResearcher: false }, role);
+    return this.userService.addUser(data, role);
   }
 
   findAll() {

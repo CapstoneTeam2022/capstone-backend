@@ -25,6 +25,6 @@ export class UserController {
 
   @Post()
   create(@Body() { role, ...body }: CreateUserWithRoleDto) {
-    return this.userService.addUser({ ...body, isResearcher: false }, role);
+    return this.userService.addUser(body, role);
   }
 }

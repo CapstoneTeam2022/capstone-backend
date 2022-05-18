@@ -32,8 +32,8 @@ export class CreateUserWithRoleDto {
   email: string;
 
   // @IsNotEmpty()
-  // @IsBoolean()
-  // isResearcher: boolean;
+  @IsBoolean()
+  isResearcher = false;
 
   @IsNotEmpty()
   @IsBoolean()
