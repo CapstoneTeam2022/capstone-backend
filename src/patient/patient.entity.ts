@@ -21,7 +21,7 @@ export class Patient {
   @Column()
   emergencyContactPhone: string;
 
-  @Column()
+  @Column({ unique: true, nullable: true })
   refId: string;
 
   @OneToOne(() => User, (user) => user.patient)
