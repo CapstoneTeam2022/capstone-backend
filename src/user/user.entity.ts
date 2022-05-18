@@ -35,6 +35,9 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Column()
+  gender: string;
+
   @Column({ select: false })
   password: string;
 

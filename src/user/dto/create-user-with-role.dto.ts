@@ -16,10 +16,6 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsString()
-  password: string;
-
-  @IsNotEmpty()
-  @IsString()
   phone: string;
 
   @IsNotEmpty()
@@ -30,6 +26,10 @@ export class CreateUserWithRoleDto {
   @IsString()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  gender: string;
 
   // @IsNotEmpty()
   @IsBoolean()

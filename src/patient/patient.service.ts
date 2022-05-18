@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { PatientDto } from './dto';
 import { UserService } from '../user/user.service';
 
+import { uuid } from 'uuidv4';
+
 @Injectable()
 export class PatientService {
   constructor(
@@ -47,6 +49,7 @@ export class PatientService {
     const patient = this.patientRepository.create({
       ...data,
       user: newUser,
+      refId: uuid(),
       registeredBy: registerer,
     });
     return this.patientRepository.save(patient);

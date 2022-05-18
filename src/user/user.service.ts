@@ -57,12 +57,13 @@ export class UserService {
     const createdAddress = await this.addressService.saveAddress(address);
 
     // Hashing the password
-    newUser.password = await argon2.hash(newUser.password);
+    const password = await argon2.hash('12345678');
 
     const user = this.userRepository.create({
       ...newUser,
       address: createdAddress,
       role,
+      password: password,
       healthCenter,
     });
 

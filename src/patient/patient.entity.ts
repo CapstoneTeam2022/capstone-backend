@@ -21,6 +21,9 @@ export class Patient {
   @Column()
   emergencyContactPhone: string;
 
+  @Column()
+  refId: string;
+
   @OneToOne(() => User, (user) => user.patient)
   @JoinColumn()
   user: User;

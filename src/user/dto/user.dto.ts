@@ -16,10 +16,6 @@ export class UserDto {
 
   @IsNotEmpty()
   @IsString()
-  password: string;
-
-  @IsNotEmpty()
-  @IsString()
   phone: string;
 
   @IsNotEmpty()
@@ -30,6 +26,10 @@ export class UserDto {
   @IsString()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  gender: string;
 
   @IsBoolean()
   isResearcher = false;

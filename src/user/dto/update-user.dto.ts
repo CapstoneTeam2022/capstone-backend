@@ -34,6 +34,10 @@ export class UpdateUserDto {
   email: string;
 
   @IsNotEmpty()
+  @IsString()
+  gender: string;
+
+  @IsNotEmpty()
   @IsBoolean()
   isResearcher: boolean;
 
