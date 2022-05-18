@@ -19,6 +19,7 @@ import { ResearcherModule } from './researcher/researcher.module';
 import { EmployeeModule } from './employee/employee.module';
 import { MohEmployeeModule } from './moh-employee/moh-employee.module';
 import { DiagnosisModule } from './diagnosis/diagnosis.module';
+import { DiseaseModule } from './disease/disease.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { DiagnosisModule } from './diagnosis/diagnosis.module';
     EmployeeModule,
     MohEmployeeModule,
     DiagnosisModule,
+    DiseaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
