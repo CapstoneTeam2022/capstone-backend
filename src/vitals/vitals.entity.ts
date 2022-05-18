@@ -4,11 +4,13 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Patient } from '../patient/patient.entity';
 import { User } from '../user/user.entity';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
+import { Examination } from 'src/examination/entities/examination.entity';
 
 @Entity()
 export class Vitals {
@@ -50,4 +52,7 @@ export class Vitals {
 
   @OneToMany(() => InvestigationRequest, (inv) => inv.vitals)
   investigationRequests: InvestigationRequest[];
+
+  @OneToOne(() => Examination, (examination) => examination.vital)
+  examination: Examination;
 }
