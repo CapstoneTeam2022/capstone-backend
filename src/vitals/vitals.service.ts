@@ -16,7 +16,23 @@ export class VitalsService {
   ) {}
 
   getAll(): Promise<Vitals[]> {
-    return this.vitalsRepository.find();
+    return this.vitalsRepository.find({
+      relations: ['patient'],
+    });
+  }
+
+  async getAllForPatient(patientId: number) {
+    await this.patientService.getPatient(patientId); //check for patient with this id
+    return this.vitalsRepository.find({
+      where: {
+        patient: {
+          id: patientId,
+        },
+      },
+      order: {
+        requestedDate: 'DESC',
+      },
+    });
   }
 
   async getVital(id: number): Promise<Vitals> {
@@ -24,6 +40,7 @@ export class VitalsService {
       where: {
         id,
       },
+      relations: ['patient'],
     });
     if (vital) return vital;
 

@@ -23,6 +23,11 @@ export class VitalsController {
     return this.vitalsService.getVital(id);
   }
 
+  @Get('/patient/:id')
+  getAllForPatient(@Param('id', ParseIntPipe) id: number) {
+    return this.vitalsService.getAllForPatient(id);
+  }
+
   @Post()
   create(@Body() body: VitalsDto) {
     return this.vitalsService.createVital(body);
