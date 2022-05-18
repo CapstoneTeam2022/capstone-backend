@@ -11,6 +11,7 @@ import { User } from '../user/user.entity';
 import { LabTest } from '../lab-test/labTest.entity';
 import { LabResult } from '../lab-result/labResult.entity';
 import { Radiology } from '../radiology/radiology.entity';
+import { Diagnosis } from '../diagnosis/entities/diagnosis.entity';
 
 @Entity()
 export class InvestigationRequest {
@@ -37,4 +38,7 @@ export class InvestigationRequest {
 
   @OneToMany(() => Radiology, (radiology) => radiology.investigationRequest)
   radiologyTests: Radiology[];
+
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.investigationRequest)
+  diagnoses: Diagnosis[]; //diagnoses is the plural of diagnoses
 }

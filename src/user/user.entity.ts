@@ -16,6 +16,7 @@ import { LabResult } from '../lab-result/labResult.entity';
 import { Radiology } from '../radiology/radiology.entity';
 import { HealthCenter } from '../health-center/healthcenter.entity';
 import { MohEmployee } from '../moh-employee/entities/moh-employee.entity';
+import { Diagnosis } from '../diagnosis/entities/diagnosis.entity';
 
 @Entity()
 export class User {
@@ -82,4 +83,7 @@ export class User {
 
   @OneToMany(() => MohEmployee, (mohEmployee) => mohEmployee.registeredBy)
   registeredMohEmployees: MohEmployee[];
+
+  @OneToMany(() => Diagnosis, (diagnosis) => diagnosis.filledBy)
+  filledDiagnosis: Diagnosis[];
 }
