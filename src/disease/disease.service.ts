@@ -1,19 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { CreateDiseaseDto } from './dto/create-disease.dto';
-import { UpdateDiseaseDto } from './dto/update-disease.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateDiseaseDto } from './dto';
+import { UpdateDiseaseDto } from './dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Disease } from './entities/disease.entity';
 
 @Injectable()
 export class DiseaseService {
+  constructor(
+    @InjectRepository(Disease)
+    private diseaseRepository: Repository<Disease>,
+  ) {}
   create(createDiseaseDto: CreateDiseaseDto) {
-    return 'This action adds a new disease';
+    const disease = this.diseaseRepository.create(createDiseaseDto);
+    return this.diseaseRepository.save(disease);
   }
 
   findAll() {
-    return `This action returns all disease`;
+    return this.diseaseRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} disease`;
+  async findOne(id: number) {
+    const disease = await this.diseaseRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (disease) return disease;
+
+    throw new NotFoundException(`Disease with id ${id} not found`);
   }
 
   update(id: number, updateDiseaseDto: UpdateDiseaseDto) {
