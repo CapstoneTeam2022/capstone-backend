@@ -17,6 +17,10 @@ export class PatientDto {
   emergencyContactPhone: string;
 
   @IsNotEmpty()
+  @IsString()
+  role: string;
+
+  @IsNotEmpty()
   @IsNumber()
   registeredBy: number;
 
@@ -30,6 +34,10 @@ class UpdatePatientDto {
   @IsNotEmpty()
   @IsString()
   emergencyContactName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  role: string;
 
   @IsNotEmpty()
   @IsString()
