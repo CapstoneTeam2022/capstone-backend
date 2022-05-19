@@ -26,6 +26,7 @@ export class InvestigationRequestService {
       where: {
         id,
       },
+      relations: ['labTests'],
     });
     if (invRequest) return invRequest;
 
@@ -34,14 +35,18 @@ export class InvestigationRequestService {
     );
   }
 
-  async getInvestigationRequestTests(): Promise<InvestigationRequest> {
-    const invRequest = await this.investigationRequestRepository.findOne({
-      relations: ['labTests'],
-    });
-    if (invRequest) return invRequest;
-
-    throw new NotFoundException(`Investigation Request not found`);
-  }
+  // async getTestsForInvestigationRequest(id: number) {
+  //   await this.getInvestigationRequest(id);
+  // }
+  //
+  // async getInvestigationRequestTests(): Promise<InvestigationRequest> {
+  //   const invRequest = await this.investigationRequestRepository.findOne({
+  //     relations: ['labTests'],
+  //   });
+  //   if (invRequest) return invRequest;
+  //
+  //   throw new NotFoundException(`Investigation Request not found`);
+  // }
 
   async createInvestigationRequest({
     registeredById,
@@ -51,12 +56,15 @@ export class InvestigationRequestService {
   }: InvestigationRequestDto): Promise<InvestigationRequest> {
     const registeredBy = await this.userService.getUser(registeredById);
     const vitals = await this.vitalService.getVital(vitalId);
-    const tests = await this.labTestService.findAllByIds(labTests);
+    for (const testId of labTests) {
+      await this.labTestService.getLabTest(testId);
+    }
+
     const invRequest = this.investigationRequestRepository.create({
       note,
       registeredBy,
       vitals,
-      labTests: tests,
+      labTests: labTests.map((id) => ({ id })),
     });
     return this.investigationRequestRepository.save(invRequest);
   }
