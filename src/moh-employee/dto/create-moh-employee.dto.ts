@@ -8,13 +8,13 @@ import {
 import { UserDto } from '../../user/dto';
 
 export class CreateMohEmployeeDto {
-  @IsNotEmpty()
-  @IsString()
-  emergencyContactName: string;
-
-  @IsNotEmpty()
-  @IsString()
-  emergencyContactPhone: string;
+  // @IsNotEmpty()
+  // @IsString()
+  // emergencyContactName: string;
+  //
+  // @IsNotEmpty()
+  // @IsString()
+  // emergencyContactPhone: string;
 
   @IsNotEmpty()
   @IsNumber()

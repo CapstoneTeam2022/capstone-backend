@@ -14,11 +14,11 @@ export class MohEmployee {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  emergencyContactName: string;
-
-  @Column()
-  emergencyContactPhone: string;
+  // @Column()
+  // emergencyContactName: string;
+  //
+  // @Column()
+  // emergencyContactPhone: string;
 
   @OneToOne(() => User, (user) => user.mohEmployee)
   @JoinColumn()
