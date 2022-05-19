@@ -20,5 +20,6 @@ import { VitalsModule } from '../vitals/vitals.module';
   ],
   controllers: [DiagnosisController],
   providers: [DiagnosisService],
+  exports: [DiagnosisService],
 })
 export class DiagnosisModule {}
