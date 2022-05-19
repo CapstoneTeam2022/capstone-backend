@@ -1,21 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ExaminationDto } from './dto/create-examination.dto';
 import { UpdateExaminationDto } from './dto/update-examination.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Examination } from './entities/examination.entity';
+import { VitalsService } from '../vitals/vitals.service';
 @Injectable()
 export class ExaminationService {
   constructor(
     @InjectRepository(Examination)
     private readonly examinationRepository: Repository<Examination>,
+    private readonly vitalService: VitalsService,
   ) {}
 
-  create(examinationDto: ExaminationDto) {
+  async create({ vitalId, ...data }: ExaminationDto) {
+    const vital = await this.vitalService.getVital(vitalId);
     const examination = this.examinationRepository.create({
-      ...examinationDto,
+      ...data,
+      vital,
     });
-    examination.date_time = Date.now();
     return this.examinationRepository.save(examination);
   }
 
@@ -23,12 +26,14 @@ export class ExaminationService {
     return this.examinationRepository.find();
   }
 
-  findOne(id: number) {
-    const examination = this.examinationRepository.findOne({
+  async findOne(id: number) {
+    const examination = await this.examinationRepository.findOne({
       where: {
         id,
       },
     });
-    return examination;
+    if (examination) return examination;
+
+    throw new NotFoundException(`Examination with id ${id} not found`);
   }
 }

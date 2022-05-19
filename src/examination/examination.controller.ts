@@ -3,13 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ExaminationService } from './examination.services';
 import { ExaminationDto } from './dto/create-examination.dto';
-import { UpdateExaminationDto } from './dto/update-examination.dto';
 
 @Controller('examination')
 export class ExaminationController {
@@ -26,7 +24,7 @@ export class ExaminationController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.examinationService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.examinationService.findOne(id);
   }
 }
