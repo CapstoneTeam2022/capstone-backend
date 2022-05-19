@@ -24,6 +24,11 @@ export class PatientController {
     return this.patientService.getPatient(id);
   }
 
+  @Get(':refId')
+  getOnePatientByRefId(@Param('refId', ParseIntPipe) refId: string) {
+    return this.patientService.getPatientByRef(refId);
+  }
+
   @Post()
   addPatient(@Body() body: PatientDto) {
     return this.patientService.addPatient(body);

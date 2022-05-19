@@ -42,6 +42,27 @@ export class PatientService {
     throw new NotFoundException(`Patient with id ${id} not found`);
   }
 
+  async getPatientByRef(refId: string) {
+    const patient = await this.patientRepository.findOne({
+      where: {
+        refId: refId,
+      },
+      relations: ['user'],
+    });
+
+    if (patient) {
+      const user = await this.userService.getUser(patient.user.id);
+      return {
+        ...patient,
+        user: {
+          ...patient.user,
+          address: user.address,
+        },
+      };
+    }
+    throw new NotFoundException(`Patient with ref id ${refId} not found`);
+  }
+
   async addPatient({ user, registeredBy, ...data }: PatientDto) {
     //Pass the patient role here
     const newUser = await this.userService.addUser(user, 'Patient');
