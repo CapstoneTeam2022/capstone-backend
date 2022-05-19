@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 export class ExaminationDto {
   @IsString()
   @IsNotEmpty()
@@ -7,4 +7,8 @@ export class ExaminationDto {
   @IsString()
   @IsNotEmpty()
   physical_examination: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  vitalId: number;
 }
