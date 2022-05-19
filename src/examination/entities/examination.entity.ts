@@ -1,5 +1,12 @@
 import { Vitals } from 'src/vitals/vitals.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  CreateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Examination {
@@ -12,9 +19,10 @@ export class Examination {
   @Column()
   physical_examination: string;
 
-  @Column({ type: 'timestamptz' })
-  date_time: number;
+  @CreateDateColumn()
+  requestedDate: Date;
 
   @OneToOne(() => Vitals, (vital) => vital.examination)
+  @JoinColumn()
   vital: Vitals;
 }
