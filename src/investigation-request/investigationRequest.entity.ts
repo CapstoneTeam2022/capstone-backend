@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -30,7 +32,8 @@ export class InvestigationRequest {
   @ManyToOne(() => User, (user) => user.investigationRequests)
   registeredBy: User;
 
-  @OneToMany(() => LabTest, (test) => test.investigationRequest)
+  @ManyToMany(() => LabTest)
+  @JoinTable({ name: 'InvRequestLabTest' })
   labTests: LabTest[];
 
   @OneToMany(() => LabResult, (test) => test.investigationRequest)
