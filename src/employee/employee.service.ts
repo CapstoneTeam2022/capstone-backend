@@ -13,7 +13,14 @@ export class EmployeeService {
   }
 
   findAll() {
-    return this.userService.findAllByRoleName(this.roleName);
+    return this.userService.findAllByRoles(
+      'Doctor',
+      'Nurse',
+      'Receptionist',
+      'Hospital Admin',
+      'Lab Expert',
+      'Radiologist',
+    );
   }
 
   findOne(id: number) {
