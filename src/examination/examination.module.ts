@@ -3,8 +3,9 @@ import { ExaminationService } from './examination.services';
 import { ExaminationController } from './examination.controller';
 import { Examination } from './entities/examination.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { VitalsModule } from '../vitals/vitals.module';
 @Module({
-  imports: [TypeOrmModule.forFeature([Examination])],
+  imports: [TypeOrmModule.forFeature([Examination]), VitalsModule],
   controllers: [ExaminationController],
   providers: [ExaminationService],
 })
