@@ -5,6 +5,7 @@ import { InvestigationRequest } from './investigationRequest.entity';
 import { UserModule } from '../user/user.module';
 import { VitalsModule } from '../vitals/vitals.module';
 import { InvestigationRequestController } from './investigation-request.controller';
+import { LabTestModule } from '../lab-test/lab-test.module';
 
 @Module({
   providers: [InvestigationRequestService],
@@ -12,6 +13,7 @@ import { InvestigationRequestController } from './investigation-request.controll
     TypeOrmModule.forFeature([InvestigationRequest]),
     UserModule,
     VitalsModule,
+    LabTestModule,
   ],
   controllers: [InvestigationRequestController],
   exports: [InvestigationRequestService],
