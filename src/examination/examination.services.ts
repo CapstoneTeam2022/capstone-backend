@@ -15,6 +15,7 @@ export class ExaminationService {
     const examination = this.examinationRepository.create({
       ...examinationDto,
     });
+    examination.date_time = Date.now();
     return this.examinationRepository.save(examination);
   }
 

@@ -13,7 +13,7 @@ export class Examination {
   physical_examination: string;
 
   @Column({ type: 'timestamptz' })
-  date_time: Date;
+  date_time: number;
 
   @OneToOne(() => Vitals, (vital) => vital.examination)
   vital: Vitals;
