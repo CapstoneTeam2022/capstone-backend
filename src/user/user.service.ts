@@ -111,6 +111,14 @@ export class UserService {
     });
   }
 
+  findAllByRoles(...names: string[]) {
+    return this.userRepository.find({
+      //  where: [{ role: { name: '' } }],
+      where: names.map((name) => ({ role: { name } })),
+      relations: ['role'],
+    });
+  }
+
   async findOneByRoleName(id: number, name: string) {
     const user = await this.userRepository.findOne({
       where: {
