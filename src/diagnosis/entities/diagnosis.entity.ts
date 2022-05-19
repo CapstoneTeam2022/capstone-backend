@@ -19,9 +19,6 @@ export class Diagnosis {
   @Column()
   comment: string;
 
-  @Column()
-  measuredIn: string;
-
   @CreateDateColumn()
   createdAt: Date;
 
