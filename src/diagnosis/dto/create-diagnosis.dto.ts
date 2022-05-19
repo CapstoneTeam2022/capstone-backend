@@ -5,10 +5,6 @@ export class CreateDiagnosisDto {
   @IsString()
   comment: string;
 
-  @IsNotEmpty()
-  @IsString()
-  measuredIn: string;
-
   @IsNumber()
   @IsNotEmpty()
   filledById: number;
