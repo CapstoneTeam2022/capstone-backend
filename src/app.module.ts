@@ -21,6 +21,7 @@ import { MohEmployeeModule } from './moh-employee/moh-employee.module';
 import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { DiseaseModule } from './disease/disease.module';
 import { ExaminationModule } from './examination/examination.module';
+import { PrescriptionModule } from './prescription/prescription.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { ExaminationModule } from './examination/examination.module';
     DiagnosisModule,
     DiseaseModule,
     ExaminationModule,
+    PrescriptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
