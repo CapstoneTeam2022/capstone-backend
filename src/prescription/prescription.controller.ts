@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { PrescriptionService } from './prescription.service';
-import { CreatePrescriptionDto } from './dto/create-prescription.dto';
-import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
+import { CreatePrescriptionDto } from './dto';
+import { UpdatePrescriptionDto } from './dto';
 
 @Controller('prescription')
 export class PrescriptionController {
