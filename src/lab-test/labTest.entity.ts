@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LabTest {
@@ -17,7 +16,4 @@ export class LabTest {
 
   @Column()
   testCategory: string;
-
-  @ManyToOne(() => InvestigationRequest, (invReq) => invReq.labTests)
-  investigationRequest: InvestigationRequest;
 }
