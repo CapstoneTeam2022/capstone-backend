@@ -3,14 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LabTest } from './labTest.entity';
 import { Repository } from 'typeorm';
 import { LabTestDto } from './dto';
-import { InvestigationRequestService } from '../investigation-request/investigation-request.service';
 
 @Injectable()
 export class LabTestService {
   constructor(
     @InjectRepository(LabTest)
     private labTestRepository: Repository<LabTest>,
-    private invRequestService: InvestigationRequestService,
   ) {}
 
   getAllLabTests(): Promise<LabTest[]> {
