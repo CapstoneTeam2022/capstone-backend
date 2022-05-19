@@ -18,7 +18,9 @@ export class InvestigationRequestService {
   ) {}
 
   getAll(): Promise<InvestigationRequest[]> {
-    return this.investigationRequestRepository.find();
+    return this.investigationRequestRepository.find({
+      relations: ['labTests'],
+    });
   }
 
   async getInvestigationRequest(id: number): Promise<InvestigationRequest> {
