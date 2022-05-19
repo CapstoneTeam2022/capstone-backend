@@ -23,6 +23,11 @@ export class LabTestController {
     return this.labTestService.getLabTest(id);
   }
 
+  @Get()
+  getAllByIds(@Param('ids', ParseIntPipe) ids: number[]) {
+    return this.labTestService.findAllByIds(ids);
+  }
+
   @Post()
   create(@Body() body: LabTestDto) {
     return this.labTestService.createLabTest(body);

@@ -23,6 +23,11 @@ export class InvestigationRequestController {
     return this.service.getInvestigationRequest(id);
   }
 
+  @Get()
+  getAllTests() {
+    return this.service.getInvestigationRequestTests();
+  }
+
   @Post()
   create(@Body() body: InvestigationRequestDto) {
     return this.service.createInvestigationRequest(body);

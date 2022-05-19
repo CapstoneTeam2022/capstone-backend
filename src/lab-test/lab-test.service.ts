@@ -23,6 +23,12 @@ export class LabTestService {
     throw new NotFoundException(`The Lab test with id ${id} not found`);
   }
 
+  findAllByIds(ids: number[]) {
+    return this.labTestRepository.find({
+      where: ids.map((id) => ({ id: id })),
+    });
+  }
+
   async createLabTest({
     // investigationRequestId,
     ...data

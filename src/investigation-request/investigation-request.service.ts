@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InvestigationRequestDto } from './dto';
 import { UserService } from '../user/user.service';
 import { VitalsService } from '../vitals/vitals.service';
+import { LabTestService } from 'src/lab-test/lab-test.service';
 
 @Injectable()
 export class InvestigationRequestService {
@@ -13,6 +14,7 @@ export class InvestigationRequestService {
     private investigationRequestRepository: Repository<InvestigationRequest>,
     private userService: UserService,
     private vitalService: VitalsService,
+    private labTestService: LabTestService,
   ) {}
 
   getAll(): Promise<InvestigationRequest[]> {
@@ -32,6 +34,15 @@ export class InvestigationRequestService {
     );
   }
 
+  async getInvestigationRequestTests(): Promise<InvestigationRequest> {
+    const invRequest = await this.investigationRequestRepository.findOne({
+      relations: ['labTests'],
+    });
+    if (invRequest) return invRequest;
+
+    throw new NotFoundException(`Investigation Request not found`);
+  }
+
   async createInvestigationRequest({
     registeredById,
     vitalId,
@@ -40,11 +51,12 @@ export class InvestigationRequestService {
   }: InvestigationRequestDto): Promise<InvestigationRequest> {
     const registeredBy = await this.userService.getUser(registeredById);
     const vitals = await this.vitalService.getVital(vitalId);
+    const tests = await this.labTestService.findAllByIds(labTests);
     const invRequest = this.investigationRequestRepository.create({
       note,
       registeredBy,
       vitals,
-      labTests,
+      labTests: tests,
     });
     return this.investigationRequestRepository.save(invRequest);
   }
