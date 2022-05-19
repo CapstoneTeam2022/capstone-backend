@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePrescriptionDto } from './dto/create-prescription.dto';
-import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
+import { CreatePrescriptionDto } from './dto';
+import { UpdatePrescriptionDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Prescription } from './entities/prescription.entity';
 import { Repository } from 'typeorm';
