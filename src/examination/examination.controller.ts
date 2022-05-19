@@ -27,4 +27,9 @@ export class ExaminationController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.examinationService.findOne(id);
   }
+
+  @Get('vital/:id')
+  findExaminationForVital(@Param('id', ParseIntPipe) id: number) {
+    return this.examinationService.getExaminationForVital(id);
+  }
 }

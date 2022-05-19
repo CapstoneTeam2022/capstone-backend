@@ -23,7 +23,9 @@ export class ExaminationService {
   }
 
   findAll() {
-    return this.examinationRepository.find();
+    return this.examinationRepository.find({
+      relations: ['vital'],
+    });
   }
 
   async findOne(id: number) {
@@ -31,9 +33,28 @@ export class ExaminationService {
       where: {
         id,
       },
+      relations: ['vital'],
     });
     if (examination) return examination;
 
     throw new NotFoundException(`Examination with id ${id} not found`);
+  }
+
+  async getExaminationForVital(vitalId: number) {
+    await this.vitalService.getVital(vitalId);
+    const examination = await this.examinationRepository.findOne({
+      where: {
+        vital: {
+          id: vitalId,
+        },
+      },
+      relations: ['vital'],
+    });
+
+    if (examination) return examination;
+
+    throw new NotFoundException(
+      `Examination for vital: id:${vitalId} not found`,
+    );
   }
 }
