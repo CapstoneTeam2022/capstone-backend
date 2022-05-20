@@ -10,7 +10,7 @@ export class RadiologyDto {
   focalArea: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   report: string;
 
   @IsArray()
