@@ -23,6 +23,11 @@ export class InvestigationRequestController {
     return this.service.getInvestigationRequest(id);
   }
 
+  @Get('/include/radiology')
+  getAllWithRadiology() {
+    return this.service.getAllWithRadiology();
+  }
+
   @Post()
   create(@Body() body: InvestigationRequestDto) {
     return this.service.createInvestigationRequest(body);

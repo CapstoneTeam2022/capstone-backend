@@ -37,6 +37,14 @@ export class InvestigationRequestService {
     );
   }
 
+  async getAllWithRadiology() {
+    return this.investigationRequestRepository
+      .createQueryBuilder('invRequest')
+      .leftJoinAndSelect('invRequest.labTests', 'test')
+      .andWhere('test.testCategory=:cat', { cat: 'Radiology' })
+      .getMany();
+  }
+
   // async getTestsForInvestigationRequest(id: number) {
   //   await this.getInvestigationRequest(id);
   // }
