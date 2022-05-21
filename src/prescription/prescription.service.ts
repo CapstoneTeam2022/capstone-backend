@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Prescription } from './entities/prescription.entity';
 import { Repository } from 'typeorm';
 import { DiagnosisService } from '../diagnosis/diagnosis.service';
+import * as PDFDocument from 'pdfkit'
+
 
 @Injectable()
 export class PrescriptionService {
@@ -60,5 +62,28 @@ export class PrescriptionService {
 
   remove(id: number) {
     return `This action removes a #${id} prescription`;
+  }
+
+  async generatePDF(id: number): Promise<Buffer> {
+    const pdfBuffer: Buffer = await new Promise(resolve => {
+      const doc = new PDFDocument({
+        size: 'LETTER',
+        bufferPages: true,
+      })
+
+      // customize your PDF document
+      doc.text('hello world', 100, 50)
+      
+      doc.end()
+
+      const buffer = []
+      doc.on('data', buffer.push.bind(buffer))
+      doc.on('end', () => {
+        const data = Buffer.concat(buffer)
+        resolve(data)
+      })
+    })
+
+    return pdfBuffer
   }
 }
