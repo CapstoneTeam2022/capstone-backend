@@ -26,7 +26,7 @@ export class PatientController {
   }
 
   @Get(':refId')
-  getOnePatientByRefId(@Param('refId',new ParseUUIDPipe()) refId: string) {
+  getOnePatientByRefId(@Param('refId') refId: string) {
     return this.patientService.getPatientByRef(refId);
   }
 
