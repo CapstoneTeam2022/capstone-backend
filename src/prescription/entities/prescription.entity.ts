@@ -12,14 +12,14 @@ export class Prescription {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  comment: string;
+  // @Column()
+  // comment: string;
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column('text', { array: true })
-  medications: string[];
+  // @Column('text', { array: true })
+  // medications: string[];
 
   @ManyToOne(() => Diagnosis, (diagnosis) => diagnosis.prescriptions)
   diagnosis: Diagnosis;
