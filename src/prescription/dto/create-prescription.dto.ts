@@ -1,4 +1,6 @@
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateMedicationDto } from './create-medication.dto';
 
 export class CreatePrescriptionDto {
   // @IsNotEmpty()
@@ -8,6 +10,11 @@ export class CreatePrescriptionDto {
   @IsNotEmpty()
   @IsNumber()
   diagnosisId: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateMedicationDto)
+  medications: CreateMedicationDto[];
 
   // @IsArray()
   // @IsString({ each: true })
