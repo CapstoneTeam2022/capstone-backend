@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
   Post,
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
@@ -24,8 +25,8 @@ export class PatientController {
     return this.patientService.getPatient(id);
   }
 
-  @Get(':refId')
-  getOnePatientByRefId(@Param('refId', ParseIntPipe) refId: string) {
+  @Get('/refId/:refId')
+  getOnePatientByRefId(@Param('refId', new ParseUUIDPipe()) refId: string) {
     return this.patientService.getPatientByRef(refId);
   }
 
