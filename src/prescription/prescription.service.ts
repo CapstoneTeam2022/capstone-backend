@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Prescription } from './entities/prescription.entity';
 import { Repository } from 'typeorm';
 import { DiagnosisService } from '../diagnosis/diagnosis.service';
+import { Medication } from './entities/mdication.entity';
 
 @Injectable()
 export class PrescriptionService {
@@ -14,18 +15,27 @@ export class PrescriptionService {
     private diagnosisService: DiagnosisService,
   ) {}
 
-  async create({ diagnosisId, ...data }: CreatePrescriptionDto) {
+  async create({ diagnosisId, medications, ...data }: CreatePrescriptionDto) {
     const diagnosis = await this.diagnosisService.findOne(diagnosisId);
+    const meds: Medication[] = [];
+    medications.forEach((item) => {
+      const med = new Medication();
+      med.name = item.name;
+      med.dosage = item.dosage;
+      med.instructions = item.instructions;
+      meds.push(med);
+    });
     const prescription = this.prescriptionRepository.create({
       diagnosis,
       ...data,
     });
+    prescription.medications = meds;
     return this.prescriptionRepository.save(prescription);
   }
 
   findAll() {
     return this.prescriptionRepository.find({
-      relations: ['diagnosis'],
+      relations: ['diagnosis', 'medications'],
     });
   }
 
@@ -34,6 +44,7 @@ export class PrescriptionService {
       where: {
         id,
       },
+      relations: ['medications'],
     });
     if (prescription) return prescription;
     throw new NotFoundException(`Prescription with id ${id} not found`);
@@ -50,7 +61,7 @@ export class PrescriptionService {
       order: {
         createdAt: 'DESC',
       },
-      relations: ['diagnosis'],
+      relations: ['diagnosis', 'medications'],
     });
   }
 
