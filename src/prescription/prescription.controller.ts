@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Patch,
+  Res,
   Param,
   Delete,
   ParseIntPipe,
@@ -11,6 +12,7 @@ import {
 import { PrescriptionService } from './prescription.service';
 import { CreatePrescriptionDto } from './dto';
 import { UpdatePrescriptionDto } from './dto';
+import { Response } from 'express';
 
 @Controller('prescription')
 export class PrescriptionController {
@@ -34,6 +36,23 @@ export class PrescriptionController {
   @Get('diagnosis/:id')
   getAllForDiagnosis(@Param('id', ParseIntPipe) id: number) {
     return this.prescriptionService.findAllForDiagnosis(id);
+  }
+
+
+  @Get('export/pdf/:id')
+  async getPDF(
+    @Res() res: Response,
+    @Param('id', ParseIntPipe) id: number
+  ): Promise<void> {
+    const buffer = await this.prescriptionService.generatePDF(id)
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'inline; filename=example.pdf',
+      'Content-Length': buffer.length,
+    })
+
+    res.end(buffer)
   }
 
   // @Patch(':id')
