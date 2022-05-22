@@ -30,6 +30,13 @@ export class PatientController {
     return this.patientService.getPatientByRef(refId);
   }
 
+
+  @Get('/number')
+  getAllNum() {
+    return this.patientService.getNumOfPatients();
+  }
+
+
   @Post()
   addPatient(@Body() body: PatientDto) {
     return this.patientService.addPatient(body);

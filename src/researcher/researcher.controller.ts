@@ -18,6 +18,11 @@ export class ResearcherController {
     return this.researcherService.getAll();
   }
 
+  @Get('/number')
+  getAllNum() {
+    return this.researcherService.getNumOfResearchers();
+  }
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.researcherService.getById(id);
