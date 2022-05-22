@@ -91,6 +91,6 @@ export class HealthCenterService {
 
   async getNumOfHealthCenters() {
     const num =  (await this.healthCenterRepository.find()).length;
-    
+    return num
   }
 }
