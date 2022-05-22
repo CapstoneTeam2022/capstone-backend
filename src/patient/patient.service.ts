@@ -88,6 +88,6 @@ export class PatientService {
 
   async getNumOfPatients() {
     const num =  (await this.patientRepository.find()).length;
-    
+    return num
   }
 }

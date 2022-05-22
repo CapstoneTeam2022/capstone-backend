@@ -52,6 +52,6 @@ export class MohEmployeeService {
 
   async getNumOfMohEmployees() {
     const num =  (await this.mohEmployeeRepository.find()).length;
-    
+    return num
   }
 }

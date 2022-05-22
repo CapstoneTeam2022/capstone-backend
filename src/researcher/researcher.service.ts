@@ -22,6 +22,6 @@ export class ResearcherService {
 
   async getNumOfResearchers() {
     const num =  (await this.userService.findAllByRoleName(this.roleName)).length;
-    
+    return num
   }
 }
