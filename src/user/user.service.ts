@@ -80,6 +80,11 @@ export class UserService {
     return createdUser;
   }
 
+  async setAvatar(userId, avatarUrl) {
+    const user = await this.getUser(userId);
+    // user.image=avatarUrl;
+    return this.userRepository.save(user);
+  }
   async updateUser(id: number, data: UpdateUserDto) {
     if (await this.isEmailTaken(data.email)) {
       throw new BadRequestException('The Email is Already in use');
