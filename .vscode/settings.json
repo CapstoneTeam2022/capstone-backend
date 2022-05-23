@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "database": "EMR",
+      "username": "postgres",
+      "password": "Robel123",
+      "name": "EMR Projects"
+    }
+  ]
+}

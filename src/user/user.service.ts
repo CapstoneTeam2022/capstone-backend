@@ -34,6 +34,14 @@ export class UserService {
 
     throw new NotFoundException(`The user with id ${id} not found`);
   }
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne(email, {
+      relations: ['address', 'role'],
+    });
+    if (user) return user;
+
+    throw new NotFoundException('Invalid Credientals !!!');
+  }
 
   async isEmailTaken(email) {
     const user = await this.userRepository.findOne({
