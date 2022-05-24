@@ -30,6 +30,12 @@ export class MohEmployeeController {
     return this.mohEmployeeService.findOne(+id);
   }
 
+
+  @Get('/number')
+  getAllNum() {
+    return this.mohEmployeeService.getNumOfMohEmployees();
+  }
+
   // @Patch(':id')
   // update(
   //   @Param('id') id: string,

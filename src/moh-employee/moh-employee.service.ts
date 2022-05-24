@@ -49,4 +49,9 @@ export class MohEmployeeService {
   remove(id: number) {
     return `This action removes a #${id} mohEmployee`;
   }
+
+  async getNumOfMohEmployees() {
+    const num =  (await this.mohEmployeeRepository.find()).length;
+    return num
+  }
 }

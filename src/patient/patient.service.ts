@@ -85,4 +85,9 @@ export class PatientService {
       msg: 'success',
     };
   }
+
+  async getNumOfPatients() {
+    const num =  (await this.patientRepository.find()).length;
+    return num
+  }
 }

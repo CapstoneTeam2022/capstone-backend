@@ -19,6 +19,11 @@ export class HealthCenterController {
     return this.service.getAllHealthCenters();
   }
 
+  @Get('/number')
+  getAllNum() {
+    return this.service.getNumOfHealthCenters();
+  }
+
   @Get(':id')
   getSingleHealthCenter(@Param('id', ParseIntPipe) id: number) {
     console.log(typeof id);

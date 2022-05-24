@@ -19,4 +19,9 @@ export class ResearcherService {
     user.isResearcher = true;
     return this.userService.addUser(user, this.roleName);
   }
+
+  async getNumOfResearchers() {
+    const num =  (await this.userService.findAllByRoleName(this.roleName)).length;
+    return num
+  }
 }

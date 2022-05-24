@@ -87,4 +87,10 @@ export class HealthCenterService {
     Object.assign(healthCenter, updateHCData);
     return this.healthCenterRepository.save(healthCenter);
   }
+
+
+  async getNumOfHealthCenters() {
+    const num =  (await this.healthCenterRepository.find()).length;
+    return num
+  }
 }
