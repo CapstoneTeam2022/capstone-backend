@@ -19,6 +19,9 @@ export class LabResult {
   @Column()
   type: string;
 
+  @Column({ nullable: true })
+  image: string;
+
   @CreateDateColumn()
   filledDate: string;
 
