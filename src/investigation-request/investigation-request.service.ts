@@ -19,7 +19,7 @@ export class InvestigationRequestService {
 
   getAll(): Promise<InvestigationRequest[]> {
     return this.investigationRequestRepository.find({
-      relations: ['labTests'],
+      relations: ['labTests','vitals'],
     });
   }
 

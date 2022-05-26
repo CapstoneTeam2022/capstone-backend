@@ -27,10 +27,7 @@ export class Diagnosis {
   @ManyToOne(() => User, (user) => user.filledDiagnosis)
   filledBy: User;
 
-  @ManyToOne(
-    () => InvestigationRequest,
-    (investigationReq) => investigationReq.diagnoses,
-  )
+  @ManyToOne(() => InvestigationRequest,(investigationReq) => investigationReq.diagnoses,)
   investigationRequest: InvestigationRequest;
 
   @ManyToMany(() => Disease)

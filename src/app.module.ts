@@ -22,7 +22,6 @@ import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { DiseaseModule } from './disease/disease.module';
 import { ExaminationModule } from './examination/examination.module';
 import { PrescriptionModule } from './prescription/prescription.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),

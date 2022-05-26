@@ -12,7 +12,19 @@ import { AddressDto } from 'src/address/dto';
 export class CreateUserWithRoleDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  first_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  middle_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  last_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  gender: string;
 
   @IsNotEmpty()
   @IsString()
@@ -27,9 +39,7 @@ export class CreateUserWithRoleDto {
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
-  gender: string;
+  
 
   // @IsNotEmpty()
   @IsBoolean()

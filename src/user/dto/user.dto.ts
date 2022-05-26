@@ -12,7 +12,15 @@ import { AddressDto } from 'src/address/dto';
 export class UserDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  first_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  middle_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  last_name: string;
 
   @IsNotEmpty()
   @IsString()

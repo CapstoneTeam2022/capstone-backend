@@ -9,5 +9,6 @@ import { DiagnosisModule } from '../diagnosis/diagnosis.module';
   controllers: [PrescriptionController],
   providers: [PrescriptionService],
   imports: [TypeOrmModule.forFeature([Prescription]), DiagnosisModule],
+  exports: [PrescriptionService],
 })
 export class PrescriptionModule {}

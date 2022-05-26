@@ -20,6 +20,7 @@ export class PatientDto {
   @IsString()
   role: string;
 
+
   @IsNotEmpty()
   @IsNumber()
   registeredBy: number;

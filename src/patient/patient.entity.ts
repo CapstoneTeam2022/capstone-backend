@@ -23,6 +23,7 @@ export class Patient {
 
   @Column({ unique: true, nullable: true })
   refId: string;
+ 
 
   @OneToOne(() => User, (user) => user.patient)
   @JoinColumn()
