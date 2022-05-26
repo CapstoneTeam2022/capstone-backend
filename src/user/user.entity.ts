@@ -36,6 +36,9 @@ export class User {
   email: string;
 
   @Column({ nullable: true })
+  image: string;
+
+  @Column({ nullable: true })
   gender: string;
 
   @Column({ select: false })
