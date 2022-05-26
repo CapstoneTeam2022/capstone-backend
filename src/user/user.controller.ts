@@ -1,3 +1,4 @@
+import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 import {
   Body,
   Controller,
@@ -7,6 +8,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -29,26 +31,14 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() { role, ...body }: CreateUserWithRoleDto) {
-    return this.userService.addUser(body, role);
-  }
-
-  @Post()
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './upload/profileImages',
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          return cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-  uploadAvatar(@Param('userid') userId, @UploadedFile() image) {
-    this.userService.setAvatar(Number(userId), `$${image.path}`);
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(
+    @Body() { role, ...body }: CreateUserWithRoleDto,
+    @UploadedFile() image,
+  ) {
+    if (!image) {
+      throw new BadRequestException('The image is must required');
+    }
+    return this.userService.addUser(body, role, image.path);
   }
 }

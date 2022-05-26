@@ -3,7 +3,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 
 export function FileUploadInterceptor(destination) {
-  return FileInterceptor('images', {
+  return FileInterceptor('image', {
     storage: diskStorage({
       destination: destination,
       filename: (req, file, cb) => {

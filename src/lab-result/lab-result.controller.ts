@@ -1,3 +1,4 @@
+import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 import {
   Body,
   Controller,
@@ -5,6 +6,9 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseInterceptors,
+  UploadedFile
+  ,BadRequestException
 } from '@nestjs/common';
 import { LabResultService } from './lab-result.service';
 import { LabResultDto } from './dto';
@@ -24,7 +28,11 @@ export class LabResultController {
   }
 
   @Post()
-  create(@Body() body: LabResultDto) {
-    return this.labResultService.createLabResult(body);
+  @UseInterceptors(FileUploadInterceptor("./upload/Labresult"))
+  create(@Body() body: LabResultDto,@UploadedFile() image) {
+    if(!image){
+      throw new BadRequestException("The image is must required");
+    }
+    return this.labResultService.createLabResult(body,image.path);
   }
 }

@@ -33,8 +33,9 @@ export class LabResultService {
   async createLabResult({
     filledById,
     investigationRequestId,
+    
     ...data
-  }: LabResultDto) {
+  }: LabResultDto,image) {
     const filledBy = await this.userService.getUser(filledById);
     const investigationRequest =
       await this.invRequestService.getInvestigationRequest(
@@ -45,6 +46,7 @@ export class LabResultService {
       filledBy,
       investigationRequest,
     });
+    labResult.image = image;
     return this.labResultRepository.save(labResult);
   }
 }

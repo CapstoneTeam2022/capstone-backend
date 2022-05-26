@@ -6,10 +6,12 @@ import {
   ParseIntPipe,
   Post,
   UseInterceptors,
+  UploadedFiles,
+  BadRequestException,
 } from '@nestjs/common';
 import { RadiologyService } from './radiology.service';
 import { RadiologyDto } from './dto';
-import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
+import { MultipleFileUploadInterceptor } from 'src/interceptors/multiplefileUpload';
 
 @Controller('radiology')
 export class RadiologyController {
@@ -26,8 +28,14 @@ export class RadiologyController {
   }
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/radiology'))
-  create(@Body() body: RadiologyDto) {
-    return this.radiologyService.create(body);
+  @UseInterceptors(MultipleFileUploadInterceptor('./upload/radiology'))
+  create(
+    @Body() body: RadiologyDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ) {
+    if (!files) {
+      throw new BadRequestException('The image is must required');
+    }
+    return this.radiologyService.create(body, files);
   }
 }

@@ -31,11 +31,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/passport": "^8.2.1",
-<<<<<<< HEAD
-    "@nestjs/platform-express": "^8.4.5",
-=======
     "@nestjs/platform-express": "^8.0.0",
->>>>>>> 7d1b3f7903c5c6fffd191e9374728bcebd642c82
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/testing": "^8.0.0",
@@ -55,14 +51,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.2.5",
-<<<<<<< HEAD
-    "passport": "^0.5.3",
-    "passport-jwt": "^4.0.0",
-=======
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
->>>>>>> 7d1b3f7903c5c6fffd191e9374728bcebd642c82
     "pdfkit": "^0.13.0",
     "pg": "^8.7.3",
     "prettier": "^2.3.2",
@@ -103,11 +94,8 @@
     "node": "16.x"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@types/cookie-parser": "^1.4.3",
-=======
+    "@types/multer": "^1.4.7",
     "@types/passport-jwt": "^3.0.6",
->>>>>>> 7d1b3f7903c5c6fffd191e9374728bcebd642c82
     "@types/pdfkit": "^0.12.6"
   }
 }
