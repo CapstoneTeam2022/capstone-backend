@@ -5,9 +5,11 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { RadiologyService } from './radiology.service';
 import { RadiologyDto } from './dto';
+import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 
 @Controller('radiology')
 export class RadiologyController {
@@ -24,6 +26,7 @@ export class RadiologyController {
   }
 
   @Post()
+  @UseInterceptors(FileUploadInterceptor('./upload/radiology'))
   create(@Body() body: RadiologyDto) {
     return this.radiologyService.create(body);
   }
