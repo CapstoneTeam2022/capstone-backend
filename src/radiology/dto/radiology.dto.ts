@@ -13,9 +13,9 @@ export class RadiologyDto {
   @IsString()
   report: string;
 
-  @IsArray()
-  @IsString({ each: true })
-  images: string[];
+  // @IsArray()
+  // @IsString({ each: true })
+  // images: string[];
 
   @IsNotEmpty()
   @IsString()

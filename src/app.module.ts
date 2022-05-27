@@ -22,6 +22,7 @@ import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { DiseaseModule } from './disease/disease.module';
 import { ExaminationModule } from './examination/examination.module';
 import { PrescriptionModule } from './prescription/prescription.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { PrescriptionModule } from './prescription/prescription.module';
     DiseaseModule,
     ExaminationModule,
     PrescriptionModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
