@@ -5,8 +5,9 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put
 } from '@nestjs/common';
-import { UserDto } from '../user/dto';
+import { UpdateUserDto, UserDto } from '../user/dto';
 import { ResearcherService } from './researcher.service';
 
 @Controller('researcher')
@@ -31,5 +32,13 @@ export class ResearcherController {
   @Post()
   create(@Body() body: UserDto) {
     return this.researcherService.create(body);
+  }
+
+  @Put(':id')
+  updateResearcher(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.researcherService.updateResearcher(id, body);
   }
 }

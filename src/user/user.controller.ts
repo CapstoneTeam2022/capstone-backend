@@ -5,9 +5,10 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserWithRoleDto } from './dto';
+import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from './dto';
 
 @Controller('user')
 export class UserController {
@@ -26,5 +27,13 @@ export class UserController {
   @Post()
   create(@Body() { role, ...body }: CreateUserWithRoleDto) {
     return this.userService.addUser(body, role);
+  }
+
+  @Put(':id')
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.userService.updateUser(id, body);
   }
 }
