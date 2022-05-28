@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { CreateUserWithRoleDto } from '../user/dto';
+import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from '../user/dto';
 
 @Injectable()
 export class EmployeeService {
@@ -27,8 +27,9 @@ export class EmployeeService {
     return this.userService.findOneByRoleName(id, this.roleName);
   }
 
-  update(id: number) {
-    return `This action updates a #${id} employee`;
+  updateEmployee(id: number, updateEmployeeDto: UpdateUserDto) {
+    return this.userService.updateUser(id, updateEmployeeDto)
+
   }
 
   remove(id: number) {

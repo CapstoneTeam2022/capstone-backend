@@ -8,10 +8,12 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Put
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserWithRoleDto } from './dto';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
+import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from './dto';
+
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -36,5 +38,13 @@ export class UserController {
       throw new BadRequestException('The image is required');
     }
     return this.userService.addUser(body, role, image.path);
+  }
+
+  @Put(':id')
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.userService.updateUser(id, body);
   }
 }

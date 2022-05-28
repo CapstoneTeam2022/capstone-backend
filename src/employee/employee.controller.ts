@@ -8,10 +8,11 @@ import {
   BadRequestException,
   UploadedFile,
   UseInterceptors,
+  Put,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
-import { CreateUserWithRoleDto } from '../user/dto';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
+import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from '../user/dto';
 
 @Controller('employee')
 export class EmployeeController {
@@ -34,6 +35,15 @@ export class EmployeeController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.employeeService.findOne(id);
+  }
+
+
+  @Put(':id')
+  updateEmployee(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.employeeService.updateEmployee(id, body);
   }
 
   // @Patch(':id')

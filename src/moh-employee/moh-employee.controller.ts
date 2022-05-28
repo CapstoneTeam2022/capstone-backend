@@ -9,10 +9,14 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
+  Put,
+  ParseIntPipe
 } from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
 import { CreateMohEmployeeDto } from './dto';
 import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
+import { UpdateMohEmployeeDto } from './dto';
+import { UpdateUserDto } from 'src/user/dto';
 
 @Controller('moh-employee')
 export class MohEmployeeController {
@@ -43,6 +47,14 @@ export class MohEmployeeController {
   @Get('/number')
   getAllNum() {
     return this.mohEmployeeService.getNumOfMohEmployees();
+  }
+
+  @Put(':id')
+  updateMohEmployee(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.mohEmployeeService.updateMohEmployee(id, body);
   }
 
   // @Patch(':id')

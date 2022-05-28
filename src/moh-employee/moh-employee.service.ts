@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MohEmployee } from './entities/moh-employee.entity';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
+import { UpdateUserDto } from 'src/user/dto';
 
 @Injectable()
 export class MohEmployeeService {
@@ -45,8 +46,8 @@ export class MohEmployeeService {
     throw new NotFoundException(`MohEmployee with id ${id} not found`);
   }
 
-  update(id: number, updateMohEmployeeDto: UpdateMohEmployeeDto) {
-    return `This action updates a #${id} mohEmployee`;
+  updateMohEmployee(id: number, updateMohEmployeeDto: UpdateUserDto) {
+    return this.userService.updateUser(id, updateMohEmployeeDto)
   }
 
   remove(id: number) {
@@ -61,4 +62,6 @@ export class MohEmployeeService {
     ).length;
     return num;
   }
+
+  
 }

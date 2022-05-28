@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { UserDto } from '../user/dto';
+import { UpdateUserDto, UserDto } from '../user/dto';
 
 @Injectable()
 export class ResearcherService {
@@ -24,5 +24,8 @@ export class ResearcherService {
     const num = (await this.userService.findAllByRoleName(this.roleName))
       .length;
     return num;
+  }
+  async updateResearcher(id: number, data: UpdateUserDto) {
+    return this.userService.updateUser(id, data)
   }
 }
