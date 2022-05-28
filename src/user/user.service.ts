@@ -42,7 +42,7 @@ export class UserService {
     return user !== undefined;
   }
 
-  async addUser(userData: UserDto, roleName: string, image: string) {
+  async addUser(userData: UserDto, roleName: string) {
     const { address, healthCenterId, ...newUser } = userData;
 
     if (await this.isEmailTaken(newUser.email)) {
@@ -65,7 +65,6 @@ export class UserService {
       role,
       password: password,
       healthCenter,
-      image,
     });
 
     const createdUser = await this.userRepository.save(user);
@@ -79,6 +78,12 @@ export class UserService {
     }
     this.getUser(id); //check if user exists
     return this.userRepository.save(data);
+  }
+
+  async updateProfileImage(id: number, image: string) {
+    const user = await this.getUser(id);
+    user.image = image;
+    return this.userRepository.save(user);
   }
 
   async deactivateUser(id: number) {

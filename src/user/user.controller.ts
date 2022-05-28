@@ -29,15 +29,23 @@ export class UserController {
   }
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  //@UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
   create(
-    @Body() { role, ...body }: CreateUserWithRoleDto,
-    @UploadedFile() image,
+    @Body() { role, ...body }: CreateUserWithRoleDto, // @UploadedFile() image,
   ) {
+    // if (!image) {
+    //   throw new BadRequestException('The image is required');
+    // }
+    return this.userService.addUser(body, role);
+  }
+
+  @Post('/profileImage/:id')
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  uploadImage(@Param('id', ParseIntPipe) id: number, @UploadedFile() image) {
     if (!image) {
       throw new BadRequestException('The image is required');
     }
-    return this.userService.addUser(body, role, image.path);
+    return this.userService.updateProfileImage(id, image.path);
   }
 
   @Put(':id')
