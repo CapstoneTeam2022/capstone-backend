@@ -16,7 +16,7 @@ export class HospitalAdminService {
     return this.userService.findOneByRoleName(id, this.roleName);
   }
 
-  createHospitalAdmin(user: UserDto, image: string) {
-    return this.userService.addUser(user, this.roleName, image);
+  createHospitalAdmin(user: UserDto) {
+    return this.userService.addUser(user, this.roleName);
   }
 }

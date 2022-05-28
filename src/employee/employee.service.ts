@@ -8,8 +8,8 @@ export class EmployeeService {
 
   constructor(private userService: UserService) {}
 
-  create({ role, ...data }: CreateUserWithRoleDto, image: string) {
-    return this.userService.addUser(data, role, image);
+  create({ role, ...data }: CreateUserWithRoleDto) {
+    return this.userService.addUser(data, role);
   }
 
   findAll() {

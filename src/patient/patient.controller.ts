@@ -40,12 +40,8 @@ export class PatientController {
   }
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
-  addPatient(@Body() body: PatientDto, @UploadedFile() image) {
-    if (!image) {
-      throw new BadRequestException('The image is required');
-    }
-    return this.patientService.addPatient(body, image.path);
+  addPatient(@Body() body: PatientDto) {
+    return this.patientService.addPatient(body);
   }
 
   @Delete(':id')

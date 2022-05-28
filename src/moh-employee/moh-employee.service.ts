@@ -15,11 +15,8 @@ export class MohEmployeeService {
     private userService: UserService,
   ) {}
 
-  async create(
-    { user, registeredBy, ...data }: CreateMohEmployeeDto,
-    image: string,
-  ) {
-    const newUser = await this.userService.addUser(user, 'MohEmployee', image);
+  async create({ user, registeredBy, ...data }: CreateMohEmployeeDto) {
+    const newUser = await this.userService.addUser(user, 'MohEmployee');
     const registerer = await this.userService.getUser(registeredBy);
     const mohEmployee = this.mohEmployeeRepository.create({
       ...data,

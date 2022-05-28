@@ -1,4 +1,4 @@
-import { Transform, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -8,11 +8,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { AddressDto } from 'src/address/dto';
-import { BadRequestException } from '@nestjs/common';
-import {
-  StringToBooleanTransformer,
-  StringToNumberTransformer,
-} from '../../transformers';
 
 export class CreateUserWithRoleDto {
   @IsNotEmpty()
@@ -25,7 +20,7 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @Transform(StringToNumberTransformer)
+  //@Transform(StringToNumberTransformer)
   age: number;
 
   @IsNotEmpty()
@@ -43,7 +38,7 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  @Transform(StringToBooleanTransformer)
+  // @Transform(StringToBooleanTransformer)
   isAdmin: boolean;
 
   @ValidateNested({ each: true })
@@ -57,11 +52,7 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @Transform(({ value }) => {
-    const isNumeric = !isNaN(value);
-    if (isNumeric) return Number(value);
-    throw new BadRequestException('expected number');
-  })
+  //@Transform(StringToNumberTransformer)
   healthCenterId: number;
 
   // @ValidateNested({ each: true })

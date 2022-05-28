@@ -15,9 +15,9 @@ export class ResearcherService {
     return this.userService.findOneByRoleName(id, this.roleName);
   }
 
-  create(user: UserDto, image: string) {
+  create(user: UserDto) {
     user.isResearcher = true;
-    return this.userService.addUser(user, this.roleName, image);
+    return this.userService.addUser(user, this.roleName);
   }
 
   async getNumOfResearchers() {

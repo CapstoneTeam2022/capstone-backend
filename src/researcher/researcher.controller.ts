@@ -34,12 +34,8 @@ export class ResearcherController {
   }
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
-  create(@Body() body: UserDto, @UploadedFile() image) {
-    if (!image) {
-      throw new BadRequestException('The image is required');
-    }
-    return this.researcherService.create(body, image.path);
+  create(@Body() body: UserDto) {
+    return this.researcherService.create(body);
   }
 
   @Put(':id')

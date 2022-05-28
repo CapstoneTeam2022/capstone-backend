@@ -28,12 +28,12 @@ export class HospitalAdminController {
   }
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
-  create(@Body() body: UserDto, @UploadedFile() image) {
+  //@UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(@Body() body: UserDto) {
     body.isAdmin = true;
-    if (!image) {
-      throw new BadRequestException('The image is required');
-    }
-    return this.hospitalAdminService.createHospitalAdmin(body, image.path);
+    // if (!image) {
+    //   throw new BadRequestException('The image is required');
+    // }
+    return this.hospitalAdminService.createHospitalAdmin(body);
   }
 }

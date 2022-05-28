@@ -19,12 +19,12 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
-  create(@Body() userDto: CreateUserWithRoleDto, @UploadedFile() image) {
-    if (!image) {
-      throw new BadRequestException('The image is required');
-    }
-    return this.employeeService.create(userDto, image.path);
+  // @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(@Body() userDto: CreateUserWithRoleDto) {
+    // if (!image) {
+    //   throw new BadRequestException('The image is required');
+    // }
+    return this.employeeService.create(userDto);
   }
 
   @Get()
