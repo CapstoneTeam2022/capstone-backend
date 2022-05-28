@@ -80,6 +80,12 @@ export class UserService {
     return this.userRepository.save(data);
   }
 
+  async updateProfileImage(id: number, image: string) {
+    const user = await this.getUser(id);
+    user.image = image;
+    return this.userRepository.save(user);
+  }
+
   async deactivateUser(id: number) {
     const user = await this.getUser(id);
     user.isActive = false;

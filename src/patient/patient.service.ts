@@ -87,9 +87,11 @@ export class PatientService {
   }
 
   async getNumOfPatients() {
-    const num =  (await this.patientRepository.find({
-      relations: ['user'],
-    })).length;
-    return num
+    const num = (
+      await this.patientRepository.find({
+        relations: ['user'],
+      })
+    ).length;
+    return num;
   }
 }

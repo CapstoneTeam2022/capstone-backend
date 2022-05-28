@@ -44,7 +44,7 @@ export class MohEmployeeService {
   }
 
   updateMohEmployee(id: number, updateMohEmployeeDto: UpdateUserDto) {
-    return this.userService.updateUser(id, updateMohEmployeeDto)
+    return this.userService.updateUser(id, updateMohEmployeeDto);
   }
 
   remove(id: number) {
@@ -52,11 +52,11 @@ export class MohEmployeeService {
   }
 
   async getNumOfMohEmployees() {
-    const num =  (await this.mohEmployeeRepository.find({
-      relations: ['user'],
-    })).length;
-    return num
+    const num = (
+      await this.mohEmployeeRepository.find({
+        relations: ['user'],
+      })
+    ).length;
+    return num;
   }
-
-  
 }

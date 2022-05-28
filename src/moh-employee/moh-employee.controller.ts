@@ -3,15 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   Put,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
 import { CreateMohEmployeeDto } from './dto';
-import { UpdateMohEmployeeDto } from './dto';
 import { UpdateUserDto } from 'src/user/dto';
 
 @Controller('moh-employee')
@@ -19,6 +16,7 @@ export class MohEmployeeController {
   constructor(private readonly mohEmployeeService: MohEmployeeService) {}
 
   @Post()
+  // @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
   create(@Body() createMohEmployeeDto: CreateMohEmployeeDto) {
     return this.mohEmployeeService.create(createMohEmployeeDto);
   }
@@ -32,7 +30,6 @@ export class MohEmployeeController {
   findOne(@Param('id') id: string) {
     return this.mohEmployeeService.findOne(+id);
   }
-
 
   @Get('/number')
   getAllNum() {

@@ -5,10 +5,14 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Put
+  Put,
+  UploadedFile,
+  UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
 import { UpdateUserDto, UserDto } from '../user/dto';
 import { ResearcherService } from './researcher.service';
+import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
 
 @Controller('researcher')
 export class ResearcherController {

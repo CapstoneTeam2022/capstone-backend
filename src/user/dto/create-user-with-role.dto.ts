@@ -20,6 +20,7 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsNumber()
+  //@Transform(StringToNumberTransformer)
   age: number;
 
   @IsNotEmpty()
@@ -37,6 +38,7 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsBoolean()
+  // @Transform(StringToBooleanTransformer)
   isAdmin: boolean;
 
   @ValidateNested({ each: true })
@@ -50,6 +52,7 @@ export class CreateUserWithRoleDto {
 
   @IsNotEmpty()
   @IsNumber()
+  //@Transform(StringToNumberTransformer)
   healthCenterId: number;
 
   // @ValidateNested({ each: true })

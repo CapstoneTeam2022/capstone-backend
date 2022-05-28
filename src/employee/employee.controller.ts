@@ -5,9 +5,13 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  BadRequestException,
+  UploadedFile,
+  UseInterceptors,
   Put,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
+import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from '../user/dto';
 
 @Controller('employee')
@@ -15,7 +19,11 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Post()
+  // @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
   create(@Body() userDto: CreateUserWithRoleDto) {
+    // if (!image) {
+    //   throw new BadRequestException('The image is required');
+    // }
     return this.employeeService.create(userDto);
   }
 
@@ -28,7 +36,6 @@ export class EmployeeController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.employeeService.findOne(id);
   }
-
 
   @Put(':id')
   updateEmployee(

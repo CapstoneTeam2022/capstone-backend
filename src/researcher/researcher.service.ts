@@ -21,10 +21,11 @@ export class ResearcherService {
   }
 
   async getNumOfResearchers() {
-    const num =  (await this.userService.findAllByRoleName(this.roleName)).length;
-    return num
+    const num = (await this.userService.findAllByRoleName(this.roleName))
+      .length;
+    return num;
   }
   async updateResearcher(id: number, data: UpdateUserDto) {
-    return this.userService.updateUser(id, data)
+    return this.userService.updateUser(id, data);
   }
 }

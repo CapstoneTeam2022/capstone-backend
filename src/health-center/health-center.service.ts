@@ -88,9 +88,8 @@ export class HealthCenterService {
     return this.healthCenterRepository.save(healthCenter);
   }
 
-
   async getNumOfHealthCenters() {
-    const num =  (await this.healthCenterRepository.find()).length;
-    return num
+    const num = (await this.healthCenterRepository.find()).length;
+    return num;
   }
 }

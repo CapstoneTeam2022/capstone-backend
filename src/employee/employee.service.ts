@@ -28,8 +28,7 @@ export class EmployeeService {
   }
 
   updateEmployee(id: number, updateEmployeeDto: UpdateUserDto) {
-    return this.userService.updateUser(id, updateEmployeeDto)
-    
+    return this.userService.updateUser(id, updateEmployeeDto);
   }
 
   remove(id: number) {
