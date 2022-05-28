@@ -1,4 +1,9 @@
 import { IsBoolean, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  StringToBooleanTransformer,
+  StringToNumberTransformer,
+} from '../../transformers';
 
 export class LabResultDto {
   @IsNotEmpty()
@@ -15,6 +20,7 @@ export class LabResultDto {
 
   @IsNotEmpty()
   @IsBoolean()
+  @Transform(StringToBooleanTransformer)
   isAbnormal: boolean;
 
   @IsNotEmpty()
@@ -23,9 +29,11 @@ export class LabResultDto {
 
   @IsNotEmpty()
   @IsInt()
+  @Transform(StringToNumberTransformer)
   filledById: number;
 
   @IsNotEmpty()
   @IsInt()
+  @Transform(StringToNumberTransformer)
   investigationRequestId: number;
 }

@@ -1,4 +1,6 @@
 import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { StringToNumberTransformer } from '../../transformers';
 
 export class RadiologyDto {
   @IsNotEmpty()
@@ -23,9 +25,11 @@ export class RadiologyDto {
 
   @IsNotEmpty()
   @IsNumber()
+  @Transform(StringToNumberTransformer)
   requestedById: number;
 
   @IsNotEmpty()
   @IsNumber()
+  @Transform(StringToNumberTransformer)
   investigationRequestId: number;
 }
