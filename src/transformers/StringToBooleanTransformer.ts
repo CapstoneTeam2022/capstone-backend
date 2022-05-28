@@ -13,5 +13,5 @@ export const StringToBooleanTransformer = ({
   } else if (value === 'false') {
     return false;
   }
-  throw new BadRequestException(`Expected ${key} to be a boolean (true/fale)`);
+  throw new BadRequestException(`Expected ${key} to be a boolean (true/false)`);
 };
