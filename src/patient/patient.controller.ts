@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -7,9 +8,12 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { PatientDto } from './dto';
+import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
 
 @Controller('patient')
 export class PatientController {
@@ -30,16 +34,18 @@ export class PatientController {
     return this.patientService.getPatientByRef(refId);
   }
 
-
   @Get('/number')
   getAllNum() {
     return this.patientService.getNumOfPatients();
   }
 
-
   @Post()
-  addPatient(@Body() body: PatientDto) {
-    return this.patientService.addPatient(body);
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  addPatient(@Body() body: PatientDto, @UploadedFile() image) {
+    if (!image) {
+      throw new BadRequestException('The image is required');
+    }
+    return this.patientService.addPatient(body, image.path);
   }
 
   @Delete(':id')

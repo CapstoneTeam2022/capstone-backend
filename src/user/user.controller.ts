@@ -1,14 +1,17 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   Param,
   ParseIntPipe,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserWithRoleDto } from './dto';
-
+import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -24,7 +27,14 @@ export class UserController {
   }
 
   @Post()
-  create(@Body() { role, ...body }: CreateUserWithRoleDto) {
-    return this.userService.addUser(body, role);
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(
+    @Body() { role, ...body }: CreateUserWithRoleDto,
+    @UploadedFile() image,
+  ) {
+    if (!image) {
+      throw new BadRequestException('The image is required');
+    }
+    return this.userService.addUser(body, role, image.path);
   }
 }

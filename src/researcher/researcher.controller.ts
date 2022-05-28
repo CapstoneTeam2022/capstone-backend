@@ -1,13 +1,17 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   Param,
   ParseIntPipe,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserDto } from '../user/dto';
 import { ResearcherService } from './researcher.service';
+import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
 
 @Controller('researcher')
 export class ResearcherController {
@@ -29,7 +33,11 @@ export class ResearcherController {
   }
 
   @Post()
-  create(@Body() body: UserDto) {
-    return this.researcherService.create(body);
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(@Body() body: UserDto, @UploadedFile() image) {
+    if (!image) {
+      throw new BadRequestException('The image is required');
+    }
+    return this.researcherService.create(body, image.path);
   }
 }

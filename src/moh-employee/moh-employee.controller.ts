@@ -6,18 +6,28 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
 import { CreateMohEmployeeDto } from './dto';
-import { UpdateMohEmployeeDto } from './dto';
+import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
 
 @Controller('moh-employee')
 export class MohEmployeeController {
   constructor(private readonly mohEmployeeService: MohEmployeeService) {}
 
   @Post()
-  create(@Body() createMohEmployeeDto: CreateMohEmployeeDto) {
-    return this.mohEmployeeService.create(createMohEmployeeDto);
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(
+    @Body() createMohEmployeeDto: CreateMohEmployeeDto,
+    @UploadedFile() image,
+  ) {
+    if (!image) {
+      throw new BadRequestException('The image is required');
+    }
+    return this.mohEmployeeService.create(createMohEmployeeDto, image.path);
   }
 
   @Get()
@@ -29,7 +39,6 @@ export class MohEmployeeController {
   findOne(@Param('id') id: string) {
     return this.mohEmployeeService.findOne(+id);
   }
-
 
   @Get('/number')
   getAllNum() {

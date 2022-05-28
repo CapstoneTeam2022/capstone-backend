@@ -5,9 +5,13 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UploadedFile,
+  UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
 import { HospitalAdminService } from './hospital-admin.service';
 import { UserDto } from '../user/dto';
+import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 
 @Controller('hospital-admin')
 export class HospitalAdminController {
@@ -24,8 +28,12 @@ export class HospitalAdminController {
   }
 
   @Post()
-  create(@Body() body: UserDto) {
+  @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
+  create(@Body() body: UserDto, @UploadedFile() image) {
     body.isAdmin = true;
-    return this.hospitalAdminService.createHospitalAdmin(body);
+    if (!image) {
+      throw new BadRequestException('The image is required');
+    }
+    return this.hospitalAdminService.createHospitalAdmin(body, image.path);
   }
 }
