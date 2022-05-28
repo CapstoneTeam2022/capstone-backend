@@ -28,7 +28,7 @@ export class UserService {
 
   async getUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne(id, {
-      relations: ['address', 'role'],
+      relations: ['address', 'role', 'healthCenter'],
     });
     if (user) return user;
 
