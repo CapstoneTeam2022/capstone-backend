@@ -15,13 +15,14 @@ export class ResearcherService {
     return this.userService.findOneByRoleName(id, this.roleName);
   }
 
-  create(user: UserDto) {
+  create(user: UserDto, image: string) {
     user.isResearcher = true;
-    return this.userService.addUser(user, this.roleName);
+    return this.userService.addUser(user, this.roleName, image);
   }
 
   async getNumOfResearchers() {
-    const num =  (await this.userService.findAllByRoleName(this.roleName)).length;
-    return num
+    const num = (await this.userService.findAllByRoleName(this.roleName))
+      .length;
+    return num;
   }
 }

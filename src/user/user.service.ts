@@ -42,7 +42,7 @@ export class UserService {
     return user !== undefined;
   }
 
-  async addUser(userData: UserDto, roleName: string) {
+  async addUser(userData: UserDto, roleName: string, image: string) {
     const { address, healthCenterId, ...newUser } = userData;
 
     if (await this.isEmailTaken(newUser.email)) {
@@ -65,6 +65,7 @@ export class UserService {
       role,
       password: password,
       healthCenter,
+      image,
     });
 
     const createdUser = await this.userRepository.save(user);

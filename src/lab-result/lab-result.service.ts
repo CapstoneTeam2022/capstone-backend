@@ -30,11 +30,10 @@ export class LabResultService {
     throw new NotFoundException(`Lab Result with id ${id} not found`);
   }
 
-  async createLabResult({
-    filledById,
-    investigationRequestId,
-    ...data
-  }: LabResultDto) {
+  async createLabResult(
+    { filledById, investigationRequestId, ...data }: LabResultDto,
+    image: string,
+  ) {
     const filledBy = await this.userService.getUser(filledById);
     const investigationRequest =
       await this.invRequestService.getInvestigationRequest(
@@ -44,6 +43,7 @@ export class LabResultService {
       ...data,
       filledBy,
       investigationRequest,
+      image,
     });
     return this.labResultRepository.save(labResult);
   }

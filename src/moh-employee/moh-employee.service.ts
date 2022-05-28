@@ -14,8 +14,11 @@ export class MohEmployeeService {
     private userService: UserService,
   ) {}
 
-  async create({ user, registeredBy, ...data }: CreateMohEmployeeDto) {
-    const newUser = await this.userService.addUser(user, 'MohEmployee');
+  async create(
+    { user, registeredBy, ...data }: CreateMohEmployeeDto,
+    image: string,
+  ) {
+    const newUser = await this.userService.addUser(user, 'MohEmployee', image);
     const registerer = await this.userService.getUser(registeredBy);
     const mohEmployee = this.mohEmployeeRepository.create({
       ...data,
@@ -51,9 +54,11 @@ export class MohEmployeeService {
   }
 
   async getNumOfMohEmployees() {
-    const num =  (await this.mohEmployeeRepository.find({
-      relations: ['user'],
-    })).length;
-    return num
+    const num = (
+      await this.mohEmployeeRepository.find({
+        relations: ['user'],
+      })
+    ).length;
+    return num;
   }
 }
