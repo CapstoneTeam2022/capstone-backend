@@ -8,7 +8,7 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
-  Put
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';

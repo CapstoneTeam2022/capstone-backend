@@ -47,7 +47,7 @@ export class MohEmployeeService {
   }
 
   updateMohEmployee(id: number, updateMohEmployeeDto: UpdateUserDto) {
-    return this.userService.updateUser(id, updateMohEmployeeDto)
+    return this.userService.updateUser(id, updateMohEmployeeDto);
   }
 
   remove(id: number) {
@@ -62,6 +62,4 @@ export class MohEmployeeService {
     ).length;
     return num;
   }
-
-  
 }

@@ -26,6 +26,6 @@ export class ResearcherService {
     return num;
   }
   async updateResearcher(id: number, data: UpdateUserDto) {
-    return this.userService.updateUser(id, data)
+    return this.userService.updateUser(id, data);
   }
 }

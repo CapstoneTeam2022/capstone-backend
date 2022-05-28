@@ -10,7 +10,7 @@ import {
   UploadedFile,
   BadRequestException,
   Put,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
 import { CreateMohEmployeeDto } from './dto';

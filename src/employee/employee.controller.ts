@@ -37,7 +37,6 @@ export class EmployeeController {
     return this.employeeService.findOne(id);
   }
 
-
   @Put(':id')
   updateEmployee(
     @Param('id', ParseIntPipe) id: number,
