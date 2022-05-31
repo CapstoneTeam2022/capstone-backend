@@ -24,12 +24,15 @@ export class HealthCenterService {
     return this.healthCenterRepository.find();
   }
 
-  getAllInDateRange(start: Date, end: Date) {
-    return this.healthCenterRepository.find({
+  async getAllInDateRange(start: Date, end: Date) {
+    const hospitals = await this.healthCenterRepository.find({
       where: {
         createdAt: Between(start, end),
       },
+      select: ['name'],
     });
+
+    return hospitals.map((hospital) => hospital.name);
   }
 
   // getEmployeeCount() {
