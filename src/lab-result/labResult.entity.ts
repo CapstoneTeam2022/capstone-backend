@@ -34,6 +34,9 @@ export class LabResult {
   @Column()
   comment: string;
 
+  @CreateDateColumn()
+  createdAt: Date;
+
   @ManyToOne(() => InvestigationRequest, (invReq) => invReq.labResults)
   investigationRequest: InvestigationRequest;
 
