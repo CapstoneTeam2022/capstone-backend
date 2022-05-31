@@ -27,6 +27,25 @@ export class UserService {
     return this.userRepository.find({ relations: ['address', 'role'] });
   }
 
+  async getEmployeeCount() {
+    return this.userRepository
+      .createQueryBuilder('u')
+      .innerJoinAndSelect('u.healthCenter', 'h')
+      .leftJoinAndSelect('u.role', 'r')
+      .where('r.name=:name', { name: 'Nurse' })
+      .orWhere('r.name=:name', { name: 'Doctor' })
+      .orWhere('r.name=:name', { name: 'Receptionist' })
+      .orWhere('r.name=:name', { name: 'Hospital Admin' })
+      .orWhere('r.name=:name', { name: 'Lab Expert' })
+      .orWhere('r.name=:name', { name: 'Radiologist' })
+      .orWhere('r.name=:name', { name: 'Employee' })
+      .orWhere('r.name=:name', { name: 'Researcher' })
+      .orWhere('r.name=:name', { name: 'MohEmployee' })
+      .groupBy('h.id')
+      .select(['count(h.id) as employees', 'h.id as id'])
+      .getQuery();
+  }
+
   async getAllInDateRangeForRole(roleName: string, start: Date, end: Date) {
     await this.roleService.getRoleByName(roleName); // check that role exists
     console.log(roleName);
