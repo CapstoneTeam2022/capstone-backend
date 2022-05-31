@@ -12,8 +12,17 @@ export class ResearcherService {
     return this.userService.findAllByRoleName(this.roleName);
   }
 
-  getAllInDateRange(start: Date, end: Date) {
-    return this.userService.getAllInDateRangeForRole(this.roleName, start, end);
+  async getAllInDateRange(start: Date, end: Date) {
+    const users = await this.userService.getAllInDateRangeForRole(
+      this.roleName,
+      start,
+      end,
+      {
+        select: ['name'],
+      },
+    );
+
+    return users.map((user) => user.name);
   }
 
   getById(id: number) {
