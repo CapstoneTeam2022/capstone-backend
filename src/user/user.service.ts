@@ -5,12 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { Between, DeleteResult, Repository } from 'typeorm';
 import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
 import { UpdateUserDto, UserDto } from './dto';
 import { HealthCenterService } from '../health-center/health-center.service';
+import { raw } from 'express';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,20 @@ export class UserService {
 
   getAllUsers(): Promise<User[]> {
     return this.userRepository.find({ relations: ['address', 'role'] });
+  }
+
+  async getAllInDateRangeForRole(roleName: string, start: Date, end: Date) {
+    await this.roleService.getRoleByName(roleName); // check that role exists
+    console.log(roleName);
+    return this.userRepository.find({
+      where: {
+        createdAt: Between(start, end),
+        role: {
+          name: roleName,
+        },
+      },
+      relations: ['role'],
+    });
   }
 
   async getUser(id: number): Promise<User> {
@@ -121,6 +136,28 @@ export class UserService {
     return this.userRepository.find({
       //  where: [{ role: { name: '' } }],
       where: names.map((name) => ({ role: { name } })),
+      relations: ['role'],
+    });
+  }
+
+  async findEmployeeCountForHealthCenter(id: number) {
+    await this.healthCenterService.getOneHealthCenter(id);
+    const names = [
+      'Doctor',
+      'Nurse',
+      'Receptionist',
+      'Hospital Admin',
+      'Lab Expert',
+      'Radiologist',
+    ];
+    return this.userRepository.find({
+      //  where: [{ role: { name: '' } }],
+      where: {
+        ...names.map((name) => ({ role: { name } })),
+        healthCenter: {
+          id,
+        },
+      },
       relations: ['role'],
     });
   }
