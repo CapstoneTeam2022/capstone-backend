@@ -86,9 +86,11 @@ export class PrescriptionService {
         relations: ['medications'],
       });
 
+      const finalData = resData["medications"].map((data) => `Name: ${data.name} /n Dosage: ${data.dosage} /n Instructions: ${data.instructions}`)
+
 
       // customize your PDF document
-      doc.text(resData.toString(), 100, 50);
+      doc.text(finalData.toString(), 100, 50);
 
       doc.end();
 
