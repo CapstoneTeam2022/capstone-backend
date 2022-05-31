@@ -10,7 +10,7 @@ import {
 import { Patient } from '../patient/patient.entity';
 import { User } from '../user/user.entity';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
-import { Examination } from '../examination/entities/examination.entity';
+import { Examination } from 'src/examination/entities/examination.entity';
 
 @Entity()
 export class Vitals {

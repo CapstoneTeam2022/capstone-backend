@@ -27,7 +27,7 @@ export class UserService {
   ) {}
 
   getAllUsers(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['address', 'role','patient'] });
+    return this.userRepository.find({ relations: ['address', 'role'] });
   }
 
   async getEmployeeCount() {

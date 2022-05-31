@@ -1,4 +1,4 @@
-import { Vitals } from '../../vitals/vitals.entity';
+import { Vitals } from 'src/vitals/vitals.entity';
 import {
   Column,
   Entity,
