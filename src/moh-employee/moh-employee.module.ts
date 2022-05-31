@@ -9,5 +9,6 @@ import { UserModule } from '../user/user.module';
   imports: [TypeOrmModule.forFeature([MohEmployee]), UserModule],
   controllers: [MohEmployeeController],
   providers: [MohEmployeeService],
+  exports: [MohEmployeeService],
 })
 export class MohEmployeeModule {}

@@ -7,5 +7,6 @@ import { ResearcherController } from './researcher.controller';
   providers: [ResearcherService],
   imports: [UserModule],
   controllers: [ResearcherController],
+  exports: [ResearcherService],
 })
 export class ResearcherModule {}

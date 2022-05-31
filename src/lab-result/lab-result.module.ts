@@ -14,5 +14,6 @@ import { LabResultController } from './lab-result.controller';
     InvestigationRequestModule,
   ],
   controllers: [LabResultController],
+  exports: [LabResultService],
 })
 export class LabResultModule {}

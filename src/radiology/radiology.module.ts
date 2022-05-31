@@ -14,5 +14,6 @@ import { RadiologyController } from './radiology.controller';
     InvestigationRequestModule,
   ],
   controllers: [RadiologyController],
+  exports: [RadiologyService],
 })
 export class RadiologyModule {}
