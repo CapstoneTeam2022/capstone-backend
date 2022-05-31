@@ -2,7 +2,6 @@ import { Body, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { UpdateUserDto, UserDto } from '../user/dto';
 import { Between } from 'typeorm';
-import { UserDto } from '../user/dto';
 import { DiagnosisService } from '../diagnosis/diagnosis.service';
 import { PrescriptionService } from 'src/prescription/prescription.service';
 import { HealthCenterService } from 'src/health-center/health-center.service';
@@ -18,7 +17,7 @@ import { Diagnosis } from 'src/diagnosis/entities/diagnosis.entity';
 @Injectable()
 export class ResearcherService {
   readonly roleName = 'Researcher';
-  userInfoByRole= {
+  userInfoByRole = {
     doctor: {},
     nurse: {},
     researcher: {},
@@ -26,19 +25,18 @@ export class ResearcherService {
     healthcenterAdmin: {},
     admin: {},
     labTechnican: {},
-    radiologist: {}
-  }
+    radiologist: {},
+  };
 
-  userInfoByAge = {}
+  userInfoByAge = {};
 
   constructor(
     private userService: UserService,
     private diagnosis: DiagnosisService,
     private prescription: PrescriptionService,
     private healthCenter: HealthCenterService,
-    private vitals: VitalsService
-
-  ) { }
+    private vitals: VitalsService,
+  ) {}
 
   getAll() {
     return this.userService.findAllByRoleName(this.roleName);
@@ -75,25 +73,22 @@ export class ResearcherService {
     return this.userService.updateUser(id, data);
   }
 
-   getHealthCenterAnalytics(healthcenter: string){
+  getHealthCenterAnalytics(healthcenter: string) {
     return {};
-   }
-
+  }
 
   async getVitals(body: Analytics, datas: InvestigationRequest[]) {
     const vitals = this.vitals.getAll();
     var vitalDatas: Vitals[] = [];
 
     (await vitals).map((vital) => {
-
-      ( vital.investigationRequests).map( (inv) => {
-        (datas).map((data) => {
-
+      vital.investigationRequests.map((inv) => {
+        datas.map((data) => {
           if (inv.id === data.id) {
             vitalDatas.push(vital);
           }
-        })
-      })
+        });
+      });
     });
 
     return vitalDatas;
@@ -105,56 +100,47 @@ export class ResearcherService {
     var genderCount = 0;
     var usersData = [];
     var count = 0;
-    (await ((users))).map((user) => {
+    (await users).map((user) => {
+      datas.map(async (data) => {
+        if (data.patient.id === user.patient.id) {
+          console.log('yes');
+          if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
+            ageGroupCount = ageGroupCount + 1;
+            console.log('agecount ' + ageGroupCount);
 
-      (datas).map(async (data) => {
-
-      if (data.patient.id === user.patient.id) {
-        console.log('yes');
-        if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
-          ageGroupCount = ageGroupCount + 1;
-          console.log('agecount ' + ageGroupCount);
-
-          const gender = user.gender;
-          if (gender === body.gender) {
-            genderCount = genderCount + 1;
-            console.log('gender ' + genderCount);
+            const gender = user.gender;
+            if (gender === body.gender) {
+              genderCount = genderCount + 1;
+              console.log('gender ' + genderCount);
+            }
           }
         }
-      }
-
-    })
+      });
     });
 
     usersData.push(ageGroupCount);
-    usersData.push(genderCount)
+    usersData.push(genderCount);
     return usersData;
   }
 
-
-
-
-  async getDiseasedPatient(body: Analytics ) {
+  async getDiseasedPatient(body: Analytics) {
     const diagnoses = this.diagnosis.findAll();
     var diseasedPatientCount = 0;
     var byDateCount = 0;
     var invs: InvestigationRequest[] = [];
     var datas = [];
 
+    (await diagnoses).map((diagnoses) => {
+      diagnoses.diseases.map(async (disease) => {
+        if (body.healthCenter == 'All') {
+          if (disease.name == body.disease) {
+            diseasedPatientCount = diseasedPatientCount + 1;
+            //  const date = diagnoses.createdAt.toDateString();
+            //  if (date >= body.startDate && date <= body.endDate) {
+            byDateCount = byDateCount + 1;
 
-(await diagnoses).map((diagnoses) => {
-  (diagnoses.diseases).map(async (disease) => {
-   if (body.healthCenter == 'All') {
-     if (disease.name == body.disease) {
-       diseasedPatientCount = diseasedPatientCount + 1;
-      //  const date = diagnoses.createdAt.toDateString();
-      //  if (date >= body.startDate && date <= body.endDate) {
-         byDateCount = byDateCount + 1;
-
-         invs.push(diagnoses.investigationRequest);
-
+            invs.push(diagnoses.investigationRequest);
           }
-
         }
       });
     });
@@ -169,38 +155,30 @@ export class ResearcherService {
     return datas;
   }
 
+  async getMedicationAnalytics(body: Analytics) {
+    const datas = [];
+    let medicatedPatientCount = 0;
+    let ageGroupCount = 0;
+    let byDateCount = 0;
+    let genderCount = 0;
 
-  async getMedicationAnalytics(body : Analytics)
-  {
-
-    var datas = [];
-    var medicatedPatientCount= 0;
-    var ageGroupCount= 0;
-    var byDateCount= 0;
-    var genderCount= 0;
-
-
-    var diagnosis = [];
+    const diagnosis = [];
 
     const prescriptions = this.prescription.findAll();
     (await prescriptions).map((prescription) => {
       diagnosis.push(prescription.diagnosis);
-      (prescription.medications).map((medication) => {
+      prescription.medications.map((medication) => {
         if (medication.name === body.medication) {
           medicatedPatientCount = medicatedPatientCount + 1;
           // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
           byDateCount = byDateCount + 1;
           // }
-
-
-
         }
-      })
-    })
+      });
+    });
 
     datas.push(medicatedPatientCount);
     datas.push(byDateCount);
-
 
     const invs = await this.getInvestigationRequest(diagnosis);
     const vitals = await this.getVitals(body, invs);
@@ -208,28 +186,24 @@ export class ResearcherService {
     datas.push(usersData[0]);
     datas.push(usersData[1]);
 
-
     return datas;
   }
 
-  async getInvestigationRequest(diagnosis: Diagnosis[])
-  {
+  async getInvestigationRequest(diagnosis: Diagnosis[]) {
     var diagnoses = this.diagnosis.findAll();
     var invs = [];
     // console.log(diagnosis);
-    (await (diagnoses)).map((dia) => {
-    (diagnosis).map( (diagnos) => {
+    (await diagnoses).map((dia) => {
+      diagnosis.map((diagnos) => {
         if (dia.id === diagnos.id) {
-
           invs.push(dia.investigationRequest);
         }
-      })
+      });
     });
 
     return invs;
   }
 }
-
 
 // for (var i = 0; i <= prescription.medications.length; i++){
 //         if (prescription.diagnosis.filledBy.healthCenter == prescription.diagnosis.filledBy.healthCenter)
