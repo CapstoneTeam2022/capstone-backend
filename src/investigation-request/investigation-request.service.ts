@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InvestigationRequest } from './investigationRequest.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { InvestigationRequestDto } from './dto';
 import { UserService } from '../user/user.service';
 import { VitalsService } from '../vitals/vitals.service';
@@ -20,6 +20,14 @@ export class InvestigationRequestService {
   getAll(): Promise<InvestigationRequest[]> {
     return this.investigationRequestRepository.find({
       relations: ['labTests'],
+    });
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.investigationRequestRepository.find({
+      where: {
+        createdAt: Between(start, end),
+      },
     });
   }
 

@@ -3,7 +3,7 @@ import { CreateDiagnosisDto } from './dto/create-diagnosis.dto';
 import { UpdateDiagnosisDto } from './dto/update-diagnosis.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Diagnosis } from './entities/diagnosis.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 import { InvestigationRequestService } from '../investigation-request/investigation-request.service';
 import { DiseaseService } from '../disease/disease.service';
@@ -44,6 +44,14 @@ export class DiagnosisService {
   findAll() {
     return this.diagnosisRepository.find({
       relations: ['diseases', 'investigationRequest'],
+    });
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.diagnosisRepository.find({
+      where: {
+        createdAt: Between(start, end),
+      },
     });
   }
 

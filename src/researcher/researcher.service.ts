@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { UpdateUserDto, UserDto } from '../user/dto';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class ResearcherService {
@@ -9,6 +10,10 @@ export class ResearcherService {
 
   getAll() {
     return this.userService.findAllByRoleName(this.roleName);
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.userService.getAllInDateRangeForRole(this.roleName, start, end);
   }
 
   getById(id: number) {

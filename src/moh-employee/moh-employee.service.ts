@@ -3,7 +3,7 @@ import { CreateMohEmployeeDto } from './dto/create-moh-employee.dto';
 import { UpdateMohEmployeeDto } from './dto/update-moh-employee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MohEmployee } from './entities/moh-employee.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 import { UpdateUserDto } from 'src/user/dto';
 
@@ -28,6 +28,17 @@ export class MohEmployeeService {
 
   findAll() {
     return this.mohEmployeeRepository.find({
+      relations: ['user'],
+    });
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.mohEmployeeRepository.find({
+      where: {
+        user: {
+          createdAt: Between(start, end),
+        },
+      },
       relations: ['user'],
     });
   }

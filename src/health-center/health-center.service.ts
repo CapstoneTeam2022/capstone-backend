@@ -5,10 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HealthCenter } from './healthcenter.entity';
-import { Connection, Repository } from 'typeorm';
+import { Between, Connection, Repository } from 'typeorm';
 import { HealthCenterDto } from './dto';
 import { AddressService } from '../address/address.service';
 import { Address } from '../address/address.entity';
+import { raw } from 'express';
 
 @Injectable()
 export class HealthCenterService {
@@ -23,7 +24,17 @@ export class HealthCenterService {
     return this.healthCenterRepository.find();
   }
 
-  getAllInDateRange(start: Date, end: Date) {}
+  getAllInDateRange(start: Date, end: Date) {
+    return this.healthCenterRepository.find({
+      where: {
+        createdAt: Between(start, end),
+      },
+    });
+  }
+
+  getEmployeeCount() {
+    return { msg: 'hi' };
+  }
 
   async create({ address, ...health }: HealthCenterDto) {
     const createdAddress = await this.addressService.saveAddress(address);

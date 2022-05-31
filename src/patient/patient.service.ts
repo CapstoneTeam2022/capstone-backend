@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Patient } from './patient.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { PatientDto } from './dto';
 import { UserService } from '../user/user.service';
 
@@ -17,6 +17,17 @@ export class PatientService {
 
   getAllPatients(): Promise<Patient[]> {
     return this.patientRepository.find({
+      relations: ['user'],
+    });
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.patientRepository.find({
+      where: {
+        user: {
+          createdAt: Between(start, end),
+        },
+      },
       relations: ['user'],
     });
   }

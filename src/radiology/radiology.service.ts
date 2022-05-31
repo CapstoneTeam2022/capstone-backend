@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Radiology } from './radiology.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { RadiologyDto } from './dto';
 import { InvestigationRequestService } from '../investigation-request/investigation-request.service';
 import { UserService } from '../user/user.service';
@@ -17,6 +17,14 @@ export class RadiologyService {
 
   getAll(): Promise<Radiology[]> {
     return this.radiologyRepository.find();
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.radiologyRepository.find({
+      where: {
+        createdAt: Between(start, end),
+      },
+    });
   }
 
   async getOne(id: number) {

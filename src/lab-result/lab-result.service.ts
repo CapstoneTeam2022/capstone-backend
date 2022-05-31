@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { LabResult } from './labResult.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LabResultDto } from './dto';
@@ -17,6 +17,14 @@ export class LabResultService {
 
   getAll(): Promise<LabResult[]> {
     return this.labResultRepository.find();
+  }
+
+  getAllInDateRange(start: Date, end: Date) {
+    return this.labResultRepository.find({
+      where: {
+        createdAt: Between(start, end),
+      },
+    });
   }
 
   async getLabResult(id: number) {
