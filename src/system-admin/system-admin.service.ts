@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ReportDto, ReportInfo } from './dto';
 import { DiagnosisService } from '../diagnosis/diagnosis.service';
 import { HealthCenterService } from '../health-center/health-center.service';
@@ -9,6 +9,7 @@ import { MohEmployeeService } from '../moh-employee/moh-employee.service';
 import { LabResultService } from '../lab-result/lab-result.service';
 import { RadiologyService } from '../radiology/radiology.service';
 import { UserService } from '../user/user.service';
+import * as PDFDocument from 'pdfkit';
 
 @Injectable()
 export class SystemAdminService {
@@ -29,32 +30,132 @@ export class SystemAdminService {
     for (const item of information) {
       if (item === ReportInfo.HOSPITAL) {
         items[ReportInfo.HOSPITAL] =
-          await this.healthCenterService.getAllInDateRange(start, end); //TODO include employee count;
+          await this.healthCenterService.getAllInDateRange(start, end);
       } else if (item === ReportInfo.RESEARCHER) {
         items[ReportInfo.RESEARCHER] =
           await this.researcherService.getAllInDateRange(start, end);
       } else if (item === ReportInfo.PATIENT) {
-        items[ReportInfo.PATIENT] = await this.patientService.getAllInDateRange(
-          start,
-          end,
-        );
+        items[ReportInfo.PATIENT] = (
+          await this.patientService.getAllInDateRange(start, end)
+        ).length;
       } else if (item === ReportInfo.INVESTIGATION_REQUEST) {
-        items[ReportInfo.INVESTIGATION_REQUEST] =
-          await this.investigationRequestService.getAllInDateRange(start, end);
+        items[ReportInfo.INVESTIGATION_REQUEST] = (
+          await this.investigationRequestService.getAllInDateRange(start, end)
+        ).length;
       } else if (item === ReportInfo.MOH_EMPLOYEE) {
         items[ReportInfo.MOH_EMPLOYEE] =
           await this.mohEmployeeService.getAllInDateRange(start, end);
       } else if (item === ReportInfo.LAB_RESULT) {
-        items[ReportInfo.LAB_RESULT] =
-          await this.labResultService.getAllInDateRange(start, end);
+        items[ReportInfo.LAB_RESULT] = (
+          await this.labResultService.getAllInDateRange(start, end)
+        ).length;
       } else if (item === ReportInfo.RADIOLOGY) {
-        items[ReportInfo.RADIOLOGY] =
-          await this.radiologyService.getAllInDateRange(start, end);
+        items[ReportInfo.RADIOLOGY] = (
+          await this.radiologyService.getAllInDateRange(start, end)
+        ).length;
       } else if (item === ReportInfo.DIAGNOSIS) {
-        items[ReportInfo.DIAGNOSIS] =
-          await this.diagnosisService.getAllInDateRange(start, end);
+        items[ReportInfo.DIAGNOSIS] = (
+          await this.diagnosisService.getAllInDateRange(start, end)
+        ).length;
       }
     }
     return items;
+  }
+
+  async generatePDF({ start, end, information }: ReportDto): Promise<Buffer> {
+    const pdfBuffer: Buffer = await new Promise(async (resolve) => {
+      const doc = new PDFDocument({
+        size: 'LETTER',
+        bufferPages: true,
+      });
+
+      const items = await this.getReport({ start, end, information });
+      const hospitalInfo = items[ReportInfo.HOSPITAL];
+      const researchers = items[ReportInfo.RESEARCHER];
+      const mohEmployees = items[ReportInfo.MOH_EMPLOYEE];
+      const patients = items[ReportInfo.PATIENT];
+      const diagnoses = items[ReportInfo.DIAGNOSIS];
+      const labResults = items[ReportInfo.LAB_RESULT];
+      const radiologyTests = items[ReportInfo.RADIOLOGY];
+
+      doc.fontSize(25).text('Report', 100, 80);
+
+      doc.fontSize(20).moveDown().text('Health Centers');
+
+      if (hospitalInfo) {
+        doc
+          .fontSize(20)
+          .moveDown()
+          .text(
+            `There are ${hospitalInfo.length} health centers registered within the selected period. The registered hospitals are: `,
+          );
+        doc.fontSize(20).moveDown().list(hospitalInfo);
+      }
+
+      if (patients) {
+        doc.fontSize(20).moveDown().text('Patients');
+        doc.fontSize(20).moveDown().text(patients);
+      }
+
+      if (labResults) {
+        doc.fontSize(20).moveDown().text('Lab Results');
+        doc.fontSize(20).moveDown().text(labResults);
+      }
+
+      if (radiologyTests) {
+        doc.fontSize(20).moveDown().text('Radiology');
+        doc.fontSize(20).moveDown().text(radiologyTests);
+      }
+
+      if (diagnoses) {
+        doc.fontSize(20).moveDown().text('Diagnosis');
+        doc.fontSize(20).moveDown().text(diagnoses);
+      }
+
+      if (researchers) {
+        doc.fontSize(20).moveDown().text('Researchers');
+        doc
+          .fontSize(20)
+          .moveDown()
+          .text(
+            `There are ${researchers.length} researchers registered within the selected period. The registered researchers are: `,
+          );
+        doc.fontSize(20).moveDown().list(researchers);
+      }
+
+      if (mohEmployees) {
+        doc.fontSize(20).moveDown().text('Ministry of health Personnel');
+        doc
+          .fontSize(20)
+          .moveDown()
+          .text(
+            `There are ${mohEmployees.length} MoH personnel's registered within the selected period. The registered people are: `,
+          );
+        doc.fontSize(20).moveDown().list(mohEmployees);
+      }
+
+      // // and some justified text wrapped into columns
+      // doc
+      //   .font('Times-Roman', 13)
+      //   .moveDown()
+      //   .text("sdf", {
+      //     width: 412,
+      //     align: 'justify',
+      //     indent: 30,
+      //     height: 300,
+      //     ellipsis: true
+      //   });
+
+      doc.end();
+
+      const buffer = [];
+      doc.on('data', buffer.push.bind(buffer));
+      doc.on('end', () => {
+        const data = Buffer.concat(buffer);
+        resolve(data);
+      });
+    });
+
+    return pdfBuffer;
   }
 }
