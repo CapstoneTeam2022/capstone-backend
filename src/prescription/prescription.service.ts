@@ -76,14 +76,19 @@ export class PrescriptionService {
   }
 
   async generatePDF(id: number): Promise<Buffer> {
-    const pdfBuffer: Buffer = await new Promise((resolve) => {
+    const pdfBuffer: Buffer = await new Promise(async (resolve) => {
       const doc = new PDFDocument({
         size: 'LETTER',
         bufferPages: true,
       });
 
+      const resData  = await this.prescriptionRepository.find({
+        relations: ['medications'],
+      });
+
+
       // customize your PDF document
-      doc.text('hello world', 100, 50);
+      doc.text(resData.toString(), 100, 50);
 
       doc.end();
 
