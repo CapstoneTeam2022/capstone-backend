@@ -23,6 +23,8 @@ export class HealthCenterService {
     return this.healthCenterRepository.find();
   }
 
+  getAllInDateRange(start: Date, end: Date) {}
+
   async create({ address, ...health }: HealthCenterDto) {
     const createdAddress = await this.addressService.saveAddress(address);
     const hc = this.healthCenterRepository.create({
