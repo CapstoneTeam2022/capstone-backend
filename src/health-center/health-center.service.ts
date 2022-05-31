@@ -32,9 +32,13 @@ export class HealthCenterService {
     });
   }
 
-  getEmployeeCount() {
-    return { msg: 'hi' };
-  }
+  // getEmployeeCount() {
+  //   return this.healthCenterRepository
+  //     .createQueryBuilder('h')
+  //     .innerJoinAndSelect('h.user', 'u')
+  //     .select(['h.id'])
+  //     .getMany();
+  // }
 
   async create({ address, ...health }: HealthCenterDto) {
     const createdAddress = await this.addressService.saveAddress(address);

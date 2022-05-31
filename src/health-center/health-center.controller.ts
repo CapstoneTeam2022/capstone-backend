@@ -24,10 +24,10 @@ export class HealthCenterController {
     return this.service.getNumOfHealthCenters();
   }
 
-  @Get('/employee/count')
-  getEmployeeCount() {
-    return this.service.getEmployeeCount();
-  }
+  // @Get('/employee/count')
+  // getEmployeeCount() {
+  //   return this.service.getEmployeeCount();
+  // }
 
   @Get(':id')
   getSingleHealthCenter(@Param('id', ParseIntPipe) id: number) {
