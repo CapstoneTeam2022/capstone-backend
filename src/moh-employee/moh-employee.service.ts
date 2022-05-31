@@ -15,8 +15,10 @@ export class MohEmployeeService {
     private userService: UserService,
   ) {}
 
+  readonly roleName = 'Moh Employee';
+
   async create({ user, registeredBy, ...data }: CreateMohEmployeeDto) {
-    const newUser = await this.userService.addUser(user, 'MohEmployee');
+    const newUser = await this.userService.addUser(user, this.roleName);
     const registerer = await this.userService.getUser(registeredBy);
     const mohEmployee = this.mohEmployeeRepository.create({
       ...data,
@@ -32,15 +34,16 @@ export class MohEmployeeService {
     });
   }
 
-  getAllInDateRange(start: Date, end: Date) {
-    return this.mohEmployeeRepository.find({
-      where: {
-        user: {
-          createdAt: Between(start, end),
-        },
+  async getAllInDateRange(start: Date, end: Date) {
+    const users = await this.userService.getAllInDateRangeForRole(
+      this.roleName,
+      start,
+      end,
+      {
+        select: ['name'],
       },
-      relations: ['user'],
-    });
+    );
+    return users.map((user) => user.name);
   }
 
   async findOne(id: number) {
