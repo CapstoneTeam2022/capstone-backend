@@ -5,13 +5,16 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Between, DeleteResult, Repository } from 'typeorm';
+import { Between, DeleteResult, FindOneOptions, Repository } from 'typeorm';
 import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
 import { UpdateUserDto, UserDto } from './dto';
 import { HealthCenterService } from '../health-center/health-center.service';
-import { raw } from 'express';
+
+interface Options {
+  select: (keyof User)[];
+}
 
 @Injectable()
 export class UserService {
@@ -45,10 +48,16 @@ export class UserService {
       .select(['count(h.id) as employees', 'h.id as id'])
       .getQuery();
   }
-
-  async getAllInDateRangeForRole(roleName: string, start: Date, end: Date) {
+  //type Options = FindOneOptions<Entity>.select?: (keyof User)[];
+  async getAllInDateRangeForRole(
+    roleName: string,
+    start: Date,
+    end: Date,
+    options?: Options,
+  ) {
     await this.roleService.getRoleByName(roleName); // check that role exists
     console.log(roleName);
+    // let select: (keyof User)[] | null = options.select;
     return this.userRepository.find({
       where: {
         createdAt: Between(start, end),
@@ -57,6 +66,7 @@ export class UserService {
         },
       },
       relations: ['role'],
+      select: options?.select || null,
     });
   }
 
