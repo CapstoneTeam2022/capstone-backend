@@ -32,6 +32,9 @@ export class InvestigationRequest {
   @ManyToOne(() => User, (user) => user.investigationRequests)
   registeredBy: User;
 
+  @CreateDateColumn()
+  createdAt: Date;
+
   @ManyToMany(() => LabTest)
   @JoinTable({ name: 'InvRequestLabTest' })
   labTests: LabTest[];
