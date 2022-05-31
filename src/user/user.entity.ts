@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -49,6 +50,9 @@ export class User {
 
   @Column({ default: false })
   isResearcher: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Column()
   isAdmin: boolean;
