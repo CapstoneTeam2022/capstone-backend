@@ -17,7 +17,7 @@ export class VitalsService {
 
   getAll(): Promise<Vitals[]> {
     return this.vitalsRepository.find({
-      relations: ['patient'],
+      relations: ['patient','investigationRequests'],
     });
   }
 
