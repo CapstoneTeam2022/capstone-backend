@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { SystemAdminController } from './system-admin.controller';
 
-@Module({})
+@Module({
+  controllers: [SystemAdminController]
+})
 export class SystemAdminModule {}
