@@ -21,7 +21,7 @@ export class Radiology {
   focalArea: string;
 
   @CreateDateColumn()
-  orderDate: Date;
+  createdAt: Date;
 
   @Column({ nullable: true })
   filledDate: Date;
