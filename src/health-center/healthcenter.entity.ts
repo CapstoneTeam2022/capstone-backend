@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
@@ -25,6 +26,9 @@ export class HealthCenter {
 
   @Column()
   type: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   @OneToOne(() => Address, (address) => address.healthCenter)
   @JoinColumn()
