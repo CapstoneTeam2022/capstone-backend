@@ -9,6 +9,7 @@ import { InvestigationRequestModule } from '../investigation-request/investigati
 import { MohEmployeeModule } from '../moh-employee/moh-employee.module';
 import { LabResultModule } from '../lab-result/lab-result.module';
 import { RadiologyModule } from '../radiology/radiology.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   controllers: [SystemAdminController],
@@ -22,7 +23,7 @@ import { RadiologyModule } from '../radiology/radiology.module';
     MohEmployeeModule,
     LabResultModule,
     RadiologyModule,
-    //  ResearcherModule,
+    UserModule,
   ],
 })
 export class SystemAdminModule {}
