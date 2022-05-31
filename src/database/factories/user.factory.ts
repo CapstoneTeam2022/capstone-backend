@@ -19,7 +19,7 @@ define(User, () => {
     const state = faker.address.state();
     const cName = faker.company.bsNoun();
     const type = faker.lorem.words(1);
-    const choice = faker.random.boolean();
+    
     
 
     const healthCenter = new HealthCenter();
@@ -46,8 +46,8 @@ define(User, () => {
     user.password = password;
     user.email = email;
     user.isActive = true;
-    user.isAdmin = choice;
-    user.isResearcher = choice;
+    user.isAdmin = false;
+    user.isResearcher = false;
     user.address = address;
 
     user.healthCenter = healthCenter;

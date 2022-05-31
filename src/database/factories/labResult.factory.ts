@@ -7,7 +7,7 @@ define(LabResult, () => {
     const name = faker.lorem.words(1);
     const type= faker.lorem.words(1);
     const result = faker.lorem.words(5);
-    const isAbnormal = faker.random.boolean();
+    const isAbnormal = true;
     const comment = faker.lorem.words(10);
 
     const labResult = new LabResult();

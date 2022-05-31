@@ -23,7 +23,7 @@ export class UserService {
   ) {}
 
   getAllUsers(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['address', 'role'] });
+    return this.userRepository.find({ relations: ['address', 'role','patient'] });
   }
 
   async getUser(id: number): Promise<User> {
