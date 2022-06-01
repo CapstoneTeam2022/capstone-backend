@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { InvestigationRequest } from '../investigation-request/investigationRequest.entity';
 import { User } from '../user/user.entity';
+import { LabTest } from '../lab-test/labTest.entity';
 
 @Entity()
 export class LabResult {
@@ -42,4 +43,7 @@ export class LabResult {
 
   @ManyToOne(() => User, (user) => user.filledLabResults)
   filledBy: User;
+
+  @ManyToOne(() => LabTest, (test) => test.labResults)
+  labTest: LabTest;
 }

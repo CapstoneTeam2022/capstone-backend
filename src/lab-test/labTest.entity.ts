@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { LabResult } from '../lab-result/labResult.entity';
 
 @Entity()
 export class LabTest {
@@ -16,4 +17,7 @@ export class LabTest {
 
   @Column()
   testCategory: string;
+
+  @OneToMany(() => LabResult, (result) => result.labTest)
+  labResults: LabResult[];
 }

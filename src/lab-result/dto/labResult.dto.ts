@@ -36,4 +36,9 @@ export class LabResultDto {
   @IsInt()
   @Transform(StringToNumberTransformer)
   investigationRequestId: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  @Transform(StringToNumberTransformer)
+  labTestId: number;
 }
