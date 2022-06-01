@@ -13,19 +13,19 @@ export class Address {
   @Column()
   subCity: string;
 
-  @Column()
+  @Column({ nullable: true })
   zone: string;
 
-  @Column()
+  @Column({ nullable: true })
   woreda: string;
 
-  @Column()
+  @Column({ nullable: true })
   kebelle: string;
 
-  @Column()
+  @Column({ nullable: true })
   street: string;
 
-  @Column()
+  @Column({ nullable: true })
   houseNo: string;
 
   @OneToOne(() => HealthCenter, (healthCenter) => healthCenter.address)
