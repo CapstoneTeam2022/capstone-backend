@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { DiagnosisService } from './diagnosis.service';
 import { CreateDiagnosisDto } from './dto/create-diagnosis.dto';
-import { UpdateDiagnosisDto } from './dto/update-diagnosis.dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('diagnosis')
 export class DiagnosisController {
   constructor(private readonly diagnosisService: DiagnosisService) {}
