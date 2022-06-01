@@ -6,12 +6,15 @@ import { UserModule } from '../user/user.module';
 import { InvestigationRequestModule } from '../investigation-request/investigation-request.module';
 import { LabResultController } from './lab-result.controller';
 
+import { LabTestModule } from '../lab-test/lab-test.module';
+
 @Module({
   providers: [LabResultService],
   imports: [
     TypeOrmModule.forFeature([LabResult]),
     UserModule,
     InvestigationRequestModule,
+    LabTestModule,
   ],
   controllers: [LabResultController],
   exports: [LabResultService],
