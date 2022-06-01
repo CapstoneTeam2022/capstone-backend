@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LabResultDto } from './dto';
 import { UserService } from '../user/user.service';
 import { InvestigationRequestService } from '../investigation-request/investigation-request.service';
+import { LabTestService } from '../lab-test/lab-test.service';
 
 @Injectable()
 export class LabResultService {
@@ -13,6 +14,7 @@ export class LabResultService {
     private labResultRepository: Repository<LabResult>,
     private userService: UserService,
     private invRequestService: InvestigationRequestService,
+    private labTestService: LabTestService,
   ) {}
 
   getAll(): Promise<LabResult[]> {
@@ -39,7 +41,7 @@ export class LabResultService {
   }
 
   async createLabResult(
-    { filledById, investigationRequestId, ...data }: LabResultDto,
+    { filledById, investigationRequestId, labTestId, ...data }: LabResultDto,
     image: string,
   ) {
     const filledBy = await this.userService.getUser(filledById);
@@ -47,11 +49,13 @@ export class LabResultService {
       await this.invRequestService.getInvestigationRequest(
         investigationRequestId,
       );
+    const labTest = await this.labTestService.getLabTest(labTestId);
     const labResult = this.labResultRepository.create({
       ...data,
       filledBy,
       investigationRequest,
       image,
+      labTest,
     });
     return this.labResultRepository.save(labResult);
   }
