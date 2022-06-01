@@ -14,22 +14,22 @@ export class Address {
   subCity: string;
 
   @Column({ nullable: true })
-  zone: string;
+  zone?: string;
 
   @Column({ nullable: true })
-  woreda: string;
+  woreda?: string;
 
   @Column({ nullable: true })
-  kebelle: string;
+  kebelle?: string;
 
   @Column({ nullable: true })
-  street: string;
+  street?: string;
 
   @Column({ nullable: true })
-  houseNo: string;
+  houseNo?: string;
 
   @OneToOne(() => HealthCenter, (healthCenter) => healthCenter.address)
-  healthCenter: HealthCenter;
+  healthCenter?: HealthCenter;
 
   @OneToOne(() => User, (user) => user.address)
   user: User;
