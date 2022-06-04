@@ -20,6 +20,10 @@ export class PatientController {
     return this.patientService.getAllPatients();
   }
 
+
+  
+
+
   @Get(':id')
   getOnePatient(@Param('id', ParseIntPipe) id: number) {
     return this.patientService.getPatient(id);

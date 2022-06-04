@@ -9,6 +9,7 @@ import { uuid } from 'uuidv4';
 
 @Injectable()
 export class PatientService {
+  
   constructor(
     @InjectRepository(Patient)
     private patientRepository: Repository<Patient>,
@@ -84,5 +85,56 @@ export class PatientService {
     return {
       msg: 'success',
     };
+  }
+
+
+  async getPatientRecord() {
+
+    var ageGroup = {}
+    var infants = 0;
+     var toddler = 0;
+     var child = 0;
+     var teen = 0;
+     var adult = 0;
+     var middle_age_adult = 0;
+     var senior_adult = 0;
+
+    const patients = this.getAllPatients();
+    (await patients).map((patient) => {
+      if (patient.user.age >= 0 && patient.user.age <= 1) {
+        infants = infants + 1;
+      }
+      else if (patient.user.age >= 2 && patient.user.age <= 4) {
+        toddler = toddler + 1;
+      }
+      else if (patient.user.age >= 5 && patient.user.age <= 12) {
+        child = child + 1;
+      }
+      else if (patient.user.age >= 13 && patient.user.age <= 19) {
+        teen = teen + 1;
+      }
+      else if (patient.user.age >= 20 && patient.user.age <= 39) {
+        adult = adult + 1;
+      }
+      else if (patient.user.age >= 40 && patient.user.age <= 59) {
+        middle_age_adult = middle_age_adult + 1;
+      }
+      else if (patient.user.age >= 60 ) {
+        senior_adult = senior_adult + 1;
+      }
+      else {
+        
+      }
+    })
+    
+    ageGroup['infant'] = infants;
+    ageGroup['toddler'] = toddler;
+    ageGroup['child'] = child;
+    ageGroup['teen'] = teen;
+    ageGroup['adult'] = adult;
+    ageGroup['middle_age_adult'] = middle_age_adult;
+    ageGroup['senior_adult'] = senior_adult;
+
+    return ageGroup;
   }
 }

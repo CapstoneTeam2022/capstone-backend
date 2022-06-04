@@ -18,6 +18,11 @@ export class UserController {
     return this.userService.getAllUsers();
   }
 
+  @Get()
+  getUserByRole() {
+    
+  }
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUser(id);
