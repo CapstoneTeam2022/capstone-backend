@@ -5,10 +5,13 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ExaminationService } from './examination.services';
 import { ExaminationDto } from './dto/create-examination.dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('examination')
 export class ExaminationController {
   constructor(private readonly examinationService: ExaminationService) {}

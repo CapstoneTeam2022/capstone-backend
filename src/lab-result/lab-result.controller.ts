@@ -7,12 +7,15 @@ import {
   ParseIntPipe,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { LabResultService } from './lab-result.service';
 import { LabResultDto } from './dto';
 import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('lab-result')
 export class LabResultController {
   constructor(private labResultService: LabResultService) {}

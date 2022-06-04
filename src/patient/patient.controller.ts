@@ -8,13 +8,13 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
   Post,
-  UploadedFile,
-  UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { PatientDto } from './dto';
-import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('patient')
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}

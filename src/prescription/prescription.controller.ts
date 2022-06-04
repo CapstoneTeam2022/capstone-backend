@@ -3,17 +3,17 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Res,
   Param,
-  Delete,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { PrescriptionService } from './prescription.service';
 import { CreatePrescriptionDto } from './dto';
-import { UpdatePrescriptionDto } from './dto';
 import { Response } from 'express';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('prescription')
 export class PrescriptionController {
   constructor(private readonly prescriptionService: PrescriptionService) {}

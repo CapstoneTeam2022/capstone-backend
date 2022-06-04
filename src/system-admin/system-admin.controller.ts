@@ -1,8 +1,10 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { ReportDto } from './dto';
 import { SystemAdminService } from './system-admin.service';
 import { Response } from 'express';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('system-admin')
 export class SystemAdminController {
   constructor(private readonly systemAdminService: SystemAdminService) {}

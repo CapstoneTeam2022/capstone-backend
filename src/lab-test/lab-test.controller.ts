@@ -5,10 +5,13 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { LabTestService } from './lab-test.service';
 import { LabTestDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('lab-test')
 export class LabTestController {
   constructor(private labTestService: LabTestService) {}

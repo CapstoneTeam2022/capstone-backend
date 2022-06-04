@@ -1,16 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { DiseaseService } from './disease.service';
-import { CreateDiseaseDto } from './dto/create-disease.dto';
-import { UpdateDiseaseDto } from './dto/update-disease.dto';
+import { CreateDiseaseDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('disease')
 export class DiseaseController {
   constructor(private readonly diseaseService: DiseaseService) {}

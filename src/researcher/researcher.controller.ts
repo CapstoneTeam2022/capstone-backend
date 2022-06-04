@@ -6,15 +6,14 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  UploadedFile,
-  UseInterceptors,
-  BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateUserDto, UserDto } from '../user/dto';
 import { Analytics } from './dto/analytics.dto';
 import { ResearcherService } from './researcher.service';
-import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('researcher')
 export class ResearcherController {
   constructor(private researcherService: ResearcherService) {}

@@ -5,15 +5,14 @@ import {
   Body,
   Param,
   ParseIntPipe,
-  BadRequestException,
-  UploadedFile,
-  UseInterceptors,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
-import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
-import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from '../user/dto';
+import { CreateUserWithRoleDto, UpdateUserDto } from '../user/dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('employee')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}

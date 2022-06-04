@@ -6,11 +6,14 @@ import {
   Param,
   Put,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
 import { CreateMohEmployeeDto } from './dto';
 import { UpdateUserDto } from 'src/user/dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('moh-employee')
 export class MohEmployeeController {
   constructor(private readonly mohEmployeeService: MohEmployeeService) {}

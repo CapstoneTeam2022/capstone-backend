@@ -5,10 +5,13 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { VitalsService } from './vitals.service';
 import { VitalsDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('vitals')
 export class VitalsController {
   constructor(private vitalsService: VitalsService) {}

@@ -5,14 +5,13 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  UploadedFile,
-  UseInterceptors,
-  BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { HospitalAdminService } from './hospital-admin.service';
 import { UserDto } from '../user/dto';
-import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('hospital-admin')
 export class HospitalAdminController {
   constructor(private hospitalAdminService: HospitalAdminService) {}

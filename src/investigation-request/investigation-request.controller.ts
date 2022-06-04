@@ -5,10 +5,13 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { InvestigationRequestService } from './investigation-request.service';
 import { InvestigationRequestDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('investigation-request')
 export class InvestigationRequestController {
   constructor(private service: InvestigationRequestService) {}

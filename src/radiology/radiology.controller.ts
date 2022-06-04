@@ -6,14 +6,16 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  UploadedFile,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { RadiologyService } from './radiology.service';
 import { RadiologyDto } from './dto';
 import { MultipleFileUploadInterceptor } from '../interceptors/multiplefileUpload';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('radiology')
 export class RadiologyController {
   constructor(private radiologyService: RadiologyService) {}

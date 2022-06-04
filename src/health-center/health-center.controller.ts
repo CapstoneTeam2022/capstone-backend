@@ -6,10 +6,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { HealthCenterService } from './health-center.service';
 import { HealthCenterDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('health-center')
 export class HealthCenterController {
   constructor(private readonly service: HealthCenterService) {}

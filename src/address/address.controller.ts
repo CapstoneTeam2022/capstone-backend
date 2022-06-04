@@ -6,10 +6,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { AddressService } from './address.service';
 import { AddressDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('address')
 export class AddressController {
   constructor(private readonly service: AddressService) {}

@@ -9,11 +9,14 @@ import {
   UploadedFile,
   UseInterceptors,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
-import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from './dto';
+import { CreateUserWithRoleDto, UpdateUserDto } from './dto';
+import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
