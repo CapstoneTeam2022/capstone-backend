@@ -21,7 +21,9 @@ export class HealthCenterService {
   ) {}
 
   getAllHealthCenters() {
-    return this.healthCenterRepository.find();
+    return this.healthCenterRepository.find({
+      relations: ['address'],
+    });
   }
 
   async getAllInDateRange(start: Date, end: Date) {
