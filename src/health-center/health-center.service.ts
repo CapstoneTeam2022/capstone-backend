@@ -32,6 +32,7 @@ export class HealthCenterService {
         createdAt: Between(start, end),
       },
       select: ['name'],
+
     });
 
     return hospitals.map((hospital) => hospital.name);
