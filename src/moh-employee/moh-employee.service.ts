@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateMohEmployeeDto } from './dto/create-moh-employee.dto';
-import { UpdateMohEmployeeDto } from './dto/update-moh-employee.dto';
+import { CreateMohEmployeeDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MohEmployee } from './entities/moh-employee.entity';
-import { Between, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 import { UpdateUserDto } from 'src/user/dto';
 
