@@ -21,7 +21,8 @@ export class HealthCenterService {
   ) {}
 
   getAllHealthCenters() {
-    return this.healthCenterRepository.find();
+    return this.healthCenterRepository.find({
+      relations: ['address']});
   }
 
   async getAllInDateRange(start: Date, end: Date) {
@@ -30,6 +31,7 @@ export class HealthCenterService {
         createdAt: Between(start, end),
       },
       select: ['name'],
+      
     });
 
     return hospitals.map((hospital) => hospital.name);
