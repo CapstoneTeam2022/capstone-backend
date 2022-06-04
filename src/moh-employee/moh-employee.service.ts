@@ -46,13 +46,16 @@ export class MohEmployeeService {
   }
 
   async findOne(id: number) {
-    const mohEmployee = await this.mohEmployeeRepository.findOne({
-      where: {
-        id,
-      },
-      relations: ['user'],
-    });
-    if (mohEmployee) return mohEmployee;
+    const mohEmployee = await this.mohEmployeeRepository
+      .createQueryBuilder('moh')
+      .leftJoinAndSelect('moh.user', 'user')
+      .leftJoinAndSelect('user.address', 'address')
+      .where('moh.id=:id', { id })
+      .getOne();
+    if (mohEmployee) {
+      //const address = mohEmployee.user.address.id;
+      return mohEmployee;
+    }
     throw new NotFoundException(`MohEmployee with id ${id} not found`);
   }
 
