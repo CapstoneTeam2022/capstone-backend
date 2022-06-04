@@ -30,7 +30,7 @@ export class MohEmployeeService {
 
   findAll() {
     return this.mohEmployeeRepository.find({
-      relations: ['user'],
+      relations: ['user', 'address'],
     });
   }
 

@@ -157,7 +157,7 @@ export class UserService {
           name,
         },
       },
-      relations: ['role'],
+      relations: ['role', 'address'],
     });
   }
 
