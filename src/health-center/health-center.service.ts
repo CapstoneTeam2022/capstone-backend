@@ -9,7 +9,6 @@ import { Between, Connection, Repository } from 'typeorm';
 import { HealthCenterDto } from './dto';
 import { AddressService } from '../address/address.service';
 import { Address } from '../address/address.entity';
-import { raw } from 'express';
 
 @Injectable()
 export class HealthCenterService {
@@ -32,7 +31,6 @@ export class HealthCenterService {
         createdAt: Between(start, end),
       },
       select: ['name'],
-
     });
 
     return hospitals.map((hospital) => hospital.name);
