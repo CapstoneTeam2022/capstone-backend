@@ -170,60 +170,60 @@ export class ResearcherService {
   }
 
 
-  async getMedicationAnalytics(body : Analytics)
-  {
+  // async getMedicationAnalytics(body : Analytics)
+  // {
   
-    var datas = {};
-    var medicatedPatientCount= 0;
-    var ageGroupCount= 0;
-    var byDateCount= 0;
-    var genderCount= 0;
+  //   var datas = {};
+  //   var medicatedPatientCount= 0;
+  //   var ageGroupCount= 0;
+  //   var byDateCount= 0;
+  //   var genderCount= 0;
   
     
-    var diagnosis: Diagnosis[] = [];
+  //   var diagnosis: Diagnosis[] = [];
   
-    const prescriptions = this.prescriptionService.findAll();
-    (await prescriptions).map((prescription) => {
-      diagnosis.push(prescription.diagnosis);
-      (prescription.medications).map((medication) => {
-        if (body.healthCenter == 'All') {
-          if (medication.name === body.medication) {
-            medicatedPatientCount = medicatedPatientCount + 1;
-            // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
-            byDateCount = byDateCount + 1;
-            // }
-          }
-        }
-        else {
+  //   const prescriptions = this.prescriptionService.findAll();
+  //   (await prescriptions).map((prescription) => {
+  //     diagnosis.push(prescription.diagnosis);
+  //     (prescription.medications).map((medication) => {
+  //       if (body.healthCenter == 'All') {
+  //         if (medication.name === body.medication) {
+  //           medicatedPatientCount = medicatedPatientCount + 1;
+  //           // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
+  //           byDateCount = byDateCount + 1;
+  //           // }
+  //         }
+  //       }
+  //       else {
           
-          (diagnosis).map((diagnos) => {
-            const healthCenter = this.getHealthCenter(diagnos.filledBy);
-            if (healthCenter) {
-              if (medication.name === body.medication) {
-            medicatedPatientCount = medicatedPatientCount + 1;
-            // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
-            byDateCount = byDateCount + 1;
-            // }
-            }
-            }
-          })
-        }
-      })
-    })
+  //         (diagnosis).map((diagnos) => {
+  //           const healthCenter = this.getHealthCenter(diagnos.filledBy);
+  //           if (healthCenter) {
+  //             if (medication.name === body.medication) {
+  //           medicatedPatientCount = medicatedPatientCount + 1;
+  //           // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
+  //           byDateCount = byDateCount + 1;
+  //           // }
+  //           }
+  //           }
+  //         })
+  //       }
+  //     })
+  //   })
 
-    datas['medicated_patient_count']=(medicatedPatientCount);
-    datas['by_date_count'] = (byDateCount);
-
-
-    const invs = await this.getInvestigationRequest(diagnosis);
-    const vitals = await this.getVitals(body, invs);
-    const usersData = await this.getUsers(body, vitals);  
-    datas['age']= usersData[0];
-    datas['by_gender'] = usersData[1];
+  //   datas['medicated_patient_count']=(medicatedPatientCount);
+  //   datas['by_date_count'] = (byDateCount);
 
 
-    return datas;
-  }
+  //   const invs = await this.getInvestigationRequest(diagnosis);
+  //   const vitals = await this.getVitals(body, invs);
+  //   const usersData = await this.getUsers(body, vitals);  
+  //   datas['age']= usersData[0];
+  //   datas['by_gender'] = usersData[1];
+
+
+  //   return datas;
+  // }
 
   async getInvestigationRequest(diagnosis: Diagnosis[])
   {

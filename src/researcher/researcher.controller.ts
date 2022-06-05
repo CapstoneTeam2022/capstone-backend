@@ -60,11 +60,11 @@ export class ResearcherController {
     return this.researcherService.getDiseasedPatient(body);
   }
   
-  @Post('medicationRecord')
-  getMedicationAnalytics( @Body() body: Analytics)
-  {
-    return this.researcherService.getMedicationAnalytics(body);
-  }
+  // @Post('medicationRecord')
+  // getMedicationAnalytics( @Body() body: Analytics)
+  // {
+  //   return this.researcherService.getMedicationAnalytics(body);
+  // }
   
 
 }
