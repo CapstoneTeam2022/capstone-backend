@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UpdateUserDto, UserDto } from '../user/dto';
-import { Analytics } from './dto/analytics.dto';
+import {  DiseaseAnalytics, MedicationAnalytics } from './dto/analytics.dto';
 import { ResearcherService } from './researcher.service';
 import { JwtGuard } from '../auth/guard';
 
@@ -67,12 +67,12 @@ export class ResearcherController {
   }
 
   @Post('disease')
-  getDiseaseAnalytics(@Body() body: Analytics) {
+  getDiseaseAnalytics(@Body() body: DiseaseAnalytics) {
     return this.researcherService.getDiseasedPatient(body);
   }
 
-  // @Post('medication')
-  // getMedicationAnalytics(@Body() body: Analytics) {
-  //   return this.researcherService.getMedicationAnalytics(body);
-  // }
+  @Post('medication')
+  getMedicationAnalytics(@Body() body: MedicationAnalytics) {
+    return this.researcherService.getMedicationAnalytics(body);
+  }
 }
