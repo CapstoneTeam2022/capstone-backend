@@ -24,7 +24,7 @@ export class EmployeeService {
   }
 
   findOne(id: number) {
-    return this.userService.findOneByRoleName(id, this.roleName);
+    return this.userService.findOneByRoleName(id, this.roleName, 'address');
   }
 
   updateEmployee(id: number, updateEmployeeDto: UpdateUserDto) {
