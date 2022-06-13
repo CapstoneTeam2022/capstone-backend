@@ -5,7 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Between, DeleteResult, FindOneOptions, Repository } from 'typeorm';
+import {
+  Between,
+  Brackets,
+  DeleteResult,
+  FindOneOptions,
+  Repository,
+} from 'typeorm';
 import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
@@ -191,7 +197,7 @@ export class UserService {
     });
   }
 
-  async findOneByRoleName(id: number, name: string) {
+  async findOneByRoleName(id: number, name: string, ...relations: string[]) {
     const user = await this.userRepository.findOne({
       where: {
         id,
@@ -199,9 +205,44 @@ export class UserService {
           name,
         },
       },
-      relations: ['role', 'address'],
+      relations: ['role', ...relations],
     });
     if (user) return user;
     throw new NotFoundException(`${name} with id ${id} not found`);
+  }
+
+  async findAllEmployeesForHospital(healthCenterId: number) {
+    await this.healthCenterService.getOneHealthCenter(healthCenterId);
+    return (
+      this.userRepository
+        .createQueryBuilder('u')
+        .innerJoinAndSelect('u.healthCenter', 'h')
+        .innerJoinAndSelect('u.role', 'r')
+        .where('h.id=:id', { id: healthCenterId })
+        .andWhere(
+          new Brackets((qb) => {
+            qb.where('r.name=:name', { name: 'Nurse' })
+              .orWhere('r.name=:name1', { name1: 'Doctor' })
+              .orWhere('r.name=:name2', { name2: 'Receptionist' })
+              .orWhere('r.name=:name3', { name3: 'Hospital Admin' })
+              .orWhere('r.name=:name4', { name4: 'Lab Expert' })
+              .orWhere('r.name=:name5', { name5: 'Radiologist' })
+              .orWhere('r.name=:name6', { name6: 'Employee' })
+              .orWhere('r.name=:name7', { name7: 'Researcher' })
+              .orWhere('r.name=:name8', { name8: 'MohEmployee' });
+          }),
+        )
+        // .andWhere('r.name=:name', { name: 'Nurse' })
+        // .orWhere('r.name=:name1', { name1: 'Doctor' })
+        // .orWhere('r.name=:name2', { name2: 'Receptionist' })
+        // .orWhere('r.name=:name3', { name3: 'Hospital Admin' })
+        // .orWhere('r.name=:name4', { name4: 'Lab Expert' })
+        // .orWhere('r.name=:name5', { name5: 'Radiologist' })
+        // .orWhere('r.name=:name6', { name6: 'Employee' })
+        // .orWhere('r.name=:name7', { name7: 'Researcher' })
+        // .orWhere('r.name=:name8', { name8: 'MohEmployee' })
+        .select(['u', 'r'])
+        .getMany()
+    );
   }
 }
