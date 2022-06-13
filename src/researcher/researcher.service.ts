@@ -53,7 +53,7 @@ export class ResearcherService {
   }
 
   getById(id: number) {
-    return this.userService.findOneByRoleName(id, this.roleName);
+    return this.userService.findOneByRoleName(id, this.roleName, 'address');
   }
 
   create(user: UserDto) {
