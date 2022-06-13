@@ -8,5 +8,6 @@ import { VitalsModule } from '../vitals/vitals.module';
   imports: [TypeOrmModule.forFeature([Examination]), VitalsModule],
   controllers: [ExaminationController],
   providers: [ExaminationService],
+  exports: [ExaminationService],
 })
 export class ExaminationModule {}

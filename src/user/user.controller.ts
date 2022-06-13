@@ -31,6 +31,9 @@ export class UserController {
     return this.userService.getEmployeeCount();
   }
 
+  @Get()
+  getUserByRole() {}
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUser(id);

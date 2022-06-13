@@ -97,6 +97,47 @@ export class PatientService {
     };
   }
 
+  async getPatientRecord() {
+    const ageGroup = {};
+    let infants = 0;
+    let toddler = 0;
+    let child = 0;
+    let teen = 0;
+    let adult = 0;
+    let middle_age_adult = 0;
+    let senior_adult = 0;
+
+    const patients = this.getAllPatients();
+    (await patients).map((patient) => {
+      if (patient.user.age >= 0 && patient.user.age <= 1) {
+        infants = infants + 1;
+      } else if (patient.user.age >= 2 && patient.user.age <= 4) {
+        toddler = toddler + 1;
+      } else if (patient.user.age >= 5 && patient.user.age <= 12) {
+        child = child + 1;
+      } else if (patient.user.age >= 13 && patient.user.age <= 19) {
+        teen = teen + 1;
+      } else if (patient.user.age >= 20 && patient.user.age <= 39) {
+        adult = adult + 1;
+      } else if (patient.user.age >= 40 && patient.user.age <= 59) {
+        middle_age_adult = middle_age_adult + 1;
+      } else if (patient.user.age >= 60) {
+        senior_adult = senior_adult + 1;
+      } else {
+      }
+    });
+
+    ageGroup['infant'] = infants;
+    ageGroup['toddler'] = toddler;
+    ageGroup['child'] = child;
+    ageGroup['teen'] = teen;
+    ageGroup['adult'] = adult;
+    ageGroup['middle_age_adult'] = middle_age_adult;
+    ageGroup['senior_adult'] = senior_adult;
+
+    return ageGroup;
+  }
+
   async getNumOfPatients() {
     const num = (
       await this.patientRepository.find({

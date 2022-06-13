@@ -23,10 +23,25 @@ export class ResearcherController {
     return this.researcherService.getAll();
   }
 
-  @Get('/number')
-  getAllNum() {
-    return this.researcherService.getNumOfResearchers();
+  @Get('patientRecord')
+  getPatientRecord() {
+    return this.researcherService.getPatientRecord();
   }
+
+  @Get('userRecord')
+  getUserRecord() {
+    return this.researcherService.getUserRecord();
+  }
+
+  @Get('recordCounts')
+  getRecordCounts() {
+    return this.researcherService.counts();
+  }
+
+  // @Get('/number')
+  // getAllNum() {
+  //   return this.researcherService.getNumOfResearchers();
+  // }
 
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
@@ -56,8 +71,8 @@ export class ResearcherController {
     return this.researcherService.getDiseasedPatient(body);
   }
 
-  @Post('medication')
-  getMedicationAnalytics(@Body() body: Analytics) {
-    return this.researcherService.getMedicationAnalytics(body);
-  }
+  // @Post('medication')
+  // getMedicationAnalytics(@Body() body: Analytics) {
+  //   return this.researcherService.getMedicationAnalytics(body);
+  // }
 }

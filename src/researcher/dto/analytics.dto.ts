@@ -9,19 +9,6 @@ export class Analytics {
   @IsNotEmpty()
   disease: string;
 
-  @IsString()
-  @IsNotEmpty()
-  medication: string;
-
-  @IsString()
-  @IsNotEmpty()
-  startDate: string;
-    
-  @IsString()
-  @IsNotEmpty()
-  endDate: string;
-
-
   @IsInt()
   @IsNotEmpty()
   startAgeGroup: number;
@@ -30,9 +17,7 @@ export class Analytics {
   @IsNotEmpty()
   endAgeGroup: number;
 
-
   @IsString()
   @IsNotEmpty()
   gender: string;
 }
-
