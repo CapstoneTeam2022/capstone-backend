@@ -13,10 +13,20 @@ export class HospitalAdminService {
   }
 
   getById(id: number) {
-    return this.userService.findOneByRoleName(id, this.roleName);
+    return this.userService.findOneByRoleName(
+      id,
+      this.roleName,
+      'address',
+      'healthCenter',
+    );
   }
 
   createHospitalAdmin(user: UserDto) {
     return this.userService.addUser(user, this.roleName);
+  }
+
+  async findAllEmployeesForHospitalAdmin(id: number) {
+    const admin = await this.getById(id);
+    return this.userService.findAllEmployeesForHospital(admin.healthCenter.id);
   }
 }
