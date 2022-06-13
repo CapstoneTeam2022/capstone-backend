@@ -21,18 +21,29 @@ export class VitalsService {
     });
   }
 
-  async getAllForPatient(patientId: number) {
+  async getAllForPatient(patientId: number, userId: number) {
+    const user = await this.userService.getUser(userId);
+    const healthCenterId = user.healthCenter.id;
     await this.patientService.getPatient(patientId); //check for patient with this id
-    return this.vitalsRepository.find({
-      where: {
-        patient: {
-          id: patientId,
-        },
-      },
-      order: {
-        requestedDate: 'DESC',
-      },
-    });
+    // return this.vitalsRepository.find({
+    //   where: {
+    //     patient: {
+    //       id: patientId,
+    //     },
+    //   },
+    //   order: {
+    //     requestedDate: 'DESC',
+    //   },
+    // });
+    return this.vitalsRepository
+      .createQueryBuilder('vital')
+      .innerJoinAndSelect('vital.patient', 'patient')
+      .innerJoinAndSelect('vital.requestedBy', 'user')
+      .innerJoinAndSelect('user.healthCenter', 'h')
+      .where('patient.id=:id', { id: patientId })
+      .where('h.id=:id', { id: healthCenterId })
+      .select(['vital', 'patient'])
+      .getMany();
   }
 
   async getVital(id: number): Promise<Vitals> {
