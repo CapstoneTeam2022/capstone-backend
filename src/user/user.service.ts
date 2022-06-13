@@ -199,7 +199,7 @@ export class UserService {
           name,
         },
       },
-      relations: ['role'],
+      relations: ['role', 'address'],
     });
     if (user) return user;
     throw new NotFoundException(`${name} with id ${id} not found`);

@@ -28,9 +28,11 @@ export class MohEmployeeService {
   }
 
   findAll() {
-    return this.mohEmployeeRepository.find({
-      relations: ['user', 'address'],
-    });
+    return this.mohEmployeeRepository
+      .createQueryBuilder('moh')
+      .leftJoinAndSelect('moh.user', 'user')
+      .leftJoinAndSelect('user.address', 'address')
+      .getMany();
   }
 
   async getAllInDateRange(start: Date, end: Date) {
