@@ -10,11 +10,15 @@ import {
   UseInterceptors,
   Put,
   UseGuards,
+  Req,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
-import { CreateUserWithRoleDto, UpdateUserDto } from './dto';
+import { CreateUserWithRoleDto, UpdatePasswordDto, UpdateUserDto } from './dto';
 import { JwtGuard } from '../auth/guard';
+import { Request } from 'express';
+import { User } from './user.entity';
 
 @UseGuards(JwtGuard)
 @Controller('user')
@@ -65,5 +69,15 @@ export class UserController {
     @Body() body: UpdateUserDto,
   ) {
     return this.userService.updateUser(id, body);
+  }
+
+  @Post('/password/update')
+  updatePassword(@Body() body: UpdatePasswordDto, @Req() request: Request) {
+    const user = request.user as User;
+    if (!user) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+
+    return this.userService.updatePassword(user.id, body);
   }
 }

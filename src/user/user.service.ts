@@ -1,21 +1,16 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import {
-  Between,
-  Brackets,
-  DeleteResult,
-  FindOneOptions,
-  Repository,
-} from 'typeorm';
+import { Between, Brackets, DeleteResult, Repository } from 'typeorm';
 import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
-import { UpdateUserDto, UserDto } from './dto';
+import { UpdatePasswordDto, UpdateUserDto, UserDto } from './dto';
 import { HealthCenterService } from '../health-center/health-center.service';
 
 interface Options {
@@ -244,5 +239,19 @@ export class UserService {
         .select(['u', 'r'])
         .getMany()
     );
+  }
+
+  async updatePassword(userId: number, data: UpdatePasswordDto) {
+    const { oldPassword, newPassword } = data;
+    const user = await this.userRepository.findOne(userId, {
+      select: ['password'],
+    });
+    const passwordsMatch = await argon2.verify(user.password, oldPassword);
+    if (!passwordsMatch) {
+      throw new ForbiddenException('Invalid Password');
+    }
+    const hash = await argon2.hash(newPassword);
+    await this.userRepository.update(userId, { password: hash });
+    return { msg: 'success' };
   }
 }
