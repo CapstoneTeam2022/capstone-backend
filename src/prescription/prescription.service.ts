@@ -100,7 +100,7 @@ export class PrescriptionService {
       try {
         const finalData = resData['medications'].map(
           (data) =>
-            `Name: ${data.name} \n Dosage: ${data.dosage} \n Instructions: ${data.instructions}`,
+            `\n Name: ${data.name} \n Dosage: ${data.dosage} \n Instructions: ${data.instructions}`,
         );
 
         finalData.forEach((line) => {
