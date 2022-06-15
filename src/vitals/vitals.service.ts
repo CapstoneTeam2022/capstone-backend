@@ -59,7 +59,7 @@ export class VitalsService {
     throw new NotFoundException(`Vital with id ${id} not found`);
   }
 
-  async createVital({ patientId, requestedById, ...body }: VitalsDto) {
+  async createVital({ patientId, ...body }: VitalsDto, requestedById: number) {
     const patient = await this.patientService.getPatient(patientId);
     const requestedBy = await this.userService.getUser(requestedById);
     const vital = this.vitalsRepository.create({

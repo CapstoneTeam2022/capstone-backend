@@ -41,7 +41,11 @@ export class VitalsController {
   }
 
   @Post()
-  create(@Body() body: VitalsDto) {
-    return this.vitalsService.createVital(body);
+  create(@Body() body: VitalsDto, @Req() req: Request) {
+    const user = req.user as User;
+    if (!user) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+    return this.vitalsService.createVital(body, user.id);
   }
 }

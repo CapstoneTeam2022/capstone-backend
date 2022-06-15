@@ -38,6 +38,18 @@ export class UserController {
   @Get()
   getUserByRole() {}
 
+  @Post('/profile')
+  getProfile(@Req() req: Request) {
+    const user = req.user as User;
+    if (!user) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+    if (!user.id) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+    return this.userService.getUser(user.id);
+  }
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.getUser(id);

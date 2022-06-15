@@ -29,7 +29,7 @@ export class VitalsDto {
   @IsNotEmpty()
   patientId: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  requestedById: number;
+  // @IsNumber()
+  // @IsNotEmpty()
+  // requestedById: number;
 }
