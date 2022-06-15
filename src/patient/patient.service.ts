@@ -85,7 +85,7 @@ export class PatientService {
       registeredBy: registerer,
     });
      this.patientRepository.save(patient);
-     return this.getPatient(patient.id);
+     return patient
   }
 
   async deletePatient(id: number) {
