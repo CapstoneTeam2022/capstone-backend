@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { CreateUserWithRoleDto, UpdateUserDto, UserDto } from '../user/dto';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class EmployeeService {
@@ -8,7 +9,9 @@ export class EmployeeService {
 
   constructor(private userService: UserService) {}
 
-  create({ role, ...data }: CreateUserWithRoleDto) {
+  async create({ role, ...data }: CreateUserWithRoleDto, userId: number) {
+    const healthCenter = await this.userService.getHealthCenterForUser(userId);
+    data.healthCenterId = healthCenter.id;
     return this.userService.addUser(data, role);
   }
 
