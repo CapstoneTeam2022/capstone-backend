@@ -101,8 +101,9 @@ export class DiagnosisService {
       .leftJoinAndSelect('diagnosis.investigationRequest', 'inv')
       .leftJoinAndSelect('inv.vitals', 'vitals')
       .leftJoinAndSelect('vitals.patient', 'patient')
+      .innerJoinAndSelect('diagnosis.diseases', 'di')
       .andWhere('patient.id=:id', { id })
-      .select(['diagnosis', 'inv.id', 'vitals.id', 'patient'])
+      .select(['diagnosis', 'inv.id', 'vitals.id', 'patient', 'di'])
       .getMany();
   }
 
