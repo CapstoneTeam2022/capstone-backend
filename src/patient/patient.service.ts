@@ -84,7 +84,8 @@ export class PatientService {
       refId: uuid(),
       registeredBy: registerer,
     });
-    return this.patientRepository.save(patient);
+     this.patientRepository.save(patient);
+     return patient
   }
 
   async deletePatient(id: number) {

@@ -166,7 +166,7 @@ export class UserService {
     return this.userRepository.find({
       //  where: [{ role: { name: '' } }],
       where: names.map((name) => ({ role: { name } })),
-      relations: ['role'],
+      relations: ['role', 'address'],
     });
   }
 
