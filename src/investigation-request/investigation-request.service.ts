@@ -6,6 +6,7 @@ import { InvestigationRequestDto } from './dto';
 import { UserService } from '../user/user.service';
 import { VitalsService } from '../vitals/vitals.service';
 import { LabTestService } from 'src/lab-test/lab-test.service';
+import { PatientService } from '../patient/patient.service';
 
 @Injectable()
 export class InvestigationRequestService {
@@ -15,6 +16,7 @@ export class InvestigationRequestService {
     private userService: UserService,
     private vitalService: VitalsService,
     private labTestService: LabTestService,
+    private patientService: PatientService,
   ) {}
 
   getAll(): Promise<InvestigationRequest[]> {
@@ -66,13 +68,11 @@ export class InvestigationRequestService {
   //   throw new NotFoundException(`Investigation Request not found`);
   // }
 
-  async createInvestigationRequest({
-    registeredById,
-    vitalId,
-    note,
-    labTests,
-  }: InvestigationRequestDto): Promise<InvestigationRequest> {
-    const registeredBy = await this.userService.getUser(registeredById);
+  async createInvestigationRequest(
+    { vitalId, note, labTests }: InvestigationRequestDto,
+    userId: number,
+  ): Promise<InvestigationRequest> {
+    const registeredBy = await this.userService.getUser(userId);
     const vitals = await this.vitalService.getVital(vitalId);
     for (const testId of labTests) {
       await this.labTestService.getLabTest(testId);
@@ -85,5 +85,23 @@ export class InvestigationRequestService {
       labTests: labTests.map((id) => ({ id })),
     });
     return this.investigationRequestRepository.save(invRequest);
+  }
+
+  async getAllForPatient(patientId: number, userId: number) {
+    const user = await this.userService.getUser(userId);
+    const healthCenterId = user.healthCenter.id;
+    await this.patientService.getPatient(patientId);
+
+    return this.investigationRequestRepository
+      .createQueryBuilder('inv')
+      .innerJoinAndSelect('inv.vitals', 'vital')
+      .innerJoinAndSelect('vital.patient', 'patient')
+      .innerJoinAndSelect('vital.requestedBy', 'user')
+      .innerJoinAndSelect('user.healthCenter', 'h')
+      .innerJoinAndSelect('patient.user', 'patient_user')
+      .where('patient.id=:id', { id: patientId })
+      .andWhere('h.id=:hid', { hid: healthCenterId })
+      .select(['inv', 'vital', 'patient.id', 'patient_user.name'])
+      .getMany();
   }
 }
