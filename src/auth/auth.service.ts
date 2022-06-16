@@ -31,6 +31,7 @@ export class AuthService {
       user.id,
       user.email,
       user.role.name,
+      user.isPasswordReset,
     );
     return {
       access_token,
@@ -73,12 +74,18 @@ export class AuthService {
     throw new NotFoundException(`User with email ${email} not found`);
   }
 
-  async signToken(id: number, email: string, role: string) {
+  async signToken(
+    id: number,
+    email: string,
+    role: string,
+    isPasswordReset: boolean,
+  ) {
     const secret = this.config.get('JWT_SECRET');
     const payload = {
       sub: id,
       email,
       role,
+      isPasswordReset,
     };
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '10d',

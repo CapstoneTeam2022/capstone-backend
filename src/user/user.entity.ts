@@ -57,6 +57,9 @@ export class User {
   @Column()
   isAdmin: boolean;
 
+  @Column({ default: false })
+  isPasswordReset: boolean;
+
   @OneToOne(() => Address, (address) => address.user)
   @JoinColumn()
   address: Address;
