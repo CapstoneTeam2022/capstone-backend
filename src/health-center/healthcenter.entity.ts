@@ -27,8 +27,8 @@ export class HealthCenter {
   @Column()
   type: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  // @CreateDateColumn()
+  // createdAt: Date;
 
   @OneToOne(() => Address, (address) => address.healthCenter)
   @JoinColumn()

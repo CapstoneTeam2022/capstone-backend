@@ -36,8 +36,8 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: true })
-  image: string;
+  // @Column({ nullable: true })
+  // image: string;
 
   @Column({ nullable: true })
   gender: string;
@@ -51,8 +51,8 @@ export class User {
   @Column({ default: false })
   isResearcher: boolean;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  // @CreateDateColumn()
+  // createdAt: Date;
 
   @Column()
   isAdmin: boolean;

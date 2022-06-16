@@ -33,7 +33,7 @@ export class UserService {
   ) {}
 
   getAllUsers(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['address', 'role'] });
+    return this.userRepository.find({ relations: ['address', 'role','patient'] });
   }
 
   async getEmployeeCount() {
@@ -78,7 +78,7 @@ export class UserService {
 
   async getUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne(id, {
-      relations: ['address', 'role', 'healthCenter'],
+      relations: ['address', 'role', 'healthCenter','patient'],
     });
     if (user) return user;
 
@@ -132,7 +132,7 @@ export class UserService {
 
   async updateProfileImage(id: number, image: string) {
     const user = await this.getUser(id);
-    user.image = image;
+    // user.image = image;
     return this.userRepository.save(user);
   }
 
