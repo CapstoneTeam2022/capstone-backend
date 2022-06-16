@@ -6,6 +6,7 @@ import { UserModule } from '../user/user.module';
 import { VitalsModule } from '../vitals/vitals.module';
 import { InvestigationRequestController } from './investigation-request.controller';
 import { LabTestModule } from '../lab-test/lab-test.module';
+import { PatientModule } from '../patient/patient.module';
 
 @Module({
   providers: [InvestigationRequestService],
@@ -14,6 +15,7 @@ import { LabTestModule } from '../lab-test/lab-test.module';
     UserModule,
     VitalsModule,
     LabTestModule,
+    PatientModule,
   ],
   controllers: [InvestigationRequestController],
   exports: [InvestigationRequestService],
