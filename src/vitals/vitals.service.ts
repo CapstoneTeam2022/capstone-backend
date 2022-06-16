@@ -42,7 +42,7 @@ export class VitalsService {
       .innerJoinAndSelect('user.healthCenter', 'h')
       .innerJoinAndSelect('patient.user', 'patient_user')
       .where('patient.id=:id', { id: patientId })
-      .andWhere('h.id=:id1', { id1: healthCenterId })
+      .andWhere('h.id=:hid', { hid: healthCenterId })
       .select(['vital', 'patient.id', 'patient_user.name'])
       .getMany();
   }
