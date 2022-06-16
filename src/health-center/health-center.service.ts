@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -9,13 +11,19 @@ import { Between, Connection, Repository } from 'typeorm';
 import { HealthCenterDto } from './dto';
 import { AddressService } from '../address/address.service';
 import { Address } from '../address/address.entity';
+import { HealthCenterWithAdminDto } from './dto/health-center-with-admin.dto';
+import { UserService } from '../user/user.service';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class HealthCenterService {
   constructor(
+    @Inject(forwardRef(() => UserService))
+    private userService: UserService,
     @InjectRepository(HealthCenter)
     private healthCenterRepository: Repository<HealthCenter>,
     private addressService: AddressService,
+    private roleService: RoleService,
     private connection: Connection,
   ) {}
 
@@ -45,6 +53,10 @@ export class HealthCenterService {
   // }
 
   async create({ address, ...health }: HealthCenterDto) {
+    const isTaken = await this.isEmailTaken(health.email);
+    if (isTaken) {
+      throw new BadRequestException('Email is not available');
+    }
     const createdAddress = await this.addressService.saveAddress(address);
     const hc = this.healthCenterRepository.create({
       ...health,
@@ -112,5 +124,31 @@ export class HealthCenterService {
   async getNumOfHealthCenters() {
     const num = (await this.healthCenterRepository.find()).length;
     return num;
+  }
+
+  // async createHealthCenterWithAdmin(body: HealthCenterWithAdminDto) {
+  //   return this
+  // }
+
+  async createHealthCenterWithAdmin({
+    admin,
+    ...healthCenter
+  }: HealthCenterWithAdminDto) {
+    const newHc = await this.create(healthCenter);
+    const user = await this.userService.addUser(
+      {
+        ...admin,
+        isResearcher: false,
+        isAdmin: true,
+        healthCenterId: newHc.id,
+      },
+      'Hospital Admin',
+    );
+    return {
+      healthCenter: {
+        ...newHc,
+        admin: user,
+      },
+    };
   }
 }

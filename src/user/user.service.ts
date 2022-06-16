@@ -1,8 +1,10 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -12,6 +14,7 @@ import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
 import { UpdatePasswordDto, UpdateUserDto, UserDto } from './dto';
 import { HealthCenterService } from '../health-center/health-center.service';
+import { HealthCenterWithAdminDto } from '../health-center/dto/health-center-with-admin.dto';
 
 interface Options {
   select: (keyof User)[];
@@ -20,11 +23,12 @@ interface Options {
 @Injectable()
 export class UserService {
   constructor(
+    @Inject(forwardRef(() => HealthCenterService))
+    private healthCenterService: HealthCenterService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private addressService: AddressService,
     private roleService: RoleService,
-    private healthCenterService: HealthCenterService,
   ) {}
 
   getAllUsers(): Promise<User[]> {
