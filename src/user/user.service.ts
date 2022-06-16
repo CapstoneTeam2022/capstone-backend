@@ -224,7 +224,7 @@ export class UserService {
               .orWhere('r.name=:name1', { name1: 'Doctor' })
               .orWhere('r.name=:name2', { name2: 'Receptionist' })
               .orWhere('r.name=:name3', { name3: 'Hospital Admin' })
-              .orWhere('r.name=:name4', { name4: 'Lab Expert' })
+              .orWhere('r.name=:name4', { name4: 'LabExpert' })
               .orWhere('r.name=:name5', { name5: 'Radiologist' })
               .orWhere('r.name=:name6', { name6: 'Employee' })
               .orWhere('r.name=:name7', { name7: 'Researcher' })
@@ -240,7 +240,7 @@ export class UserService {
         // .orWhere('r.name=:name6', { name6: 'Employee' })
         // .orWhere('r.name=:name7', { name7: 'Researcher' })
         // .orWhere('r.name=:name8', { name8: 'MohEmployee' })
-        .select(['u', 'r'])
+        .select(['u', 'r', 'h'])
         .getMany()
     );
   }
@@ -255,7 +255,13 @@ export class UserService {
       throw new ForbiddenException('Invalid Password');
     }
     const hash = await argon2.hash(newPassword);
+    user.isPasswordReset = true;
     await this.userRepository.update(userId, { password: hash });
     return { msg: 'success' };
+  }
+
+  async getHealthCenterForUser(userId: number) {
+    const user = await this.getUser(userId);
+    return user.healthCenter;
   }
 }
