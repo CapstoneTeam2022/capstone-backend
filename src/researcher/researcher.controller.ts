@@ -13,7 +13,7 @@ import {  DiseaseAnalytics, MedicationAnalytics } from './dto/analytics.dto';
 import { ResearcherService } from './researcher.service';
 import { JwtGuard } from '../auth/guard';
 
-@UseGuards(JwtGuard)
+// @UseGuards(JwtGuard)
 @Controller('researcher')
 export class ResearcherController {
   constructor(private researcherService: ResearcherService) {}

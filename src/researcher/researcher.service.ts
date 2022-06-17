@@ -260,7 +260,11 @@ export class ResearcherService {
   }
 
   async getMedicationAnalytics(body: MedicationAnalytics) {
-    const datas = [];
+    
+    const diagnoses = this.diagnosisService.findAll();
+    const diagnosesCount = (await diagnoses).length;
+    
+    const datas = {};
     let medicatedPatientCount = 0;
     const ageGroupCount = 0;
     let byDateCount = 0;
@@ -268,6 +272,8 @@ export class ResearcherService {
   
     const diagnosis = [];
   
+   
+
     const prescriptions = this.prescriptionService.findAll();
     (await prescriptions).map((prescription) => {
       diagnosis.push(prescription.diagnosis);
@@ -281,14 +287,15 @@ export class ResearcherService {
       });
     });
   
-    datas.push(medicatedPatientCount);
-    datas.push(byDateCount);
+    datas['total_diagnoses'] = diagnosesCount;
+    datas['medicated_patient_count'] = medicatedPatientCount;
+    datas['by_date'] = byDateCount;
   
     const invs = await this.getInvestigationRequest(diagnosis);
     const vitals = await this.getVitals(body, invs);
     const usersData = await this.getUsers(body, vitals);
-    datas.push(usersData[0]);
-    datas.push(usersData[1]);
+    datas['by_age'] = usersData[0];
+    datas['by_gender'] = usersData[1];
   
     return datas;
   }
