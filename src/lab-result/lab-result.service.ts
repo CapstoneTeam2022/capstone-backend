@@ -57,6 +57,9 @@ export class LabResultService {
       image,
       labTest,
     });
-    return this.labResultRepository.save(labResult);
+
+    const res = this.labResultRepository.save(labResult);
+    await this.invRequestService.decreaseCount(investigationRequestId);
+    return res;
   }
 }

@@ -53,4 +53,9 @@ export class InvestigationRequestController {
     }
     return this.service.getAllForPatient(id, user.id);
   }
+
+  @Post('/decrease/count/:id')
+  decreaseCount(@Param('id', ParseIntPipe) id: number) {
+    return this.service.decreaseCount(id);
+  }
 }

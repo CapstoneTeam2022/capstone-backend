@@ -83,8 +83,20 @@ export class InvestigationRequestService {
       registeredBy,
       vitals,
       labTests: labTests.map((id) => ({ id })),
+      remainingTests: labTests.length,
     });
     return this.investigationRequestRepository.save(invRequest);
+  }
+
+  async decreaseCount(id: number) {
+    const req = await this.getInvestigationRequest(id);
+    if (req.remainingTests > 0) {
+      await this.investigationRequestRepository.update(
+        { id },
+        { remainingTests: req.remainingTests - 1 },
+      );
+    }
+    return this.getInvestigationRequest(id);
   }
 
   async getAllForPatient(patientId: number, userId: number) {
