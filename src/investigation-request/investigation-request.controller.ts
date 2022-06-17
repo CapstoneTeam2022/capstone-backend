@@ -59,8 +59,13 @@ export class InvestigationRequestController {
     return this.service.decreaseCount(id);
   }
 
-  @Post('/doctor/:id')
-  getAllForDoctor(@Param('id', ParseIntPipe) id: number) {
-    return this.service.getAllForDoctor(id);
+  @Post('/doctor')
+  getAllForDoctor(@Req() req: Request) {
+    const user = req.user as User;
+    if (!user) {
+      console.error(`Authenticated user not found`);
+      throw new InternalServerErrorException('Internal server error');
+    }
+    return this.service.getAllForDoctor(user.id);
   }
 }
