@@ -31,11 +31,11 @@ export class LabResultController {
   }
 
   @Post()
-  @UseInterceptors(FileUploadInterceptor('./upload/Labresult'))
-  create(@Body() body: LabResultDto, @UploadedFile() image) {
-    if (!image) {
-      throw new BadRequestException('The image is required');
-    }
-    return this.labResultService.createLabResult(body, image.path);
+  //@UseInterceptors(FileUploadInterceptor('./upload/Labresult'))
+  create(@Body() body: LabResultDto /*, @UploadedFile() image*/) {
+    // if (!image) {
+    //   throw new BadRequestException('The image is required');
+    // }
+    return this.labResultService.createLabResult(body, body.image);
   }
 }

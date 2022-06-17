@@ -19,6 +19,10 @@ export class LabResultDto {
   result: string;
 
   @IsNotEmpty()
+  @IsString()
+  image: string;
+
+  @IsNotEmpty()
   @IsBoolean()
   @Transform(StringToBooleanTransformer)
   isAbnormal: boolean;

@@ -45,10 +45,13 @@ export class LabResultService {
     image: string,
   ) {
     const filledBy = await this.userService.getUser(filledById);
-    const investigationRequest =
+    let investigationRequest =
       await this.invRequestService.getInvestigationRequest(
         investigationRequestId,
       );
+    investigationRequest = await this.invRequestService.decreaseCount(
+      investigationRequestId,
+    );
     const labTest = await this.labTestService.getLabTest(labTestId);
     const labResult = this.labResultRepository.create({
       ...data,
@@ -57,9 +60,6 @@ export class LabResultService {
       image,
       labTest,
     });
-
-    const res = this.labResultRepository.save(labResult);
-    await this.invRequestService.decreaseCount(investigationRequestId);
-    return res;
+    return this.labResultRepository.save(labResult);
   }
 }
