@@ -116,4 +116,29 @@ export class InvestigationRequestService {
       .select(['inv', 'vital', 'patient.id', 'patient_user.name'])
       .getMany();
   }
+
+  async getAllForDoctor(doctorId: number) {
+    await this.userService.getUser(doctorId);
+    return (
+      this.investigationRequestRepository
+        .createQueryBuilder('inv')
+        .innerJoinAndSelect('inv.vitals', 'vital')
+        .innerJoinAndSelect('vital.patient', 'patient')
+        .innerJoinAndSelect('inv.registeredBy', 'doctor')
+        //.innerJoinAndSelect('user.healthCenter', 'h')
+        .innerJoinAndSelect('patient.user', 'patient_user')
+        .where('doctor.id=:id', { id: doctorId })
+        // .where('patient.id=:id', { id: patientId })
+        // .andWhere('h.id=:hid', { hid: healthCenterId })
+        .select([
+          'inv',
+          'vital.id',
+          'doctor.id',
+          'doctor.name',
+          'patient.id',
+          'patient_user.name',
+        ])
+        .getMany()
+    );
+  }
 }

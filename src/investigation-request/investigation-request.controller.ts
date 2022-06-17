@@ -58,4 +58,9 @@ export class InvestigationRequestController {
   decreaseCount(@Param('id', ParseIntPipe) id: number) {
     return this.service.decreaseCount(id);
   }
+
+  @Post('/doctor/:id')
+  getAllForDoctor(@Param('id', ParseIntPipe) id: number) {
+    return this.service.getAllForDoctor(id);
+  }
 }
