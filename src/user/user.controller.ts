@@ -56,13 +56,9 @@ export class UserController {
   }
 
   @Post()
-  //@UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
   create(
     @Body() { role, ...body }: CreateUserWithRoleDto, // @UploadedFile() image,
   ) {
-    // if (!image) {
-    //   throw new BadRequestException('The image is required');
-    // }
     return this.userService.addUser(body, role);
   }
 

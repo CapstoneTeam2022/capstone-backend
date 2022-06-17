@@ -12,6 +12,7 @@ import { UpdateUserDto, UserDto } from '../user/dto';
 import { Analytics } from './dto/analytics.dto';
 import { ResearcherService } from './researcher.service';
 import { JwtGuard } from '../auth/guard';
+import { UpdateResearcherDto } from './dto/update-researcher.dto';
 
 @UseGuards(JwtGuard)
 @Controller('researcher')
@@ -56,7 +57,7 @@ export class ResearcherController {
   @Put(':id')
   updateResearcher(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateUserDto,
+    @Body() body: UpdateResearcherDto,
   ) {
     return this.researcherService.updateResearcher(id, body);
   }

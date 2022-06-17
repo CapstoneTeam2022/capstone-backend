@@ -122,11 +122,25 @@ export class UserService {
   }
 
   async updateUser(id: number, data: UpdateUserDto) {
-    if (await this.isEmailTaken(data.email)) {
-      throw new BadRequestException('The Email is Already in use');
+    const user = await this.getUser(id); //check if user exists
+    //if email is different
+    if (user.email !== data.email) {
+      if (await this.isEmailTaken(data.email)) {
+        throw new BadRequestException('The Email is Already in use');
+      }
     }
-    this.getUser(id); //check if user exists
-    return this.userRepository.save(data);
+    const oldAddress = await this.addressService.getAddress(user.address.id);
+    //password update is not included
+    const { address, ...newUser } = data;
+
+    await this.addressService.updateAddress(oldAddress.id, address);
+
+    return this.userRepository.update(
+      {
+        id,
+      },
+      newUser,
+    );
   }
 
   async updateProfileImage(id: number, image: string) {

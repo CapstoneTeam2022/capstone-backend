@@ -18,6 +18,7 @@ import { DiseaseService } from 'src/disease/disease.service';
 import { ExaminationService } from 'src/examination/examination.services';
 import { InvestigationRequestService } from 'src/investigation-request/investigation-request.service';
 import { User } from 'src/user/user.entity';
+import { UpdateResearcherDto } from './dto/update-researcher.dto';
 
 @Injectable()
 export class ResearcherService {
@@ -66,8 +67,12 @@ export class ResearcherService {
       .length;
     return num;
   }
-  async updateResearcher(id: number, data: UpdateUserDto) {
-    return this.userService.updateUser(id, data);
+  async updateResearcher(id: number, data: UpdateResearcherDto) {
+    return this.userService.updateUser(id, {
+      ...data,
+      isResearcher: true,
+      isAdmin: false,
+    });
   }
 
   getHealthCenterAnalytics(healthcenter: string) {

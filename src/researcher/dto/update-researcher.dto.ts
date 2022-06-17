@@ -11,7 +11,7 @@ import {
 import { Exclude, Type } from 'class-transformer';
 import { AddressDto } from '../../address/dto';
 
-export class UpdateUserDto {
+export class UpdateResearcherDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -38,14 +38,6 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @IsString()
   gender: string;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  isResearcher: boolean;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  isAdmin: boolean;
 
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
