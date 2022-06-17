@@ -33,6 +33,12 @@ export class HealthCenterService {
     });
   }
 
+  getAllHealthCenterswithUsers() {
+    return this.healthCenterRepository.find({
+      relations: ['address', 'users'],
+    });
+  }
+
   async getAllInDateRange(start: Date, end: Date) {
     const hospitals = await this.healthCenterRepository.find({
       where: {

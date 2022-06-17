@@ -6,7 +6,7 @@ import { DiagnosisService } from '../diagnosis/diagnosis.service';
 import { PrescriptionService } from 'src/prescription/prescription.service';
 import { HealthCenterService } from 'src/health-center/health-center.service';
 import { count } from 'console';
-import { Analytics } from './dto/analytics.dto';
+import { DiseaseAnalytics, MedicationAnalytics } from './dto/analytics.dto';
 import { Vitals } from '../vitals/vitals.entity';
 import { VitalsService } from '../vitals/vitals.service';
 import { VitalsDto } from 'src/vitals/dto';
@@ -19,7 +19,8 @@ import { ExaminationService } from 'src/examination/examination.services';
 import { InvestigationRequestService } from 'src/investigation-request/investigation-request.service';
 import { User } from 'src/user/user.entity';
 import { UpdateResearcherDto } from './dto/update-researcher.dto';
-
+import { HealthCenterDto } from 'src/health-center/dto';
+import { HealthCenter } from 'src/health-center/healthcenter.entity';
 @Injectable()
 export class ResearcherService {
   readonly roleName = 'Researcher';
@@ -75,11 +76,110 @@ export class ResearcherService {
     });
   }
 
-  getHealthCenterAnalytics(healthcenter: string) {
-    return {};
+  async getHealthCenterUsers(users: User[]) {
+    let doctor = 0;
+    let nurse = 0;
+    let receptionist = 0;
+    let hospitalAdmin = 0;
+    let labTechnican = 0;
+    let radiologist = 0;
+    let system_admin = 0;
+    let researcher = 0;
+    let male = 0;
+    let female = 0;
+    const userRoleGroup = {};
+
+    const usersCount = users.length;
+
+    const allUsers = this.userService.getAllUsers();
+
+    (await allUsers).map((user) => {
+      users.map((singleUser) => {
+        if (singleUser.id === singleUser.id) {
+          if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
+            doctor = doctor + 1;
+          } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
+            nurse = nurse + 1;
+          } else if (
+            user.role.name === 'Hospital Admin' ||
+            user.role.name === 'Hospital admin' ||
+            user.role.name === 'hospital Admin' ||
+            user.role.name === 'hospital admin'
+          ) {
+            hospitalAdmin = hospitalAdmin + 1;
+          } else if (
+            user.role.name === 'Radiologist' ||
+            user.role.name === 'radiologist'
+          ) {
+            radiologist = radiologist + 1;
+          } else if (
+            user.role.name === 'Lab Technican' ||
+            user.role.name === 'Lab Technican' ||
+            user.role.name === 'Lab technican' ||
+            user.role.name === 'lab Technican' ||
+            user.role.name === 'lab technican'
+          ) {
+            labTechnican = labTechnican + 1;
+          } else if (
+            user.role.name === 'System Admin' ||
+            user.role.name === 'system Admin' ||
+            user.role.name === 'System admin' ||
+            user.role.name === 'system admin'
+          ) {
+            system_admin = system_admin + 1;
+          } else if (
+            user.role.name === 'receptionist' ||
+            user.role.name === 'Receptionist'
+          ) {
+            receptionist = receptionist + 1;
+          } else if (
+            user.role.name === 'researcher' ||
+            user.role.name === 'Researcher'
+          ) {
+            researcher = researcher + 1;
+          }
+
+          if (user.gender === 'male' || user.gender === 'Male') {
+            male = male + 1;
+          } else if (user.gender === 'female' || user.gender === 'Female') {
+            female = female + 1;
+          }
+        }
+      });
+    });
+
+    userRoleGroup['receptionist'] = receptionist;
+    userRoleGroup['radiologist'] = radiologist;
+    userRoleGroup['doctor'] = doctor;
+    userRoleGroup['nurse'] = nurse;
+    userRoleGroup['system_admin'] = system_admin;
+    userRoleGroup['hospital_admin'] = hospitalAdmin;
+    userRoleGroup['lab_technican'] = labTechnican;
+    userRoleGroup['male'] = male;
+    userRoleGroup['female'] = female;
+    userRoleGroup['researcher'] = researcher;
+    userRoleGroup['user_count'] = usersCount;
+
+    return userRoleGroup;
   }
 
-  async getVitals(body: Analytics, datas: InvestigationRequest[]) {
+  async getHealthCenterAnalytics(healthcenter: string) {
+    let users = [];
+    const health_centers =
+      this.healthCenterService.getAllHealthCenterswithUsers();
+    (await health_centers).map((health_center) => {
+      if (health_center.name === healthcenter) {
+        users = health_center.users;
+      }
+    });
+    const data = this.getHealthCenterUsers(users);
+    return data;
+  }
+
+  async getVitals(
+    body: DiseaseAnalytics | MedicationAnalytics,
+    datas: InvestigationRequest[],
+  ) {
     const vitals = this.vitalsService.getAll();
     const vitalDatas: Vitals[] = [];
 
@@ -96,16 +196,20 @@ export class ResearcherService {
     return vitalDatas;
   }
 
-  async getUsers(body: Analytics, datas: Vitals[]) {
+  async getUsers(
+    body: DiseaseAnalytics | MedicationAnalytics,
+    datas: Vitals[],
+  ) {
     const users = this.userService.getAllUsers();
     let ageGroupCount = 0;
     let genderCount = 0;
     const usersData = [];
     const count = 0;
     (await users).map((user) => {
-      datas.map(async (data) => {
-        if (data.patient.id === user.patient.id) {
+      datas.map((data) => {
+        if (data.patient.id == user.patient.id) {
           console.log('yes');
+
           if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
             ageGroupCount = ageGroupCount + 1;
             console.log('agecount ' + ageGroupCount);
@@ -122,10 +226,12 @@ export class ResearcherService {
 
     usersData.push(ageGroupCount);
     usersData.push(genderCount);
+    console.log('yes 23');
+    console.log('userdata ' + usersData);
     return usersData;
   }
 
-  async getDiseasedPatient(body: Analytics) {
+  async getDiseasedPatient(body: DiseaseAnalytics) {
     const diagnoses = this.diagnosisService.findAll();
     const diagnosesCount = (await diagnoses).length;
     let diseasedPatientCount = 0;
@@ -171,39 +277,40 @@ export class ResearcherService {
     return datas;
   }
 
-  // async getMedicationAnalytics(body: Analytics) {
-  //   const datas = [];
-  //   let medicatedPatientCount = 0;
-  //   const ageGroupCount = 0;
-  //   let byDateCount = 0;
-  //   const genderCount = 0;
-  //
-  //   const diagnosis = [];
-  //
-  //   const prescriptions = this.prescriptionService.findAll();
-  //   (await prescriptions).map((prescription) => {
-  //     diagnosis.push(prescription.diagnosis);
-  //     prescription.medications.map((medication) => {
-  //       if (medication.name === body.medication) {
-  //         medicatedPatientCount = medicatedPatientCount + 1;
-  //         // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
-  //         byDateCount = byDateCount + 1;
-  //         // }
-  //       }
-  //     });
-  //   });
-  //
-  //   datas.push(medicatedPatientCount);
-  //   datas.push(byDateCount);
-  //
-  //   const invs = await this.getInvestigationRequest(diagnosis);
-  //   const vitals = await this.getVitals(body, invs);
-  //   const usersData = await this.getUsers(body, vitals);
-  //   datas.push(usersData[0]);
-  //   datas.push(usersData[1]);
-  //
-  //   return datas;
-  // }
+  async getMedicationAnalytics(body: MedicationAnalytics) {
+    const datas = {};
+    let medicatedPatientCount = 0;
+    let byDateCount = 0;
+
+    const diagnosis = [];
+
+    const prescriptions = this.prescriptionService.findAll();
+    const prescription_length = (await this.prescriptionService.findAll())
+      .length;
+    (await prescriptions).map((prescription) => {
+      diagnosis.push(prescription.diagnosis);
+      prescription.medications.map((medication) => {
+        if (medication.name === body.medication) {
+          medicatedPatientCount = medicatedPatientCount + 1;
+          // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
+          byDateCount = byDateCount + 1;
+          // }
+        }
+      });
+    });
+
+    datas['total_prescriptions'] = prescription_length;
+    datas['medicatedPatientCount'] = medicatedPatientCount;
+    datas['byDateCount'] = byDateCount;
+
+    const invs = await this.getInvestigationRequest(diagnosis);
+    const vitals = await this.getVitals(body, invs);
+    const usersData = await this.getUsers(body, vitals);
+    datas['by_age'] = usersData[0];
+    datas['by_gender'] = usersData[1];
+    console.log('datas ' + datas);
+    return datas;
+  }
 
   async getInvestigationRequest(diagnosis: Diagnosis[]) {
     const diagnoses = this.diagnosisService.findAll();
@@ -320,12 +427,7 @@ export class ResearcherService {
         doctor = doctor + 1;
       } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
         nurse = nurse + 1;
-      } else if (
-        user.role.name === 'Hospital Admin' ||
-        user.role.name === 'Hospital admin' ||
-        user.role.name === 'hospital Admin' ||
-        user.role.name === 'hospital admin'
-      ) {
+      } else if (user.role.name === 'Hospital Admin') {
         hospitalAdmin = hospitalAdmin + 1;
       } else if (
         user.role.name === 'Radiologist' ||
@@ -333,19 +435,14 @@ export class ResearcherService {
       ) {
         radiologist = radiologist + 1;
       } else if (
-        user.role.name === 'Lab Technican' ||
-        user.role.name === 'Lab Technican' ||
-        user.role.name === 'Lab technican' ||
-        user.role.name === 'lab Technican' ||
-        user.role.name === 'lab technican'
+        user.role.name === 'LabExpert'
+        // user.role.name === 'LabExpert' ||
+        // user.role.name === 'LabExpert' ||
+        // user.role.name === 'LabExpert' ||
+        // user.role.name === 'LabExpert'
       ) {
         labTechnican = labTechnican + 1;
-      } else if (
-        user.role.name === 'System Admin' ||
-        user.role.name === 'system Admin' ||
-        user.role.name === 'System admin' ||
-        user.role.name === 'system admin'
-      ) {
+      } else if (user.role.name === 'System Admin') {
         system_admin = system_admin + 1;
       } else if (
         user.role.name === 'receptionist' ||
