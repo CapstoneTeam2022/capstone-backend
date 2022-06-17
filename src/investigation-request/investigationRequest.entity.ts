@@ -26,6 +26,9 @@ export class InvestigationRequest {
   @CreateDateColumn()
   date: Date;
 
+  @Column({ default: 0 })
+  remainingTests: number;
+
   @ManyToOne(() => Vitals, (vitals) => vitals.investigationRequests)
   vitals: Vitals;
 
