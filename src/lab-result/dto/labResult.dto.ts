@@ -31,10 +31,10 @@ export class LabResultDto {
   @IsString()
   comment: string;
 
-  @IsNotEmpty()
-  @IsInt()
-  @Transform(StringToNumberTransformer)
-  filledById: number;
+  // @IsNotEmpty()
+  // @IsInt()
+  // @Transform(StringToNumberTransformer)
+  // filledById: number;
 
   @IsNotEmpty()
   @IsInt()

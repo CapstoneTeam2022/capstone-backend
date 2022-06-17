@@ -3,9 +3,11 @@ import {
   Body,
   Controller,
   Get,
+  InternalServerErrorException,
   Param,
   ParseIntPipe,
   Post,
+  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -14,6 +16,8 @@ import { LabResultService } from './lab-result.service';
 import { LabResultDto } from './dto';
 import { FileUploadInterceptor } from '../interceptors/fileupload.interceptor';
 import { JwtGuard } from '../auth/guard';
+import { Request } from 'express';
+import { User } from '../user/user.entity';
 
 @UseGuards(JwtGuard)
 @Controller('lab-result')
@@ -32,10 +36,17 @@ export class LabResultController {
 
   @Post()
   //@UseInterceptors(FileUploadInterceptor('./upload/Labresult'))
-  create(@Body() body: LabResultDto /*, @UploadedFile() image*/) {
+  create(
+    @Body() body: LabResultDto,
+    @Req() req: Request /*, @UploadedFile() image*/,
+  ) {
     // if (!image) {
     //   throw new BadRequestException('The image is required');
     // }
-    return this.labResultService.createLabResult(body, body.image);
+    const user = req.user as User;
+    if (!user) {
+      throw new InternalServerErrorException('Internal Server Error');
+    }
+    return this.labResultService.createLabResult(body, user.id, body.image);
   }
 }

@@ -41,7 +41,8 @@ export class LabResultService {
   }
 
   async createLabResult(
-    { filledById, investigationRequestId, labTestId, ...data }: LabResultDto,
+    { investigationRequestId, labTestId, ...data }: LabResultDto,
+    filledById: number,
     image: string,
   ) {
     const filledBy = await this.userService.getUser(filledById);
