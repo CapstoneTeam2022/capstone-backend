@@ -29,6 +29,9 @@ export class InvestigationRequest {
   @Column({ default: 0 })
   remainingTests: number;
 
+  @Column({ default: false })
+  isDiagnosed: boolean;
+
   @ManyToOne(() => Vitals, (vitals) => vitals.investigationRequests)
   vitals: Vitals;
 
