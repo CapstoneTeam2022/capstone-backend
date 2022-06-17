@@ -141,4 +141,6 @@ export class InvestigationRequestService {
         .getMany()
     );
   }
+
+  //  async setIsDiagnosed(id: number, value: boolean) {}
 }
