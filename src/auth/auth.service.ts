@@ -37,6 +37,7 @@ export class AuthService {
       access_token,
       email,
       role: user.role.name,
+      isPasswordReset: user.isPasswordReset
     };
   }
 
