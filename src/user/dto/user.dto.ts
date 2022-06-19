@@ -34,6 +34,9 @@ export class UserDto {
   @IsBoolean()
   isResearcher = false;
 
+  @IsString()
+  image: string
+
   @IsNotEmpty()
   @IsBoolean()
   isAdmin = false;

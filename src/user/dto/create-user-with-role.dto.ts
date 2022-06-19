@@ -50,6 +50,8 @@ export class CreateUserWithRoleDto {
   @IsString()
   role: string;
 
+  
+
   //@IsNotEmpty()
   @IsNumber()
   //@Transform(StringToNumberTransformer)

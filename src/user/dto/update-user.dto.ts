@@ -47,6 +47,10 @@ export class UpdateUserDto {
   @IsBoolean()
   isAdmin: boolean;
 
+  @IsNotEmpty()
+  @IsString()
+  image: string;
+
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
   @IsNotEmpty()
