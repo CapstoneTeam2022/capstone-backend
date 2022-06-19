@@ -66,9 +66,9 @@ export class ResearcherController {
     return this.researcherService.updateResearcher(id, body);
   }
 
-  @Post('healthcenter')
-  getHealthCenterAnalytics(@Body() body: healthCenterAnalytics) {
-    return this.researcherService.getHealthCenterAnalytics(body.healthCenter);
+  @Get('healthcenter/:healthcenter')
+  getHealthCenterAnalytics(@Param('healthcenter') healthcenter: string) {
+    return this.researcherService.getHealthCenterAnalytics(healthcenter);
   }
 
   @Post('disease')
