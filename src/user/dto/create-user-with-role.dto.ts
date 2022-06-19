@@ -50,7 +50,8 @@ export class CreateUserWithRoleDto {
   @IsString()
   role: string;
 
-  
+  @IsString()
+  image: string;
 
   //@IsNotEmpty()
   @IsNumber()
