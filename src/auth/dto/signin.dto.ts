@@ -24,5 +24,6 @@ export class SignInReturnDto {
   role: string;
 
   @IsBoolean()
+  @IsNotEmpty()
   isPasswordReset: boolean;
 }
