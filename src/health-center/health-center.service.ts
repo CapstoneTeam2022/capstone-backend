@@ -146,6 +146,7 @@ export class HealthCenterService {
         ...admin,
         isResearcher: false,
         isAdmin: true,
+        image: "",
         healthCenterId: newHc.id,
       },
       'Hospital Admin',

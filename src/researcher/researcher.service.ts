@@ -74,6 +74,7 @@ export class ResearcherService {
     return this.userService.updateUser(id, {
       ...data,
       isResearcher: true,
+      image:"",
       isAdmin: false,
     });
   }
