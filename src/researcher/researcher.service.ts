@@ -261,8 +261,8 @@ export class ResearcherService {
 
   async getMedicationAnalytics(body: MedicationAnalytics) {
     
-    const diagnoses = this.diagnosisService.findAll();
-    const diagnosesCount = (await diagnoses).length;
+    // const diagnoses = this.diagnosisService.findAll();
+    // const diagnosesCount = (await diagnoses).;
     
     const datas = {};
     let medicatedPatientCount = 0;
@@ -287,7 +287,7 @@ export class ResearcherService {
       });
     });
   
-    datas['total_diagnoses'] = diagnosesCount;
+    // datas['total_diagnoses'] = diagnosesCount;
     datas['medicated_patient_count'] = medicatedPatientCount;
     datas['by_date'] = byDateCount;
   
