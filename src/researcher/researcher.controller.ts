@@ -8,12 +8,8 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { UpdateUserDto, UserDto } from '../user/dto';
-import {
-  DiseaseAnalytics,
-  healthCenterAnalytics,
-  MedicationAnalytics,
-} from './dto/analytics.dto';
+import { UserDto } from '../user/dto';
+import { DiseaseAnalytics, MedicationAnalytics } from './dto/analytics.dto';
 import { ResearcherService } from './researcher.service';
 import { JwtGuard } from '../auth/guard';
 import { UpdateResearcherDto } from './dto/update-researcher.dto';
@@ -66,8 +62,8 @@ export class ResearcherController {
     return this.researcherService.updateResearcher(id, body);
   }
 
-  @Get('healthcenter/:healthcenter')
-  getHealthCenterAnalytics(@Param('healthcenter') healthcenter: string) {
+  @Post('healthcenter')
+  getHealthCenterAnalytics(@Body('healthcenter') healthcenter: string) {
     return this.researcherService.getHealthCenterAnalytics(healthcenter);
   }
 
