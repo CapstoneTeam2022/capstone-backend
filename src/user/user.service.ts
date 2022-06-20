@@ -261,9 +261,7 @@ export class UserService {
 
   async updatePassword(userId: number, data: UpdatePasswordDto) {
     const { oldPassword, newPassword } = data;
-    const user = await this.userRepository.findOne(userId, {
-      select: ['password'],
-    });
+    const user = await this.userRepository.findOne(userId);
     const passwordsMatch = await argon2.verify(user.password, oldPassword);
     if (!passwordsMatch) {
       throw new ForbiddenException('Invalid Password');
