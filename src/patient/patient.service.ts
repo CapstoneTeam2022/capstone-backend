@@ -147,4 +147,15 @@ export class PatientService {
     ).length;
     return num;
   }
+
+  async getPatientByUserId(userId: number) {
+    await this.userService.getUser(userId);
+    return this.patientRepository.findOne({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
+  }
 }
