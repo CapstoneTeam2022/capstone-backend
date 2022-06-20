@@ -270,7 +270,7 @@ export class UserService {
     }
     const hash = await argon2.hash(newPassword);
     user.isPasswordReset = true;
-    await this.userRepository.update(userId, { password: hash });
+    await this.userRepository.update(userId, { password: hash , isPasswordReset: true });
     return { msg: 'success' };
   }
 
