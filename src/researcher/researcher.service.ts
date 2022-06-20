@@ -79,7 +79,7 @@ export class ResearcherService {
     });
   }
 
-  getHealthCenterUsers(health_center: HealthCenter) {
+  async getHealthCenterAnalytics(healthcenter: string) {
     let doctor = 0;
     let nurse = 0;
     let receptionist = 0;
@@ -90,60 +90,75 @@ export class ResearcherService {
     let researcher = 0;
     let male = 0;
     let female = 0;
+    let usersCount = 0;
     const userRoleGroup = {};
 
-    const users = health_center.users;
-    const usersCount = users.length;
-    users.map((user) => {
-      if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
-        doctor = doctor + 1;
-      } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
-        nurse = nurse + 1;
-      } else if (
-        user.role.name === 'Hospital Admin' ||
-        user.role.name === 'Hospital admin' ||
-        user.role.name === 'hospital Admin' ||
-        user.role.name === 'hospital admin'
-      ) {
-        hospitalAdmin = hospitalAdmin + 1;
-      } else if (
-        user.role.name === 'Radiologist' ||
-        user.role.name === 'radiologist'
-      ) {
-        radiologist = radiologist + 1;
-      } else if (
-        user.role.name === 'Lab Technican' ||
-        user.role.name === 'Lab Technican' ||
-        user.role.name === 'Lab technican' ||
-        user.role.name === 'lab Technican' ||
-        user.role.name === 'lab technican'
-      ) {
-        labTechnican = labTechnican + 1;
-      } else if (
-        user.role.name === 'System Admin' ||
-        user.role.name === 'system Admin' ||
-        user.role.name === 'System admin' ||
-        user.role.name === 'system admin'
-      ) {
-        system_admin = system_admin + 1;
-      } else if (
-        user.role.name === 'receptionist' ||
-        user.role.name === 'Receptionist'
-      ) {
-        receptionist = receptionist + 1;
-      } else if (
-        user.role.name === 'researcher' ||
-        user.role.name === 'Researcher'
-      ) {
-        researcher = researcher + 1;
+     let h_center;
+    const health_centers = this.healthCenterService.getAllHealthCenters();
+    (await (health_centers)).map((health_center) => {
+      if (health_center.name === healthcenter) {
+             h_center = health_center;
+        
       }
+    })
 
-      if (user.gender === 'male' || user.gender === 'Male') {
-        male = male + 1;
-      } else if (user.gender === 'female' || user.gender === 'Female') {
-        female = female + 1;
-      }
-    });
+    if (h_center) {
+      const users = h_center.users;
+      usersCount = users.length;
+
+
+
+      users.map((user) => {
+        if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
+          doctor = doctor + 1;
+        } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
+          nurse = nurse + 1;
+        } else if (
+          user.role.name === 'Hospital Admin' ||
+          user.role.name === 'Hospital admin' ||
+          user.role.name === 'hospital Admin' ||
+          user.role.name === 'hospital admin'
+        ) {
+          hospitalAdmin = hospitalAdmin + 1;
+        } else if (
+          user.role.name === 'Radiologist' ||
+          user.role.name === 'radiologist'
+        ) {
+          radiologist = radiologist + 1;
+        } else if (
+          user.role.name === 'Lab Technican' ||
+          user.role.name === 'Lab Technican' ||
+          user.role.name === 'Lab technican' ||
+          user.role.name === 'lab Technican' ||
+          user.role.name === 'lab technican'
+        ) {
+          labTechnican = labTechnican + 1;
+        } else if (
+          user.role.name === 'System Admin' ||
+          user.role.name === 'system Admin' ||
+          user.role.name === 'System admin' ||
+          user.role.name === 'system admin'
+        ) {
+          system_admin = system_admin + 1;
+        } else if (
+          user.role.name === 'receptionist' ||
+          user.role.name === 'Receptionist'
+        ) {
+          receptionist = receptionist + 1;
+        } else if (
+          user.role.name === 'researcher' ||
+          user.role.name === 'Researcher'
+        ) {
+          researcher = researcher + 1;
+        }
+
+        if (user.gender === 'male' || user.gender === 'Male') {
+          male = male + 1;
+        } else if (user.gender === 'female' || user.gender === 'Female') {
+          female = female + 1;
+        }
+      });
+    }
 
     userRoleGroup['receptionist'] = receptionist;
     userRoleGroup['radiologist'] = radiologist;
@@ -160,28 +175,7 @@ export class ResearcherService {
     return userRoleGroup;
   }
 
-  async getHealthCenterAnalytics(healthcenter: string) {
-    const health_centers = this.healthCenterService.getAllHealthCenters();
-    (await health_centers).map((health_center) => {
-      if (health_center.name === healthcenter) {
-        this.getHealthCenterUsers(health_center);
-      }
-    });
-    return {};
-  }
-  //
-  // async getHealthCenterAnalytics(healthcenter: string) {
-  //   let users = [];
-  //   const health_centers =
-  //     this.healthCenterService.getAllHealthCenterswithUsers();
-  //   (await health_centers).map((health_center) => {
-  //     if (health_center.name === healthcenter) {
-  //       users = health_center.users;
-  //     }
-  //   });
-  //   const data = this.getHealthCenterUsers(users);
-  //   return data;
-  // }
+
 
   async getVitals(
     body: DiseaseAnalytics | MedicationAnalytics,
@@ -281,8 +275,8 @@ export class ResearcherService {
     return datas;
   }
   async getMedicationAnalytics(body: MedicationAnalytics) {
-    // const diagnoses = this.diagnosisService.findAll();
-    // const diagnosesCount = (await diagnoses).;
+    const diagnoses = this.diagnosisService.findAll();
+    const diagnosesCount = 0;
 
     const datas = {};
     let medicatedPatientCount = 0;
@@ -293,6 +287,7 @@ export class ResearcherService {
     const diagnosis = [];
 
     const prescriptions = this.prescriptionService.findAll();
+    const prescriptionsCount = (await prescriptions).length;
     (await prescriptions).map((prescription) => {
       diagnosis.push(prescription.diagnosis);
       prescription.medications.map((medication) => {
@@ -305,7 +300,7 @@ export class ResearcherService {
       });
     });
 
-    // datas['total_diagnoses'] = diagnosesCount;
+    datas['total_prescriptions'] = prescriptionsCount;
     datas['medicated_patient_count'] = medicatedPatientCount;
     datas['by_date'] = byDateCount;
 
@@ -345,20 +340,7 @@ export class ResearcherService {
     return healthCenter;
   }
 
-  // async getInvestigationRequest(diagnosis: Diagnosis[]) {
-  //   const diagnoses = this.diagnosisService.findAll();
-  //   const invs = [];
-  //   // console.log(diagnosis);
-  //   (await diagnoses).map((dia) => {
-  //     diagnosis.map((diagnos) => {
-  //       if (dia.id === diagnos.id) {
-  //         invs.push(dia.investigationRequest);
-  //       }
-  //     });
-  //   });
-  //
-  //   return invs;
-  // }
+
 
   async getPatientRecord() {
     const group = {};

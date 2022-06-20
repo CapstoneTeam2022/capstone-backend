@@ -11,14 +11,13 @@ import {
 import { UpdateUserDto, UserDto } from '../user/dto';
 import {
   DiseaseAnalytics,
-  healthCenterAnalytics,
   MedicationAnalytics,
 } from './dto/analytics.dto';
 import { ResearcherService } from './researcher.service';
 import { JwtGuard } from '../auth/guard';
 import { UpdateResearcherDto } from './dto/update-researcher.dto';
 
-@UseGuards(JwtGuard)
+// @UseGuards(JwtGuard)
 @Controller('researcher')
 export class ResearcherController {
   constructor(private researcherService: ResearcherService) {}
