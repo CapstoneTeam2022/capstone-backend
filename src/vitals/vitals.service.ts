@@ -21,7 +21,18 @@ export class VitalsService {
     });
   }
 
-  async getAllForPatient(patientId: number, userId: number) {
+  async getAllForPatient(userId: number) {
+    const patient = await this.patientService.getPatientByUserId(userId);
+    return this.vitalsRepository.find({
+      where: {
+        patient: {
+          id: patient.id,
+        },
+      },
+    });
+  }
+
+  async getAllForPatientInHospital(patientId: number, userId: number) {
     const user = await this.userService.getUser(userId);
     const healthCenterId = user.healthCenter.id;
     await this.patientService.getPatient(patientId); //check for patient with this id
