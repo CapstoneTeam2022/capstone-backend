@@ -269,8 +269,11 @@ export class UserService {
       throw new ForbiddenException('Invalid Password');
     }
     const hash = await argon2.hash(newPassword);
-    // user.isPasswordReset = true;
-    await this.userRepository.update(userId, { password: hash, isPasswordReset: true });
+    //user.isPasswordReset = true;
+    await this.userRepository.update(userId, {
+      password: hash,
+      isPasswordReset: true,
+    });
     return { msg: 'success' };
   }
 
