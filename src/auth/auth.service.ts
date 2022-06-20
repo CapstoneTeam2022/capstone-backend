@@ -37,7 +37,7 @@ export class AuthService {
       access_token,
       email,
       role: user.role.name,
-      isPasswordReset: user.isPasswordReset
+      isPasswordReset: user.isPasswordReset,
     };
   }
 
@@ -69,6 +69,7 @@ export class AuthService {
         'isActive',
         'isResearcher',
         'isAdmin',
+        'isPasswordReset',
       ],
     });
     if (user) return user;
