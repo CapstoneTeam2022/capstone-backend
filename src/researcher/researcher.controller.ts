@@ -39,10 +39,10 @@ export class ResearcherController {
     return this.researcherService.counts();
   }
 
-  // @Get('/number')
-  // getAllNum() {
-  //   return this.researcherService.getNumOfResearchers();
-  // }
+  @Get('number')
+  getAllNum() {
+    return this.researcherService.getNumOfResearchers();
+  }
 
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
