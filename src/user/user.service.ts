@@ -261,15 +261,16 @@ export class UserService {
 
   async updatePassword(userId: number, data: UpdatePasswordDto) {
     const { oldPassword, newPassword } = data;
-    const user = await this.userRepository.findOne(userId);
+    const user = await this.userRepository.findOne(userId, {
+      select: ['password', 'isPasswordReset'],
+    });
     const passwordsMatch = await argon2.verify(user.password, oldPassword);
     if (!passwordsMatch) {
       throw new ForbiddenException('Invalid Password');
     }
     const hash = await argon2.hash(newPassword);
-    user.isPasswordReset = true;
-    user.password = hash;
-    await this.userRepository.save(user);
+    // user.isPasswordReset = true;
+    await this.userRepository.update(userId, { password: hash, isPasswordReset: true });
     return { msg: 'success' };
   }
 
