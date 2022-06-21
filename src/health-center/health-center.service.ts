@@ -111,7 +111,7 @@ export class HealthCenterService {
   async getHealthcenter(healthcenter: string): Promise<HealthCenter> {
     const healthCenter = await this.healthCenterRepository.findOne({
       where: {
-        healthcenter: {
+        name: {
           healthcenter,
         },
       },
