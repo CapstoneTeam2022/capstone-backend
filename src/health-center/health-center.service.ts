@@ -30,6 +30,9 @@ export class HealthCenterService {
   getAllHealthCenters() {
     return this.healthCenterRepository.find({
       relations: ['address'],
+      order: {
+        name: 'ASC',
+      },
     });
   }
 
