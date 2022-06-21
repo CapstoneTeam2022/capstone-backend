@@ -89,20 +89,19 @@ export class ResearcherService {
     let male = 0;
     let female = 0;
     const userRoleGroup = {};
-    let h_center: HealthCenter;
-    const health_centers = this.healthCenterService.getAllHealthCenters();
-    (await health_centers).map((health_center) => {
-      if (health_center.name === healthcenter) {
-        h_center = health_center;
-      }
-    });
+    // let h_center: HealthCenter;
+    // const health_centers = this.healthCenterService.getAllHealthCenters();
+    // (await health_centers).map((health_center) => {
+    //   if (health_center.name === healthcenter) {
+    //     h_center = health_center;
+    //   }
+    // });
    
-    if (h_center) {
-      const users = h_center.users;
-      if (users) {
-       
-      
+    const health_center = this.healthCenterService.getHealthcenter(healthcenter);
 
+    if (health_center) {
+      const users = (await health_center).users;
+      if (users) {
       users.map((user) => {
         if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
           doctor = doctor + 1;
