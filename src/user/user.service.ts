@@ -231,6 +231,7 @@ export class UserService {
         .createQueryBuilder('u')
         .innerJoinAndSelect('u.healthCenter', 'h')
         .innerJoinAndSelect('u.role', 'r')
+        .innerJoinAndSelect('u.address', 'a')
         .where('h.id=:id', { id: healthCenterId })
         .andWhere(
           new Brackets((qb) => {
@@ -254,7 +255,7 @@ export class UserService {
         // .orWhere('r.name=:name6', { name6: 'Employee' })
         // .orWhere('r.name=:name7', { name7: 'Researcher' })
         // .orWhere('r.name=:name8', { name8: 'MohEmployee' })
-        .select(['u', 'r', 'h'])
+        .select(['u', 'r', 'h', 'a'])
         .getMany()
     );
   }

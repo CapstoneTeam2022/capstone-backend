@@ -164,7 +164,7 @@ export class HealthCenterService {
         ...admin,
         isResearcher: false,
         isAdmin: true,
-        image: "",
+        image: '',
         healthCenterId: newHc.id,
       },
       'Hospital Admin',
@@ -175,5 +175,15 @@ export class HealthCenterService {
         admin: user,
       },
     };
+  }
+
+  async getAdmin(id: number) {
+    await this.getOneHealthCenter(id);
+    return await this.healthCenterRepository
+      .createQueryBuilder('hc')
+      .innerJoinAndSelect('hc.users', 'users')
+      .where('hc.id=:id', { id })
+      .select(['hc', 'users'])
+      .getOne();
   }
 }

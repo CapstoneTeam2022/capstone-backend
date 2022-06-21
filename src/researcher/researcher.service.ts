@@ -143,17 +143,17 @@ export class ResearcherService {
           researcher = researcher + 1;
         }
 
-        if (user.gender === 'male' || user.gender === 'Male') {
-          male = male + 1;
-        } else if (user.gender === 'female' || user.gender === 'Female') {
-          female = female + 1;
-        }
-      });
-        }
+          if (user.gender === 'male' || user.gender === 'Male') {
+            male = male + 1;
+          } else if (user.gender === 'female' || user.gender === 'Female') {
+            female = female + 1;
+          }
+        });
+      }
+    } else {
+      console.log('found noting');
     }
-    else {
-      console.log("found noting");
-    }
+    
 
     userRoleGroup['receptionist'] = receptionist;
     userRoleGroup['radiologist'] = radiologist;
@@ -165,7 +165,7 @@ export class ResearcherService {
     userRoleGroup['male'] = male;
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
-    
+
     return userRoleGroup;
   }
 
