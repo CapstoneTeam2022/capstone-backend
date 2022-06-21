@@ -117,7 +117,7 @@ export class HealthCenterService {
              healthcenter,
           }
         
-        }, relations:['user']
+        }, relations:['users']
       }, 
     )
     if (healthCenter) return healthCenter;
