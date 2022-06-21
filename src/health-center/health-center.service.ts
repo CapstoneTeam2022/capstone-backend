@@ -113,7 +113,7 @@ export class HealthCenterService {
     const healthCenter = await this.healthCenterRepository.findOne(
       {
         where: {
-          healthcenter: {
+          name: {
              healthcenter,
           }
         
