@@ -109,7 +109,7 @@ export class HealthCenterService {
   }
 
 
-  async getHealthcenter(healthcenter: string): Promise<HealthCenter>{
+  async getHealthcenter(healthcenter: string){
     const healthCenter = await this.healthCenterRepository.findOne(
       {
         where: {
@@ -120,7 +120,10 @@ export class HealthCenterService {
         }, relations:['users']
       }, 
     )
-    if (healthCenter) return healthCenter;
+    if (healthCenter) return healthCenter.users;
+    else {
+      return [];
+    }
   }
 
   async getOneHealthCenter(id: number): Promise<HealthCenter> {

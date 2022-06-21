@@ -96,13 +96,14 @@ export class ResearcherService {
     //     h_center = health_center;
     //   }
     // });
-   
-    const health_center = this.healthCenterService.getHealthcenter(healthcenter);
+    let check = 0;
+    const users =await this.healthCenterService.getHealthcenter(healthcenter);
 
-    if (health_center) {
-      const users = (await health_center).users;
+    if (users.length != 0) {
+       console.log("found one ");
+      console.log("users " + users);
       if (users) {
-      users.map((user) => {
+      (await users).map((user) => {
         if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
           doctor = doctor + 1;
         } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
@@ -150,6 +151,9 @@ export class ResearcherService {
       });
         }
     }
+    else {
+      console.log("found noting");
+    }
 
     userRoleGroup['receptionist'] = receptionist;
     userRoleGroup['radiologist'] = radiologist;
@@ -194,26 +198,31 @@ export class ResearcherService {
     let genderCount = 0;
     const usersData = [];
     const count = 0;
-    (await users).map((user) => {
-      datas.map(async (data) => {
-        const patient = data.patient;
-        const p_user = patient.user;
-        if (p_user.id === user.id) {
-          console.log('yes');
-          if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
-            ageGroupCount = ageGroupCount + 1;
-            console.log('agecount ' + ageGroupCount);
+    if ((await users).length != 0) {
+      console.log("found one");
+      (await users).map((user) => {
+        datas.map(async (data) => {
+          const patient = data.patient;
+          const p_user = patient.user;
+          if (p_user.id === user.id) {
+            console.log('yes');
+            if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
+              ageGroupCount = ageGroupCount + 1;
+              console.log('agecount ' + ageGroupCount);
 
-            const gender = user.gender;
-            if (gender === body.gender) {
-              genderCount = genderCount + 1;
-              console.log('gender ' + genderCount);
+              const gender = user.gender;
+              if (gender === body.gender) {
+                genderCount = genderCount + 1;
+                console.log('gender ' + genderCount);
+              }
             }
           }
-        }
+        });
       });
-    });
-
+    }
+    else {
+      console.log('found noting');
+    }
     usersData.push(ageGroupCount);
     usersData.push(genderCount);
     return usersData;

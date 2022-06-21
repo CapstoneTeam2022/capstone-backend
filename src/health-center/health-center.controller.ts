@@ -13,7 +13,7 @@ import { HealthCenterDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 import { HealthCenterWithAdminDto } from './dto/health-center-with-admin.dto';
 
-@UseGuards(JwtGuard)
+//@UseGuards(JwtGuard)
 @Controller('health-center')
 export class HealthCenterController {
   constructor(private readonly service: HealthCenterService) {}
@@ -52,4 +52,11 @@ export class HealthCenterController {
   ) {
     return this.service.updateHealthCenter(id, body);
   }
+
+  @Post('check')
+  healthceterfind(@Body() body: string) {
+  
+    return this.service.getHealthcenter(body);
+  }
+
 }
