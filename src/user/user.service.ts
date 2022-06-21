@@ -288,4 +288,16 @@ export class UserService {
     const user = await this.getUser(userId);
     return this.addressService.updateAddress(user.address.id, body);
   }
+
+
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOne(
+      {
+      where: {
+        email: email,
+      }, relations:['healthCenter']
+    },
+    )
+    return user.healthCenter.name;
+  }
 }

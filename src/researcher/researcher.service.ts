@@ -19,6 +19,7 @@ import { InvestigationRequestService } from 'src/investigation-request/investiga
 import { User } from 'src/user/user.entity';
 import { UpdateResearcherDto } from './dto/update-researcher.dto';
 import { HealthCenter } from 'src/health-center/healthcenter.entity';
+import { Patient } from 'src/patient/patient.entity';
 
 @Injectable()
 export class ResearcherService {
@@ -77,7 +78,7 @@ export class ResearcherService {
     });
   }
 
-  async getHealthCenterAnalytics(healthcenter: string) {
+  async getHealthCenterAnalytics(email: string) {
     let doctor = 0;
     let nurse = 0;
     let receptionist = 0;
@@ -89,68 +90,74 @@ export class ResearcherService {
     let male = 0;
     let female = 0;
     const userRoleGroup = {};
-    // let h_center: HealthCenter;
-    // const health_centers = this.healthCenterService.getAllHealthCenters();
-    // (await health_centers).map((health_center) => {
-    //   if (health_center.name === healthcenter) {
-    //     h_center = health_center;
-    //   }
-    // });
     let check = 0;
-    const users = await this.healthCenterService.getHealthcenter(healthcenter);
 
+
+    const healthcenter = await this.userService.getUserByEmail(email);
+
+
+    const users = await this.healthCenterService.getHealthcenter(await healthcenter);
+    
+    const allUsers = this.userService.getAllUsers();
     if (users.length != 0) {
-      console.log('found one ');
-      console.log('users ' + users);
-      if (users) {
-        (await users).map((user) => {
-          if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
-            doctor = doctor + 1;
-          } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
-            nurse = nurse + 1;
-          } else if (
-            user.role.name === 'Hospital Admin' ||
-            user.role.name === 'Hospital admin' ||
-            user.role.name === 'hospital Admin' ||
-            user.role.name === 'hospital admin'
-          ) {
-            hospitalAdmin = hospitalAdmin + 1;
-          } else if (
-            user.role.name === 'Radiologist' ||
-            user.role.name === 'radiologist'
-          ) {
-            radiologist = radiologist + 1;
-          } else if (user.role.name === 'LabExpert') {
-            labTechnican = labTechnican + 1;
-          } else if (
-            user.role.name === 'System Admin' ||
-            user.role.name === 'system Admin' ||
-            user.role.name === 'System admin' ||
-            user.role.name === 'system admin'
-          ) {
-            system_admin = system_admin + 1;
-          } else if (
-            user.role.name === 'receptionist' ||
-            user.role.name === 'Receptionist'
-          ) {
-            receptionist = receptionist + 1;
-          } else if (
-            user.role.name === 'researcher' ||
-            user.role.name === 'Researcher'
-          ) {
-            researcher = researcher + 1;
-          }
+       console.log("found one ");
+      console.log("users " + users);
+     
+      (await (allUsers)).map(async (user) => {
+        
+       users.map((oneUser) => {
+        if (oneUser.id === user.id ) {
+            if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
+              doctor = doctor + 1;
+            } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
+              nurse = nurse + 1;
+            } else if (
+              user.role.name === 'Hospital Admin' ||
+              user.role.name === 'Hospital admin' ||
+              user.role.name === 'hospital Admin' ||
+              user.role.name === 'hospital admin'
+            ) {
+              hospitalAdmin = hospitalAdmin + 1;
+            } else if (
+              user.role.name === 'Radiologist' ||
+              user.role.name === 'radiologist'
+            ) {
+              radiologist = radiologist + 1;
+            } else if (
+              user.role.name === 'LabExpert'
+            ) {
+              labTechnican = labTechnican + 1;
+            } else if (
+              user.role.name === 'System Admin' ||
+              user.role.name === 'system Admin' ||
+              user.role.name === 'System admin' ||
+              user.role.name === 'system admin'
+            ) {
+              system_admin = system_admin + 1;
+            } else if (
+              user.role.name === 'receptionist' ||
+              user.role.name === 'Receptionist'
+            ) {
+              receptionist = receptionist + 1;
+            } else if (
+              user.role.name === 'researcher' ||
+              user.role.name === 'Researcher'
+            ) {
+              researcher = researcher + 1;
+            }
 
-          if (user.gender === 'male' || user.gender === 'Male') {
-            male = male + 1;
-          } else if (user.gender === 'female' || user.gender === 'Female') {
-            female = female + 1;
+              if (user.gender === 'male' || user.gender === 'Male') {
+                male = male + 1;
+              } else if (user.gender === 'female' || user.gender === 'Female') {
+                female = female + 1;
+              }
           }
         });
-      }
+      });
     } else {
       console.log('found noting');
     }
+    
 
     userRoleGroup['receptionist'] = receptionist;
     userRoleGroup['radiologist'] = radiologist;
@@ -162,6 +169,8 @@ export class ResearcherService {
     userRoleGroup['male'] = male;
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
+    userRoleGroup['hospital_name'] = healthcenter;
+
 
     return userRoleGroup;
   }
@@ -190,38 +199,44 @@ export class ResearcherService {
     body: DiseaseAnalytics | MedicationAnalytics,
     datas: Vitals[],
   ) {
-    const users = this.userService.getAllUsers();
+   
     let ageGroupCount = 0;
     let genderCount = 0;
     const usersData = [];
     const count = 0;
-    if ((await users).length != 0) {
-      console.log('found one');
-      (await users).map((user) => {
-        datas.map(async (data) => {
-          const patient = data.patient;
-          const p_user = patient.user;
-          if (p_user.id === user.id) {
-            console.log('yes');
-            if (
-              user.age >= body.startAgeGroup &&
-              user.age <= body.endAgeGroup
-            ) {
-              ageGroupCount = ageGroupCount + 1;
-              console.log('agecount ' + ageGroupCount);
+    let patient: Patient;
+    let users = [];
+    const allPatients = this.patientsService.getAllPatients();
+    
+    (await allPatients).map((singlePatient) => {
+      console.log("single " + singlePatient.id);
+      datas.map(async (data) => {
+    
+        patient = data.patient;
+        let newPatient: Patient;
+        console.log(patient.id);
+  
+        console.log("id " + singlePatient.id);
+        if (singlePatient.id === patient.id) {
+          
+        
+        const user = singlePatient.user;
+          console.log("single uu " + user.age);
+        if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
+          ageGroupCount = ageGroupCount + 1;
+          console.log('agecount ' + ageGroupCount);
 
-              const gender = user.gender;
-              if (gender === body.gender) {
-                genderCount = genderCount + 1;
-                console.log('gender ' + genderCount);
-              }
-            }
+          const gender = user.gender;
+          if (gender === body.gender) {
+            genderCount = genderCount + 1;
+            console.log('gender ' + genderCount);
           }
-        });
-      });
-    } else {
-      console.log('found noting');
-    }
+        }
+      }
+    })
+    
+
+    });
     usersData.push(ageGroupCount);
     usersData.push(genderCount);
     return usersData;

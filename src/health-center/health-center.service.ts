@@ -111,15 +111,16 @@ export class HealthCenterService {
     }
   }
 
+
   async getHealthcenter(healthcenter: string) {
-    const healthCenter = await this.healthCenterRepository.findOne({
-      where: {
-        name: {
-          healthcenter,
-        },
-      },
-      relations: ['users'],
-    });
+    console.log(healthcenter);
+    const healthCenter = await this.healthCenterRepository.findOne(
+      {
+        where: {
+          name: healthcenter,
+        }, relations:['users']
+      }, 
+    )
     if (healthCenter) return healthCenter.users;
     else {
       return [];

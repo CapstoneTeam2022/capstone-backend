@@ -63,8 +63,8 @@ export class ResearcherController {
   }
 
   @Post('healthcenter')
-  getHealthCenterAnalytics(@Body('healthcenter') healthcenter: string) {
-    return this.researcherService.getHealthCenterAnalytics(healthcenter);
+  getHealthCenterAnalytics(@Body('email') email: string) {
+    return this.researcherService.getHealthCenterAnalytics(email);
   }
 
   @Post('disease')

@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { HealthCenterService } from './health-center.service';
-import { HealthCenterDto } from './dto';
+import { HealthcenterCheck, HealthCenterDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 import { HealthCenterWithAdminDto } from './dto/health-center-with-admin.dto';
 
@@ -56,5 +56,11 @@ export class HealthCenterController {
     @Body() body: HealthCenterDto,
   ) {
     return this.service.updateHealthCenter(id, body);
+  }
+
+  @Post('check')
+  healthceterfind(@Body() body: HealthcenterCheck) {
+    console.log('heolo');
+    return this.service.getHealthcenter(body.healthcenter);
   }
 }

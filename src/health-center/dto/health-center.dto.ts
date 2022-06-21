@@ -24,3 +24,9 @@ export class HealthCenterDto {
   @IsNotEmpty()
   address: AddressDto;
 }
+
+export class HealthcenterCheck{
+  @IsNotEmpty()
+  @IsString()
+  healthcenter: string;
+}
