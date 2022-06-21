@@ -29,6 +29,12 @@ export class LabResultController {
     return this.labResultService.getAll();
   }
 
+  @Get('/user/filled')
+  getAllForUser(@Req() req: Request) {
+    const user = req.user as User;
+    return this.labResultService.getAllFilledByUser(user.id);
+  }
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.labResultService.getLabResult(id);

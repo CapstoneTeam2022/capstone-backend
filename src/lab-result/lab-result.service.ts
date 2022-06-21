@@ -63,4 +63,15 @@ export class LabResultService {
     });
     return this.labResultRepository.save(labResult);
   }
+
+  async getAllFilledByUser(userId: number) {
+    await this.userService.getUser(userId);
+    return this.labResultRepository.find({
+      where: {
+        filledBy: {
+          id: userId,
+        },
+      },
+    });
+  }
 }
