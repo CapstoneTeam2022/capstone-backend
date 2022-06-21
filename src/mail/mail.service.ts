@@ -4,21 +4,19 @@ import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class MailService {
+  constructor(private mailerService: MailerService) {}
 
-    constructor(private mailerService: MailerService) {}
+  async sendUserConfirmation() {
+    const url = `http://localhost:3000/system-admin/MOH/`;
 
-    async sendUserConfirmation(user: User) {
-        
-        const url = `http://localhost:3000/system-admin/MOH/`;
-
-        await this.mailerService.sendMail({
-            to: "redidemisse22@gmail.com",
-            subject: 'Welcome to EMR! Confirm your Email',
-            template: '/confirmation', 
-            context: { 
-                name: user.name,
-                url,
-            },
-        });
-    }
+    await this.mailerService.sendMail({
+      to: 'redidemisse22@gmail.com',
+      subject: 'Welcome to EMR! Confirm your Email',
+      html: '<hi>hi</hi>',
+      context: {
+        name: 'name',
+        url,
+      },
+    });
+  }
 }

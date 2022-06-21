@@ -6,6 +6,7 @@ import { AddressModule } from '../address/address.module';
 import { RoleModule } from '../role/role.module';
 import { UserController } from './user.controller';
 import { HealthCenterModule } from '../health-center/health-center.module';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   providers: [UserService],
@@ -14,6 +15,7 @@ import { HealthCenterModule } from '../health-center/health-center.module';
     AddressModule,
     RoleModule,
     forwardRef(() => HealthCenterModule),
+    MailModule,
   ],
   exports: [UserService],
   controllers: [UserController],

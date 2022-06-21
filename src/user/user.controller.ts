@@ -22,10 +22,13 @@ import { User } from './user.entity';
 import { AddressDto } from '../address/dto';
 import { MailService } from 'src/mail/mail.service';
 
-@UseGuards(JwtGuard)
+//@UseGuards(JwtGuard)
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService, private mailService: MailService) {}
+  constructor(
+    private userService: UserService,
+    private mailService: MailService,
+  ) {}
 
   @Get()
   getAll() {
@@ -91,15 +94,8 @@ export class UserController {
   }
 
   @Post('/password/forgot')
-  async forgotPassword(@Body() body: number, @Req() request: Request) {
-    const user = request.user as User;
-    if (!user) {
-      throw new InternalServerErrorException('Internal server error');
-    }
-
-    return await this.mailService.sendUserConfirmation(user);
-
-
+  async forgotPassword() {
+    return await this.mailService.sendUserConfirmation();
   }
 
   @Post('/password/update')
