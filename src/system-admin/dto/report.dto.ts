@@ -19,10 +19,6 @@ export enum ReportInfo {
 }
 
 export class ReportDto {
-  @IsArray()
-  @ArrayMinSize(1)
-  @IsEnum(ReportInfo, { each: true })
-  information: ReportInfo[];
 
   @IsString()
   @IsDateString()

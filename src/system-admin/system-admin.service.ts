@@ -25,9 +25,18 @@ export class SystemAdminService {
     private readonly userService: UserService,
   ) {}
 
-  async getReport({ start, end, information }: ReportDto) {
-    const items = {};
-    for (const item of information) {
+  async getReport({ start, end }: ReportDto) {
+    const items = [
+      'DIAGNOSIS',
+      'HOSPITAL',
+      'RESEARCHER',
+      'PATIENT',
+      'INVESTIGATION_REQUEST',
+      'MOH_EMPLOYEE',
+      'LAB_RESULT',
+      'RADIOLOGY',
+    ];
+    for (const item of items) {
       if (item === ReportInfo.HOSPITAL) {
         items[ReportInfo.HOSPITAL] =
           await this.healthCenterService.getAllInDateRange(start, end);
@@ -62,14 +71,16 @@ export class SystemAdminService {
     return items;
   }
 
-  async generatePDF({ start, end, information }: ReportDto): Promise<Buffer> {
+  async generatePDFWeekly(): Promise<Buffer> {
     const pdfBuffer: Buffer = await new Promise(async (resolve) => {
       const doc = new PDFDocument({
         size: 'LETTER',
         bufferPages: true,
       });
-
-      const items = await this.getReport({ start, end, information });
+      const end = new Date()
+      const start = new Date(end.getFullYear(), end.getMonth(), end.getDate()-7);
+      
+      const items = await this.getReport({ start, end });
       const hospitalInfo = items[ReportInfo.HOSPITAL];
       const researchers = items[ReportInfo.RESEARCHER];
       const mohEmployees = items[ReportInfo.MOH_EMPLOYEE];
