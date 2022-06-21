@@ -71,15 +71,19 @@ export class SystemAdminService {
     return items;
   }
 
-  async generatePDFWeekly(): Promise<Buffer> {
+  async generatePDF(days: number): Promise<Buffer> {
     const pdfBuffer: Buffer = await new Promise(async (resolve) => {
       const doc = new PDFDocument({
         size: 'LETTER',
         bufferPages: true,
       });
       const end = new Date()
-      const start = new Date(end.getFullYear(), end.getMonth(), end.getDate()-7);
-      
+      let start = new Date()
+      if(days > 0){
+       start = new Date(end.getDate()-days);
+      }else{
+        start = new Date("January 14, 2012")
+      }
       const items = await this.getReport({ start, end });
       const hospitalInfo = items[ReportInfo.HOSPITAL];
       const researchers = items[ReportInfo.RESEARCHER];
