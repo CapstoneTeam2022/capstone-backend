@@ -102,7 +102,7 @@ export class ResearcherService {
       const users = h_center.users;
       if (users) {
         usersCount = users.length;
-      }
+      
 
       users.map((user) => {
         if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
@@ -154,6 +154,7 @@ export class ResearcherService {
           female = female + 1;
         }
       });
+        }
     }
 
     userRoleGroup['receptionist'] = receptionist;
