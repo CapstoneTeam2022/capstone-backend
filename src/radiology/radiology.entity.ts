@@ -29,14 +29,14 @@ export class Radiology {
   @Column()
   report: string;
 
-  @Column('text', { array: true, default: {} })
-  images: string[];
+  @Column()
+  image: string;
 
   @Column()
   comment: string;
 
-  @ManyToOne(() => User, (user) => user.requestedRadiology)
-  requestedBy: User;
+  @ManyToOne(() => User, (user) => user.filledRadiology)
+  filledBy: User;
 
   @ManyToOne(() => InvestigationRequest, (invReq) => invReq.radiologyTests)
   investigationRequest: InvestigationRequest;

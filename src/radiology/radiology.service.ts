@@ -38,21 +38,22 @@ export class RadiologyService {
     throw new NotFoundException(`The Radiology test with id ${id} not found`);
   }
 
-  async create(
-    { investigationRequestId, requestedById, ...data }: RadiologyDto,
-    images: string[],
-  ): Promise<Radiology> {
+  async create({
+    investigationRequestId,
+    filledById,
+    ...data
+  }: RadiologyDto): Promise<Radiology> {
     const investigationRequest =
       await this.invRequestService.getInvestigationRequest(
         investigationRequestId,
       );
-    const requestedBy = await this.userService.getUser(requestedById);
+    const filledBy = await this.userService.getUser(filledById);
 
     const radiologyTest = await this.radiologyRepository.create({
       ...data,
       investigationRequest,
-      requestedBy,
-      images,
+      filledBy,
+      image: '',
     });
     return this.radiologyRepository.save(radiologyTest);
   }

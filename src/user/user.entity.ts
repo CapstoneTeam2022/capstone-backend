@@ -85,8 +85,8 @@ export class User {
   @OneToMany(() => LabResult, (results) => results.filledBy)
   filledLabResults: LabResult[];
 
-  @OneToMany(() => Radiology, (radiology) => radiology.requestedBy)
-  requestedRadiology: Radiology[];
+  @OneToMany(() => Radiology, (radiology) => radiology.filledBy)
+  filledRadiology: Radiology[];
 
   @ManyToOne(() => HealthCenter, (healthCenter) => healthCenter.users)
   healthCenter: HealthCenter;

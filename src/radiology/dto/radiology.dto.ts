@@ -15,6 +15,10 @@ export class RadiologyDto {
   @IsString()
   report: string;
 
+  @IsNotEmpty()
+  @IsString()
+  image: string;
+
   // @IsArray()
   // @IsString({ each: true })
   // images: string[];
@@ -26,7 +30,7 @@ export class RadiologyDto {
   @IsNotEmpty()
   @IsNumber()
   @Transform(StringToNumberTransformer)
-  requestedById: number;
+  filledById: number;
 
   @IsNotEmpty()
   @IsNumber()

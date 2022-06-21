@@ -31,17 +31,7 @@ export class RadiologyController {
   }
 
   @Post()
-  @UseInterceptors(MultipleFileUploadInterceptor('./upload/radiology'))
-  create(
-    @Body() body: RadiologyDto,
-    @UploadedFiles() images: Array<Express.Multer.File>,
-  ) {
-    if (!images) {
-      throw new BadRequestException('The images are required');
-    }
-    return this.radiologyService.create(
-      body,
-      images.map((file) => file.path),
-    );
+  create(@Body() body: RadiologyDto) {
+    return this.radiologyService.create(body);
   }
 }
