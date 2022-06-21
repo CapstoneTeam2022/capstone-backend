@@ -196,7 +196,9 @@ export class ResearcherService {
     const count = 0;
     (await users).map((user) => {
       datas.map(async (data) => {
-        if (data.patient.id === user.patient.id) {
+        const patient = data.patient;
+        const p_user = patient.user;
+        if (p_user.id === user.id) {
           console.log('yes');
           if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
             ageGroupCount = ageGroupCount + 1;
