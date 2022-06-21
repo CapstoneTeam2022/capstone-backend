@@ -155,9 +155,10 @@ export class InvestigationRequestService {
       .innerJoinAndSelect('inv.vitals', 'vital')
       .innerJoinAndSelect('vital.requestedBy', 'user')
       .innerJoinAndSelect('user.healthCenter', 'h')
+      .innerJoinAndSelect('inv.labTests', 'tests')
       .where('h.id=:hid', { hid: healthCenterId })
       .andWhere('inv.remainingTests > :num', { num: 0 })
-      .select(['inv', 'vital.id', 'user.id', 'user.name', 'h'])
+      .select(['inv', 'tests'])
       .orderBy('inv.createdAt', 'DESC')
       .getMany();
   }
