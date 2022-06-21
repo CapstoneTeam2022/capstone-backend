@@ -296,19 +296,20 @@ export class ResearcherService {
     const ageGroupCount = 0;
     let byDateCount = 0;
     const genderCount = 0;
-
+     const invs: InvestigationRequest[] = [];
     const diagnosis = [];
 
     const prescriptions = this.prescriptionService.findAll();
     const prescriptionsCount = (await prescriptions).length;
     (await prescriptions).map((prescription) => {
       diagnosis.push(prescription.diagnosis);
-      prescription.medications.map((medication) => {
+      prescription.medications.map(async (medication) => {
         if (medication.name === body.medication) {
           medicatedPatientCount = medicatedPatientCount + 1;
           // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
           byDateCount = byDateCount + 1;
           // }
+          invs.push(await this.getInvestigationRequest(prescription.diagnosis));
         }
       });
     });
@@ -317,7 +318,7 @@ export class ResearcherService {
     datas['medicated_patient_count'] = medicatedPatientCount;
     datas['by_date'] = byDateCount;
 
-    const invs = await this.getInvestigationRequest(diagnosis);
+     
     const vitals = await this.getVitals(body, invs);
     const usersData = await this.getUsers(body, vitals);
     datas['by_age'] = usersData[0];
@@ -326,16 +327,14 @@ export class ResearcherService {
     return datas;
   }
 
-  async getInvestigationRequest(diagnosis: Diagnosis[]) {
+  async getInvestigationRequest(diagnosis) {
     const diagnoses = this.diagnosisService.findAll();
-    const invs = [];
+    let invs: InvestigationRequest;
     // console.log(diagnosis);
     (await diagnoses).map((dia) => {
-      diagnosis.map((diagnos) => {
-        if (dia.id === diagnos.id) {
-          invs.push(dia.investigationRequest);
+        if (dia.id === diagnosis.id) {
+          invs = dia.investigationRequest;
         }
-      });
     });
 
     return invs;
