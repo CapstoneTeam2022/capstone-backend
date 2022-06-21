@@ -79,10 +79,13 @@ export class SystemAdminService {
       });
       const end = new Date()
       let start = new Date()
-      if(days > 0){
+      if(days !== 365 && days !== 0 ){
        start = new Date(end.getDate()-days);
-      }else{
-        start = new Date("January 14, 2012")
+      }else if(days === 365){
+        start = new Date(end.getFullYear()-1);
+      }
+      else if(days === 0){
+        start = new Date(end.getFullYear()-4);
       }
       const items = await this.getReport({ start, end });
       const hospitalInfo = items[ReportInfo.HOSPITAL];
