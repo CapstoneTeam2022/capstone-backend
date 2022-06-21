@@ -27,10 +27,10 @@ export class RadiologyDto {
   @IsString()
   comment: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @Transform(StringToNumberTransformer)
-  filledById: number;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // @Transform(StringToNumberTransformer)
+  // filledById: number;
 
   @IsNotEmpty()
   @IsNumber()

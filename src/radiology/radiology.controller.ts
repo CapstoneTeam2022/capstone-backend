@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Req,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -13,9 +14,12 @@ import {
 import { RadiologyService } from './radiology.service';
 import { RadiologyDto } from './dto';
 import { MultipleFileUploadInterceptor } from '../interceptors/multiplefileUpload';
-import { JwtGuard } from '../auth/guard';
+import { JwtGuard, RolesGuard } from '../auth/guard';
+import { Roles } from '../auth/decorator';
+import { Request } from 'express';
+import { User } from '../user/user.entity';
 
-@UseGuards(JwtGuard)
+@UseGuards(JwtGuard, RolesGuard)
 @Controller('radiology')
 export class RadiologyController {
   constructor(private radiologyService: RadiologyService) {}
@@ -30,8 +34,10 @@ export class RadiologyController {
     return this.radiologyService.getOne(id);
   }
 
+  @Roles('Radiologist')
   @Post()
-  create(@Body() body: RadiologyDto) {
-    return this.radiologyService.create(body);
+  create(@Body() body: RadiologyDto, @Req() request: Request) {
+    const user = request.user as User;
+    return this.radiologyService.create(body, user.id);
   }
 }
