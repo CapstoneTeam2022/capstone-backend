@@ -108,15 +108,18 @@ export class HealthCenterService {
     }
   }
 
-  async getHealthcenter(healthcenter: string): Promise<HealthCenter> {
-    const healthCenter = await this.healthCenterRepository.findOne({
-      where: {
-        name: {
-          healthcenter,
-        },
+
+  async getHealthcenter(healthcenter: string): Promise<HealthCenter>{
+    const healthCenter = await this.healthCenterRepository.findOne(
+      {
+        where: {
+          name: {
+             healthcenter,
+          }
+
+        }, relations:['users']
       },
-      relations: ['user'],
-    });
+    )
     if (healthCenter) return healthCenter;
   }
 
@@ -158,7 +161,7 @@ export class HealthCenterService {
         ...admin,
         isResearcher: false,
         isAdmin: true,
-        image: '',
+        image: "",
         healthCenterId: newHc.id,
       },
       'Hospital Admin',
