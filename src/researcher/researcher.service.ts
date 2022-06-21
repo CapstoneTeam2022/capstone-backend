@@ -89,7 +89,6 @@ export class ResearcherService {
     let female = 0;
     let usersCount = 0;
     const userRoleGroup = {};
-
     let h_center;
     const health_centers = this.healthCenterService.getAllHealthCenters();
     (await health_centers).map((health_center) => {
@@ -165,7 +164,6 @@ export class ResearcherService {
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
     userRoleGroup['user_count'] = usersCount;
-
     return userRoleGroup;
   }
 
