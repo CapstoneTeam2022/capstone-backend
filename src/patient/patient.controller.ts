@@ -14,7 +14,7 @@ import { PatientService } from './patient.service';
 import { PatientDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 
-@UseGuards(JwtGuard)
+// @UseGuards(JwtGuard)
 @Controller('patient')
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}
