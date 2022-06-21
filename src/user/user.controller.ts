@@ -12,6 +12,7 @@ import {
   UseGuards,
   Req,
   InternalServerErrorException,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
@@ -24,15 +25,17 @@ import {
 import { JwtGuard } from '../auth/guard';
 import { Request } from 'express';
 import { User } from './user.entity';
+import { MailerService } from '@nestjs-modules/mailer';
 import { AddressDto } from '../address/dto';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from '../mail/mail.service';
 
 @UseGuards(JwtGuard)
 @Controller('user')
 export class UserController {
   constructor(
     private userService: UserService,
-    private mailService: MailService,
+    private mailerService: MailerService,
+    private mailService: MailService, //rediet
   ) {}
 
   @Get()
@@ -116,5 +119,18 @@ export class UserController {
   @Post('checkemail')
   checkEmail(@Body() body: CheckEmail) {
     return this.userService.getUserByEmail(body.email);
+  }
+
+  @Get('/password-forget/plainTextemail')
+  async plainText(@Query('toemail') toemail) {
+    const result = await this.mailerService.sendMail({
+      to: toemail,
+      from: 'robelshewan21@gmail.com',
+      subject: 'Reset your EMR password',
+      text: 'Password forget  ',
+      html: '<p>Someone (hopefully you) has requested a password reset for your EMR account. Follow the link below to set a new password: </p> <a href ="http://localhost:3000/forgot-password">http://localhost:3000/forget-passowrd</a> <h2>The EMR Team</h2> ',
+    });
+    console.log(result);
+    return 'success';
   }
 }

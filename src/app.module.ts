@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -30,6 +31,17 @@ import { MailModule } from './mail/mail.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(dbConfig),
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        service: 'Gmail',
+        port: 2525,
+        auth: {
+          user: 'robelshewan21@gmail.com',
+          pass: 'ruxzxctogbonnexz',
+        },
+      },
+    }),
     AddressModule,
     UserModule,
     HealthCenterModule,
@@ -50,7 +62,7 @@ import { MailModule } from './mail/mail.module';
     PrescriptionModule,
     AuthModule,
     SystemAdminModule,
-    MailModule
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
