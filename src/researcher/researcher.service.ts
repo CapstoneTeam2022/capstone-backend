@@ -88,7 +88,6 @@ export class ResearcherService {
     let researcher = 0;
     let male = 0;
     let female = 0;
-    let usersCount = 0;
     const userRoleGroup = {};
     let h_center: HealthCenter;
     const health_centers = this.healthCenterService.getAllHealthCenters();
@@ -101,7 +100,7 @@ export class ResearcherService {
     if (h_center) {
       const users = h_center.users;
       if (users) {
-        usersCount = users.length;
+       
       
 
       users.map((user) => {
@@ -122,11 +121,7 @@ export class ResearcherService {
         ) {
           radiologist = radiologist + 1;
         } else if (
-          user.role.name === 'Lab Technican' ||
-          user.role.name === 'Lab Technican' ||
-          user.role.name === 'Lab technican' ||
-          user.role.name === 'lab Technican' ||
-          user.role.name === 'lab technican'
+          user.role.name === 'LabExpert' 
         ) {
           labTechnican = labTechnican + 1;
         } else if (
@@ -167,7 +162,7 @@ export class ResearcherService {
     userRoleGroup['male'] = male;
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
-    userRoleGroup['user_count'] = usersCount;
+    
     return userRoleGroup;
   }
 
