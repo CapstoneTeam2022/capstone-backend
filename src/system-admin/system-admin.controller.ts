@@ -16,7 +16,7 @@ export class SystemAdminController {
 
   @Get('/report/weekly')
   async getPDFWeek(@Res() res: Response): Promise<void> {
-    const buffer = await this.systemAdminService.generatePDFWeekly();
+    const buffer = await this.systemAdminService.generatePDF(7);
 
     res.set({
       'Content-Type': 'application/pdf',
@@ -27,55 +27,61 @@ export class SystemAdminController {
     res.end(buffer);
   }
 
-  // @Get('/report/monthly')
-  // async getPDFMonth(@Res() res: Response, @Body() report: ReportDto): Promise<void> {
-  //   const buffer = await this.systemAdminService.generatePDF(report);
+  @Get('/report/monthly')
+  async getPDFMonth(@Res() res: Response): Promise<void> {
+    const buffer = await this.systemAdminService.generatePDF(30);
 
-  //   res.set({
-  //     'Content-Type': 'application/pdf',
-  //     'Content-Disposition': 'inline; filename=example.pdf',
-  //     'Content-Length': buffer.length,
-  //   });
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'inline; filename=example.pdf',
+      'Content-Length': buffer.length,
+    });
 
-  //   res.end(buffer);
-  // }
+    res.end(buffer);
+  }
 
-  // @Get('/report/semerterly')
-  // async getPDFSemester(@Res() res: Response, @Body() report: ReportDto): Promise<void> {
-  //   const buffer = await this.systemAdminService.generatePDF(report);
+  @Get('/report/semerterly')
+  async getPDFSemester(@Res() res: Response): Promise<void> {
+    const buffer = await this.systemAdminService.generatePDF(180);
 
-  //   res.set({
-  //     'Content-Type': 'application/pdf',
-  //     'Content-Disposition': 'inline; filename=example.pdf',
-  //     'Content-Length': buffer.length,
-  //   });
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'inline; filename=example.pdf',
+      'Content-Length': buffer.length,
+    });
 
-  //   res.end(buffer);
-  // }
+    res.end(buffer);
+  }
 
-  // @Get('/report/yearly')
-  // async getPDFYear(@Res() res: Response, @Body() report: ReportDto): Promise<void> {
-  //   const buffer = await this.systemAdminService.generatePDF(report);
+  @Get('/report/yearly')
+  async getPDFYear(
+    @Res() res: Response,
+    @Body() report: ReportDto,
+  ): Promise<void> {
+    const buffer = await this.systemAdminService.generatePDF(365);
 
-  //   res.set({
-  //     'Content-Type': 'application/pdf',
-  //     'Content-Disposition': 'inline; filename=example.pdf',
-  //     'Content-Length': buffer.length,
-  //   });
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'inline; filename=example.pdf',
+      'Content-Length': buffer.length,
+    });
 
-  //   res.end(buffer);
-  // }
+    res.end(buffer);
+  }
 
-  // @Get('/report/general')
-  // async getPDFGeneral(@Res() res: Response, @Body() report: ReportDto): Promise<void> {
-  //   const buffer = await this.systemAdminService.generatePDF(report);
+  @Get('/report/general')
+  async getPDFGeneral(
+    @Res() res: Response,
+    @Body() report: ReportDto,
+  ): Promise<void> {
+    const buffer = await this.systemAdminService.generatePDF(0);
 
-  //   res.set({
-  //     'Content-Type': 'application/pdf',
-  //     'Content-Disposition': 'inline; filename=example.pdf',
-  //     'Content-Length': buffer.length,
-  //   });
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'inline; filename=example.pdf',
+      'Content-Length': buffer.length,
+    });
 
-  //   res.end(buffer);
-  // }
+    res.end(buffer);
+  }
 }
