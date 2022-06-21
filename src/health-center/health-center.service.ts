@@ -134,12 +134,13 @@ export class HealthCenterService {
 
   async updateHealthCenter(
     hcId: number,
-    updateHCData: HealthCenterDto,
+    { address, ...updateHCData }: HealthCenterDto,
   ): Promise<HealthCenter> {
     const healthCenter = await this.getOneHealthCenter(hcId);
-
+    await this.addressService.updateAddress(healthCenter.address.id, address);
     Object.assign(healthCenter, updateHCData);
-    return this.healthCenterRepository.save(healthCenter);
+    await this.healthCenterRepository.save(healthCenter);
+    return this.getOneHealthCenter(hcId);
   }
 
   async getNumOfHealthCenters() {
