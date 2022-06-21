@@ -89,67 +89,65 @@ export class ResearcherService {
     let male = 0;
     let female = 0;
     const userRoleGroup = {};
-    let h_center: HealthCenter;
-    const health_centers = this.healthCenterService.getAllHealthCenters();
-    (await health_centers).map((health_center) => {
-      if (health_center.name === healthcenter) {
-        h_center = health_center;
-      }
-    });
-   
-    if (h_center) {
-      const users = h_center.users;
+    // let h_center: HealthCenter;
+    // const health_centers = this.healthCenterService.getAllHealthCenters();
+    // (await health_centers).map((health_center) => {
+    //   if (health_center.name === healthcenter) {
+    //     h_center = health_center;
+    //   }
+    // });
+
+    const health_center =
+      this.healthCenterService.getHealthcenter(healthcenter);
+
+    if (health_center) {
+      const users = (await health_center).users;
       if (users) {
-       
-      
+        users.map((user) => {
+          if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
+            doctor = doctor + 1;
+          } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
+            nurse = nurse + 1;
+          } else if (
+            user.role.name === 'Hospital Admin' ||
+            user.role.name === 'Hospital admin' ||
+            user.role.name === 'hospital Admin' ||
+            user.role.name === 'hospital admin'
+          ) {
+            hospitalAdmin = hospitalAdmin + 1;
+          } else if (
+            user.role.name === 'Radiologist' ||
+            user.role.name === 'radiologist'
+          ) {
+            radiologist = radiologist + 1;
+          } else if (user.role.name === 'LabExpert') {
+            labTechnican = labTechnican + 1;
+          } else if (
+            user.role.name === 'System Admin' ||
+            user.role.name === 'system Admin' ||
+            user.role.name === 'System admin' ||
+            user.role.name === 'system admin'
+          ) {
+            system_admin = system_admin + 1;
+          } else if (
+            user.role.name === 'receptionist' ||
+            user.role.name === 'Receptionist'
+          ) {
+            receptionist = receptionist + 1;
+          } else if (
+            user.role.name === 'researcher' ||
+            user.role.name === 'Researcher'
+          ) {
+            researcher = researcher + 1;
+          }
 
-      users.map((user) => {
-        if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
-          doctor = doctor + 1;
-        } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
-          nurse = nurse + 1;
-        } else if (
-          user.role.name === 'Hospital Admin' ||
-          user.role.name === 'Hospital admin' ||
-          user.role.name === 'hospital Admin' ||
-          user.role.name === 'hospital admin'
-        ) {
-          hospitalAdmin = hospitalAdmin + 1;
-        } else if (
-          user.role.name === 'Radiologist' ||
-          user.role.name === 'radiologist'
-        ) {
-          radiologist = radiologist + 1;
-        } else if (
-          user.role.name === 'LabExpert' 
-        ) {
-          labTechnican = labTechnican + 1;
-        } else if (
-          user.role.name === 'System Admin' ||
-          user.role.name === 'system Admin' ||
-          user.role.name === 'System admin' ||
-          user.role.name === 'system admin'
-        ) {
-          system_admin = system_admin + 1;
-        } else if (
-          user.role.name === 'receptionist' ||
-          user.role.name === 'Receptionist'
-        ) {
-          receptionist = receptionist + 1;
-        } else if (
-          user.role.name === 'researcher' ||
-          user.role.name === 'Researcher'
-        ) {
-          researcher = researcher + 1;
-        }
-
-        if (user.gender === 'male' || user.gender === 'Male') {
-          male = male + 1;
-        } else if (user.gender === 'female' || user.gender === 'Female') {
-          female = female + 1;
-        }
-      });
-        }
+          if (user.gender === 'male' || user.gender === 'Male') {
+            male = male + 1;
+          } else if (user.gender === 'female' || user.gender === 'Female') {
+            female = female + 1;
+          }
+        });
+      }
     }
 
     userRoleGroup['receptionist'] = receptionist;
@@ -162,7 +160,7 @@ export class ResearcherService {
     userRoleGroup['male'] = male;
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
-    
+
     return userRoleGroup;
   }
 
