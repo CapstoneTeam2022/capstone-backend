@@ -146,4 +146,19 @@ export class InvestigationRequestService {
   }
 
   //  async setIsDiagnosed(id: number, value: boolean) {}
+
+  async getAllIncomplete(userId: number) {
+    const user = await this.userService.getUser(userId);
+    const healthCenterId = user.healthCenter.id;
+    return this.investigationRequestRepository
+      .createQueryBuilder('inv')
+      .innerJoinAndSelect('inv.vitals', 'vital')
+      .innerJoinAndSelect('vital.requestedBy', 'user')
+      .innerJoinAndSelect('user.healthCenter', 'h')
+      .where('h.id=:hid', { hid: healthCenterId })
+      .andWhere('inv.remainingTests > :num', { num: 0 })
+      .select(['inv', 'vital.id', 'user.id', 'user.name', 'h'])
+      .orderBy('inv.createdAt', 'DESC')
+      .getMany();
+  }
 }

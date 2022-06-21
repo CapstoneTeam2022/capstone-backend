@@ -25,6 +25,15 @@ export class InvestigationRequestController {
     return this.service.getAll();
   }
 
+  @Get('incomplete')
+  getIncompleteRequests(@Req() req: Request) {
+    const user = req.user as User;
+    if (!user) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+    return this.service.getAllIncomplete(user.id);
+  }
+
   @Get(':id')
   getOne(@Param('id', ParseIntPipe) id: number) {
     return this.service.getInvestigationRequest(id);
