@@ -95,7 +95,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "16.14"
+    "node": "16.x"
   },
   "devDependencies": {
     "@types/passport-jwt": "^3.0.6",
