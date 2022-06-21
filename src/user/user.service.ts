@@ -282,4 +282,16 @@ export class UserService {
     const user = await this.getUser(userId);
     return user.healthCenter;
   }
+
+
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.findOne(
+      {
+      where: {
+        email: email,
+      }, relations:['healthCenter']
+    },
+    )
+    return user.healthCenter.name;
+  }
 }

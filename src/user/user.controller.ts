@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
-import { CreateUserWithRoleDto, UpdatePasswordDto, UpdateUserDto } from './dto';
+import { CheckEmail, CreateUserWithRoleDto, UpdatePasswordDto, UpdateUserDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 import { Request } from 'express';
 import { User } from './user.entity';
@@ -87,5 +87,11 @@ export class UserController {
     }
 
     return this.userService.updatePassword(user.id, body);
+  }
+
+
+  @Post('checkemail')
+  checkEmail(@Body() body : CheckEmail) {
+    return this.userService.getUserByEmail(body.email);
   }
 }

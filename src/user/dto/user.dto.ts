@@ -55,3 +55,10 @@ export class UserDto {
   // @IsNotEmpty()
   // role: Role;
 }
+
+export class CheckEmail{
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+
+}

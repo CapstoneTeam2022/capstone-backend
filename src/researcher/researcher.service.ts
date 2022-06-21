@@ -78,7 +78,7 @@ export class ResearcherService {
     });
   }
 
-  async getHealthCenterAnalytics(healthcenter: string) {
+  async getHealthCenterAnalytics(email: string) {
     let doctor = 0;
     let nurse = 0;
     let receptionist = 0;
@@ -91,7 +91,13 @@ export class ResearcherService {
     let female = 0;
     const userRoleGroup = {};
     let check = 0;
-    const users =await this.healthCenterService.getHealthcenter(healthcenter);
+
+
+    const healthcenter = await this.userService.getUserByEmail(email);
+
+
+    const users = await this.healthCenterService.getHealthcenter(await healthcenter);
+    
     const allUsers = this.userService.getAllUsers();
     if (users.length != 0) {
        console.log("found one ");
@@ -163,6 +169,8 @@ export class ResearcherService {
     userRoleGroup['male'] = male;
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
+    userRoleGroup['hospital_name'] = healthcenter;
+
 
     return userRoleGroup;
   }
