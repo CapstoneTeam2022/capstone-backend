@@ -36,16 +36,6 @@ export class VitalsService {
     const user = await this.userService.getUser(userId);
     const healthCenterId = user.healthCenter.id;
     await this.patientService.getPatient(patientId); //check for patient with this id
-    // return this.vitalsRepository.find({
-    //   where: {
-    //     patient: {
-    //       id: patientId,
-    //     },
-    //   },
-    //   order: {
-    //     requestedDate: 'DESC',
-    //   },
-    // });
     return this.vitalsRepository
       .createQueryBuilder('vital')
       .innerJoinAndSelect('vital.patient', 'patient')
