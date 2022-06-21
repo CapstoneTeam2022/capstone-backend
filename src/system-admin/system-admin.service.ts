@@ -101,54 +101,54 @@ export class SystemAdminService {
 
       if (hospitalInfo) {
         doc
-          .fontSize(20)
+          .fontSize(12)
           .moveDown()
           .text(
             `There are ${hospitalInfo.length} health centers registered within the selected period. The registered hospitals are: `,
           );
-        doc.fontSize(20).moveDown().list(hospitalInfo);
+        doc.fontSize(12).moveDown().list(hospitalInfo);
       }
 
       if (patients) {
         doc.fontSize(20).moveDown().text('Patients');
-        doc.fontSize(20).moveDown().text(patients);
+        doc.fontSize(12).moveDown().text(`There are ${patients} patients registered within the selected period.`);
       }
 
       if (labResults) {
         doc.fontSize(20).moveDown().text('Lab Results');
-        doc.fontSize(20).moveDown().text(labResults);
+        doc.fontSize(12).moveDown().text(`There are ${labResults} laboratory results registered within the selected period.`);
       }
 
       if (radiologyTests) {
         doc.fontSize(20).moveDown().text('Radiology');
-        doc.fontSize(20).moveDown().text(radiologyTests);
+        doc.fontSize(12).moveDown().text(`There are ${radiologyTests} radiology test results registered within the selected period.`);
       }
 
       if (diagnoses) {
         doc.fontSize(20).moveDown().text('Diagnosis');
-        doc.fontSize(20).moveDown().text(diagnoses);
+        doc.fontSize(12).moveDown().text(`There are ${diagnoses} health centers registered within the selected period.`);
       }
 
       if (researchers) {
         doc.fontSize(20).moveDown().text('Researchers');
         doc
-          .fontSize(20)
+          .fontSize(12)
           .moveDown()
           .text(
             `There are ${researchers.length} researchers registered within the selected period. The registered researchers are: `,
           );
-        doc.fontSize(20).moveDown().list(researchers);
+        doc.fontSize(12).moveDown().list(researchers);
       }
 
       if (mohEmployees) {
         doc.fontSize(20).moveDown().text('Ministry of health Personnel');
         doc
-          .fontSize(20)
+          .fontSize(12)
           .moveDown()
           .text(
             `There are ${mohEmployees.length} MoH personnel's registered within the selected period. The registered people are: `,
           );
-        doc.fontSize(20).moveDown().list(mohEmployees);
+        doc.fontSize(12).moveDown().list(mohEmployees);
       }
 
       // // and some justified text wrapped into columns
