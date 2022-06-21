@@ -170,4 +170,14 @@ export class HealthCenterService {
       },
     };
   }
+
+  async getAdmin(id: number) {
+    await this.getOneHealthCenter(id);
+    return await this.healthCenterRepository
+      .createQueryBuilder('hc')
+      .innerJoinAndSelect('hc.users', 'users')
+      .where('hc.id=:id', { id })
+      .select(['hc', 'users'])
+      .getOne();
+  }
 }

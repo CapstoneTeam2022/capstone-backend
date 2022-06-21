@@ -39,6 +39,11 @@ export class HealthCenterController {
     return this.service.getOneHealthCenter(id);
   }
 
+  @Get(':id/admin')
+  getAdmin(@Param('id', ParseIntPipe) id: number) {
+    return this.service.getAdmin(id);
+  }
+
   @Post()
   create(@Body() body: HealthCenterWithAdminDto) {
     // return this.service.createWithTransaction(body);
