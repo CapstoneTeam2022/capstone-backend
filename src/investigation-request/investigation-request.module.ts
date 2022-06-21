@@ -7,11 +7,12 @@ import { VitalsModule } from '../vitals/vitals.module';
 import { InvestigationRequestController } from './investigation-request.controller';
 import { LabTestModule } from '../lab-test/lab-test.module';
 import { PatientModule } from '../patient/patient.module';
+import { LabResult } from '../lab-result/labResult.entity';
 
 @Module({
   providers: [InvestigationRequestService],
   imports: [
-    TypeOrmModule.forFeature([InvestigationRequest]),
+    TypeOrmModule.forFeature([InvestigationRequest, LabResult]),
     UserModule,
     VitalsModule,
     LabTestModule,
