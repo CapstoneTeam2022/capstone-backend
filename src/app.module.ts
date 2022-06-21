@@ -24,6 +24,7 @@ import { ExaminationModule } from './examination/examination.module';
 import { PrescriptionModule } from './prescription/prescription.module';
 import { AuthModule } from './auth/auth.module';
 import { SystemAdminModule } from './system-admin/system-admin.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { SystemAdminModule } from './system-admin/system-admin.module';
     PrescriptionModule,
     AuthModule,
     SystemAdminModule,
+    MailModule
   ],
   controllers: [AppController],
   providers: [AppService],
