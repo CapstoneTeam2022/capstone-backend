@@ -13,6 +13,7 @@ import { CreatePrescriptionDto } from './dto';
 import { Response } from 'express';
 import { JwtGuard } from '../auth/guard';
 
+@UseGuards(JwtGuard)
 @Controller('prescription')
 export class PrescriptionController {
   constructor(private readonly prescriptionService: PrescriptionService) {}

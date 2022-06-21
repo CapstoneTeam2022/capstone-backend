@@ -15,14 +15,19 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
-import { CheckEmail, CreateUserWithRoleDto, UpdatePasswordDto, UpdateUserDto } from './dto';
+import {
+  CheckEmail,
+  CreateUserWithRoleDto,
+  UpdatePasswordDto,
+  UpdateUserDto,
+} from './dto';
 import { JwtGuard } from '../auth/guard';
 import { Request } from 'express';
 import { User } from './user.entity';
 import { AddressDto } from '../address/dto';
 import { MailService } from 'src/mail/mail.service';
 
-//@UseGuards(JwtGuard)
+@UseGuards(JwtGuard)
 @Controller('user')
 export class UserController {
   constructor(
@@ -47,10 +52,10 @@ export class UserController {
   getProfile(@Req() req: Request) {
     const user = req.user as User;
     if (!user) {
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException('Internal server error: no user');
     }
     if (!user.id) {
-      throw new InternalServerErrorException('Internal server error');
+      throw new InternalServerErrorException('Internal server error: no id');
     }
     return this.userService.getUser(user.id);
   }
@@ -108,9 +113,8 @@ export class UserController {
     return this.userService.updatePassword(user.id, body);
   }
 
-
   @Post('checkemail')
-  checkEmail(@Body() body : CheckEmail) {
+  checkEmail(@Body() body: CheckEmail) {
     return this.userService.getUserByEmail(body.email);
   }
 }
