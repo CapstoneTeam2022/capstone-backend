@@ -81,9 +81,9 @@ export class SystemAdminService {
       let start = new Date();
       if (days !== 365 && days !== 0) {
         start = new Date(end.getDate() - days);
-      } else if (days === 365) {
+      } else if (days == 365) {
         start = new Date(end.getFullYear() - 1, end.getMonth(), end.getDate());
-      } else if (days === 0) {
+      } else if (days == 0) {
         start = new Date(end.getFullYear() - 4,  end.getMonth(), end.getDate());
       }
       const items = await this.getReport({ start, end });
