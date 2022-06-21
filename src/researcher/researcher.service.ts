@@ -18,6 +18,7 @@ import { ExaminationService } from 'src/examination/examination.services';
 import { InvestigationRequestService } from 'src/investigation-request/investigation-request.service';
 import { User } from 'src/user/user.entity';
 import { UpdateResearcherDto } from './dto/update-researcher.dto';
+import { HealthCenter } from 'src/health-center/healthcenter.entity';
 
 @Injectable()
 export class ResearcherService {
@@ -89,17 +90,19 @@ export class ResearcherService {
     let female = 0;
     let usersCount = 0;
     const userRoleGroup = {};
-    let h_center;
+    let h_center: HealthCenter;
     const health_centers = this.healthCenterService.getAllHealthCenters();
     (await health_centers).map((health_center) => {
       if (health_center.name === healthcenter) {
         h_center = health_center;
       }
     });
-
+   
     if (h_center) {
       const users = h_center.users;
-      usersCount = users.length;
+      if (users) {
+        usersCount = users.length;
+      }
 
       users.map((user) => {
         if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
