@@ -7,12 +7,15 @@ import { UserService } from '../user/user.service';
 import { VitalsService } from '../vitals/vitals.service';
 import { LabTestService } from 'src/lab-test/lab-test.service';
 import { PatientService } from '../patient/patient.service';
+import { LabResult } from '../lab-result/labResult.entity';
 
 @Injectable()
 export class InvestigationRequestService {
   constructor(
     @InjectRepository(InvestigationRequest)
     private investigationRequestRepository: Repository<InvestigationRequest>,
+    @InjectRepository(LabResult)
+    private labResultRepository: Repository<LabResult>,
     private userService: UserService,
     private vitalService: VitalsService,
     private labTestService: LabTestService,
@@ -150,7 +153,8 @@ export class InvestigationRequestService {
   async getAllIncomplete(userId: number) {
     const user = await this.userService.getUser(userId);
     const healthCenterId = user.healthCenter.id;
-    return this.investigationRequestRepository
+
+    const requests = await this.investigationRequestRepository
       .createQueryBuilder('inv')
       .innerJoinAndSelect('inv.vitals', 'vital')
       .innerJoinAndSelect('vital.requestedBy', 'user')
@@ -161,5 +165,31 @@ export class InvestigationRequestService {
       .select(['inv', 'tests'])
       .orderBy('inv.createdAt', 'DESC')
       .getMany();
+
+    // for (const request of requests) {
+    //   const results = await this.getAllForInvestigationRequest(request.id);
+    //   request.labResults = results;
+    // }
+
+    return requests;
+  }
+
+  async getLabResults(id: number) {
+    return this.investigationRequestRepository
+      .createQueryBuilder('inv')
+      .innerJoinAndSelect('inv.labResults', 'res')
+      .where('inv.id=:id', { id: id })
+      .getMany();
+  }
+
+  async getAllForInvestigationRequest(reqId: number) {
+    return this.labResultRepository.find({
+      where: {
+        investigationRequest: {
+          id: reqId,
+        },
+      },
+      relations: ['labTest'],
+    });
   }
 }
