@@ -45,6 +45,7 @@ export class VitalsService {
       .where('patient.id=:id', { id: patientId })
       .andWhere('h.id=:hid', { hid: healthCenterId })
       .select(['vital', 'patient.id', 'patient_user.name'])
+      .orderBy('vital.requestedDate', 'DESC')
       .getMany();
   }
 

@@ -104,6 +104,7 @@ export class DiagnosisService {
       .innerJoinAndSelect('diagnosis.diseases', 'di')
       .andWhere('patient.id=:id', { id })
       .select(['diagnosis', 'inv.id', 'vitals.id', 'patient', 'di'])
+      .orderBy('diagnosis.createdAt', 'DESC')
       .getMany();
   }
 

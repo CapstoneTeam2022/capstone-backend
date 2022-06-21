@@ -52,6 +52,7 @@ export class InvestigationRequestService {
       .createQueryBuilder('invRequest')
       .leftJoinAndSelect('invRequest.labTests', 'test')
       .andWhere('test.testCategory=:cat', { cat: 'Radiology' })
+      .orderBy('invRequest.createdAt', 'DESC')
       .getMany();
   }
 
@@ -114,6 +115,7 @@ export class InvestigationRequestService {
       .where('patient.id=:id', { id: patientId })
       .andWhere('h.id=:hid', { hid: healthCenterId })
       .select(['inv', 'vital', 'patient.id', 'patient_user.name'])
+      .orderBy('inv.createdAt', 'DESC')
       .getMany();
   }
 
@@ -128,6 +130,7 @@ export class InvestigationRequestService {
         //.innerJoinAndSelect('user.healthCenter', 'h')
         .innerJoinAndSelect('patient.user', 'patient_user')
         .where('doctor.id=:id', { id: doctorId })
+        .orderBy('inv.createdAt', 'DESC')
         // .where('patient.id=:id', { id: patientId })
         // .andWhere('h.id=:hid', { hid: healthCenterId })
         .select([
