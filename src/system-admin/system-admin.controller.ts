@@ -1,14 +1,15 @@
-import { Body, Controller, Post,Get, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Get, Res, UseGuards } from '@nestjs/common';
 import { ReportDto } from './dto';
 import { SystemAdminService } from './system-admin.service';
 import { Response } from 'express';
 import { JwtGuard } from '../auth/guard';
 
-@UseGuards(JwtGuard)
+//@UseGuards(JwtGuard)
 @Controller('system-admin')
 export class SystemAdminController {
   constructor(private readonly systemAdminService: SystemAdminService) {}
   @Post()
+  @UseGuards(JwtGuard)
   getReport(@Body() report: ReportDto) {
     return this.systemAdminService.getReport(report);
   }
