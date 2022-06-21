@@ -23,8 +23,8 @@ export class InvestigationRequest {
   @Column()
   note: string;
 
-  @CreateDateColumn()
-  date: Date;
+  // @CreateDateColumn()
+  // date: Date;
 
   @Column({ default: 0 })
   remainingTests: number;
