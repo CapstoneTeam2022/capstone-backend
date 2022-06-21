@@ -19,6 +19,7 @@ import { CreateUserWithRoleDto, UpdatePasswordDto, UpdateUserDto } from './dto';
 import { JwtGuard } from '../auth/guard';
 import { Request } from 'express';
 import { User } from './user.entity';
+import { AddressDto } from '../address/dto';
 
 @UseGuards(JwtGuard)
 @Controller('user')
@@ -77,6 +78,15 @@ export class UserController {
     @Body() body: UpdateUserDto,
   ) {
     return this.userService.updateUser(id, body);
+  }
+
+  @Put('/address/update')
+  updateAddressForUser(@Body() body: AddressDto, @Req() request: Request) {
+    const user = request.user as User;
+    if (!user) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+    return this.userService.updateAddressForUser(user.id, body);
   }
 
   @Post('/password/update')

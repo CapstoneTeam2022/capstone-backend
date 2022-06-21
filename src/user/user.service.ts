@@ -15,6 +15,7 @@ import * as argon2 from 'argon2';
 import { UpdatePasswordDto, UpdateUserDto, UserDto } from './dto';
 import { HealthCenterService } from '../health-center/health-center.service';
 import { HealthCenterWithAdminDto } from '../health-center/dto/health-center-with-admin.dto';
+import { AddressDto } from '../address/dto';
 
 interface Options {
   select: (keyof User)[];
@@ -281,5 +282,10 @@ export class UserService {
   async getHealthCenterForUser(userId: number) {
     const user = await this.getUser(userId);
     return user.healthCenter;
+  }
+
+  async updateAddressForUser(userId: number, body: AddressDto) {
+    const user = await this.getUser(userId);
+    return this.addressService.updateAddress(user.address.id, body);
   }
 }
