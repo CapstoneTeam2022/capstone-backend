@@ -19,6 +19,7 @@ import { FileUploadInterceptor } from 'src/interceptors/fileupload.interceptor';
 import {
   CheckEmail,
   CreateUserWithRoleDto,
+  ResetPasswordDto,
   UpdatePasswordDto,
   UpdateUserDto,
 } from './dto';
@@ -113,6 +114,12 @@ export class UserController {
   @Post('/password/forgot')
   async forgotPassword() {
     return await this.mailService.sendUserConfirmation();
+  }
+
+  // @UseGuards(JwtGuard)
+  @Post('/password/reset')
+  async resetPassword(@Body() body: ResetPasswordDto) {
+    return this.userService.resetPassword(body);
   }
 
   @UseGuards(JwtGuard)

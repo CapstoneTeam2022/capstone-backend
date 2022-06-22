@@ -12,7 +12,12 @@ import { Between, Brackets, DeleteResult, Repository } from 'typeorm';
 import { AddressService } from '../address/address.service';
 import { RoleService } from '../role/role.service';
 import * as argon2 from 'argon2';
-import { UpdatePasswordDto, UpdateUserDto, UserDto } from './dto';
+import {
+  ResetPasswordDto,
+  UpdatePasswordDto,
+  UpdateUserDto,
+  UserDto,
+} from './dto';
 import { HealthCenterService } from '../health-center/health-center.service';
 import { HealthCenterWithAdminDto } from '../health-center/dto/health-center-with-admin.dto';
 import { AddressDto } from '../address/dto';
@@ -289,15 +294,38 @@ export class UserService {
     return this.addressService.updateAddress(user.address.id, body);
   }
 
-
   async getUserByEmail(email: string) {
-    const user = await this.userRepository.findOne(
-      {
+    const user = await this.userRepository.findOne({
       where: {
         email: email,
-      }, relations:['healthCenter']
-    },
-    )
+      },
+      relations: ['healthCenter'],
+    });
     return user.healthCenter.name;
+  }
+
+  async findUserByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+    if (user) return user;
+    throw new NotFoundException(`user with email ${email} not found`);
+  }
+
+  async resetPassword({ email }: ResetPasswordDto) {
+    const user = await this.findUserByEmail(email);
+    const password = await argon2.hash('12345678');
+    return this.userRepository.update(
+      {
+        id: user.id,
+      },
+      {
+        ...user,
+        password,
+        isPasswordReset: false,
+      },
+    );
   }
 }

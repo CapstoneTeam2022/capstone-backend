@@ -56,3 +56,10 @@ export class UpdateUserDto {
   @IsNotEmpty()
   address: AddressDto;
 }
+
+export class ResetPasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  email: string;
+}
