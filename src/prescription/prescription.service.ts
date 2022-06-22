@@ -12,6 +12,7 @@ import { DiagnosisService } from '../diagnosis/diagnosis.service';
 import * as PDFDocument from 'pdfkit';
 
 import { Medication } from './entities/mdication.entity';
+import { PatientService } from '../patient/patient.service';
 
 @Injectable()
 export class PrescriptionService {
@@ -19,6 +20,7 @@ export class PrescriptionService {
     @InjectRepository(Prescription)
     private readonly prescriptionRepository: Repository<Prescription>,
     private diagnosisService: DiagnosisService,
+    private patientService: PatientService,
   ) {}
 
   async create({ diagnosisId, medications, ...data }: CreatePrescriptionDto) {
@@ -125,5 +127,21 @@ export class PrescriptionService {
     });
 
     return pdfBuffer;
+  }
+
+  async getPrescriptionsForPatient(refId: string) {
+    const patient = await this.patientService.getPatientByRef(refId);
+    return (
+      this.prescriptionRepository
+        .createQueryBuilder('pr')
+        .leftJoinAndSelect('pr.medications', 'm')
+        .leftJoinAndSelect('pr.diagnosis', 'diag')
+        .leftJoinAndSelect('diag.investigationRequest', 'inv')
+        .leftJoinAndSelect('inv.vitals', 'v')
+        .leftJoinAndSelect('v.patient', 'p')
+        .where('p.refId=:id', { id: refId })
+        //.select(['pr', 'm', 'diag', 'inv', 'v'])
+        .getMany()
+    );
   }
 }
