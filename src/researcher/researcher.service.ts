@@ -92,24 +92,26 @@ export class ResearcherService {
     const userRoleGroup = {};
     let check = 0;
 
-
     const healthcenter = await this.userService.getUserByEmail(email);
 
+    const users = await this.healthCenterService.getHealthcenter(
+      await healthcenter,
+    );
 
-    const users = await this.healthCenterService.getHealthcenter(await healthcenter);
-    
     const allUsers = this.userService.getAllUsers();
     if (users.length != 0) {
-       console.log("found one ");
-      console.log("users " + users);
-     
-      (await (allUsers)).map(async (user) => {
-        
-       users.map((oneUser) => {
-        if (oneUser.id === user.id ) {
+      console.log('found one ');
+      console.log('users ' + users);
+
+      (await allUsers).map(async (user) => {
+        users.map((oneUser) => {
+          if (oneUser.id === user.id) {
             if (user.role.name === 'Doctor' || user.role.name === 'doctor') {
               doctor = doctor + 1;
-            } else if (user.role.name === 'Nurse' || user.role.name === 'nurse') {
+            } else if (
+              user.role.name === 'Nurse' ||
+              user.role.name === 'nurse'
+            ) {
               nurse = nurse + 1;
             } else if (
               user.role.name === 'Hospital Admin' ||
@@ -123,9 +125,7 @@ export class ResearcherService {
               user.role.name === 'radiologist'
             ) {
               radiologist = radiologist + 1;
-            } else if (
-              user.role.name === 'LabExpert'
-            ) {
+            } else if (user.role.name === 'LabExpert') {
               labTechnican = labTechnican + 1;
             } else if (
               user.role.name === 'System Admin' ||
@@ -146,18 +146,17 @@ export class ResearcherService {
               researcher = researcher + 1;
             }
 
-              if (user.gender === 'male' || user.gender === 'Male') {
-                male = male + 1;
-              } else if (user.gender === 'female' || user.gender === 'Female') {
-                female = female + 1;
-              }
+            if (user.gender === 'male' || user.gender === 'Male') {
+              male = male + 1;
+            } else if (user.gender === 'female' || user.gender === 'Female') {
+              female = female + 1;
+            }
           }
         });
       });
     } else {
       console.log('found noting');
     }
-    
 
     userRoleGroup['receptionist'] = receptionist;
     userRoleGroup['radiologist'] = radiologist;
@@ -170,7 +169,6 @@ export class ResearcherService {
     userRoleGroup['female'] = female;
     userRoleGroup['researcher'] = researcher;
     userRoleGroup['hospital_name'] = healthcenter;
-
 
     return userRoleGroup;
   }
@@ -199,7 +197,6 @@ export class ResearcherService {
     body: DiseaseAnalytics | MedicationAnalytics,
     datas: Vitals[],
   ) {
-   
     let ageGroupCount = 0;
     let genderCount = 0;
     const usersData = [];
@@ -207,35 +204,30 @@ export class ResearcherService {
     let patient: Patient;
     let users = [];
     const allPatients = this.patientsService.getAllPatients();
-    
+
     (await allPatients).map((singlePatient) => {
-      console.log("single " + singlePatient.id);
+      console.log('single ' + singlePatient.id);
       datas.map(async (data) => {
-    
         patient = data.patient;
         let newPatient: Patient;
         console.log(patient.id);
-  
-        console.log("id " + singlePatient.id);
-        if (singlePatient.id === patient.id) {
-          
-        
-        const user = singlePatient.user;
-          console.log("single uu " + user.age);
-        if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
-          ageGroupCount = ageGroupCount + 1;
-          console.log('agecount ' + ageGroupCount);
 
-          const gender = user.gender;
-          if (gender === body.gender) {
-            genderCount = genderCount + 1;
-            console.log('gender ' + genderCount);
+        console.log('id ' + singlePatient.id);
+        if (singlePatient.id === patient.id) {
+          const user = singlePatient.user;
+          console.log('single uu ' + user.age);
+          if (user.age >= body.startAgeGroup && user.age <= body.endAgeGroup) {
+            ageGroupCount = ageGroupCount + 1;
+            console.log('agecount ' + ageGroupCount);
+
+            const gender = user.gender;
+            if (gender === body.gender) {
+              genderCount = genderCount + 1;
+              console.log('gender ' + genderCount);
+            }
           }
         }
-      }
-    })
-    
-
+      });
     });
     usersData.push(ageGroupCount);
     usersData.push(genderCount);
@@ -296,19 +288,20 @@ export class ResearcherService {
     const ageGroupCount = 0;
     let byDateCount = 0;
     const genderCount = 0;
-
+    const invs: InvestigationRequest[] = [];
     const diagnosis = [];
 
     const prescriptions = this.prescriptionService.findAll();
     const prescriptionsCount = (await prescriptions).length;
     (await prescriptions).map((prescription) => {
       diagnosis.push(prescription.diagnosis);
-      prescription.medications.map((medication) => {
+      prescription.medications.map(async (medication) => {
         if (medication.name === body.medication) {
           medicatedPatientCount = medicatedPatientCount + 1;
           // if (prescription.createdAt >= medication.startDate && prescription.createdAt <= medication.endDate) {
           byDateCount = byDateCount + 1;
           // }
+          invs.push(await this.getInvestigationRequest(prescription.diagnosis));
         }
       });
     });
@@ -317,7 +310,6 @@ export class ResearcherService {
     datas['medicated_patient_count'] = medicatedPatientCount;
     datas['by_date'] = byDateCount;
 
-    const invs = await this.getInvestigationRequest(diagnosis);
     const vitals = await this.getVitals(body, invs);
     const usersData = await this.getUsers(body, vitals);
     datas['by_age'] = usersData[0];
@@ -326,16 +318,14 @@ export class ResearcherService {
     return datas;
   }
 
-  async getInvestigationRequest(diagnosis: Diagnosis[]) {
+  async getInvestigationRequest(diagnosis) {
     const diagnoses = this.diagnosisService.findAll();
-    const invs = [];
+    let invs: InvestigationRequest;
     // console.log(diagnosis);
     (await diagnoses).map((dia) => {
-      diagnosis.map((diagnos) => {
-        if (dia.id === diagnos.id) {
-          invs.push(dia.investigationRequest);
-        }
-      });
+      if (dia.id === diagnosis.id) {
+        invs = dia.investigationRequest;
+      }
     });
 
     return invs;
