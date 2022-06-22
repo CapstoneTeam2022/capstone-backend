@@ -21,6 +21,7 @@ import {
 import { HealthCenterService } from '../health-center/health-center.service';
 import { HealthCenterWithAdminDto } from '../health-center/dto/health-center-with-admin.dto';
 import { AddressDto } from '../address/dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 interface Options {
   select: (keyof User)[];
@@ -35,6 +36,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     private addressService: AddressService,
     private roleService: RoleService,
+    private mailerService: MailerService,
   ) {}
 
   getAllUsers(): Promise<User[]> {
@@ -327,5 +329,27 @@ export class UserService {
         isPasswordReset: false,
       },
     );
+  }
+
+  async sendEmail(toemail) {
+    // const user = await this.getUserByEmail(toemail);
+    // console.log(user);
+
+    const user = await this.userRepository.findOne({
+      where: {
+        email: toemail,
+      },
+    });
+    if (!user) throw new NotFoundException(`the email is  not found !!!`);
+
+    const result = await this.mailerService.sendMail({
+      to: toemail,
+      from: 'robelshewan21@gmail.com',
+      subject: 'Reset your EMR password',
+      text: 'Password forget  ',
+      html: '<p>Someone (hopefully you) has requested a password reset for your EMR account. Follow the link below to set a new password: </p> <a href ="http://localhost:3000/500/?email={{toemail}}>http://localhost:3000/500/?email={{toemail}}</a> <h2>The EMR Team</h2>',
+    });
+    console.log(result);
+    return 'success';
   }
 }
