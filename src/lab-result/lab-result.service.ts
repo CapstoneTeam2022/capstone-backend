@@ -72,6 +72,7 @@ export class LabResultService {
           id: userId,
         },
       },
+      relations: ['labTest'],
     });
   }
 }
