@@ -160,12 +160,24 @@ export class InvestigationRequestService {
       .innerJoinAndSelect('vital.requestedBy', 'user')
       .innerJoinAndSelect('user.healthCenter', 'h')
       .innerJoinAndSelect('inv.labTests', 'tests')
-      .innerJoinAndSelect('inv.labResults', 'res')
       .where('h.id=:hid', { hid: healthCenterId })
       .andWhere('inv.remainingTests > :num', { num: 0 })
       .select(['inv', 'tests'])
       .orderBy('inv.createdAt', 'DESC')
       .getMany();
+
+    for (const request of requests) {
+      const results = await this.getAllForInvestigationRequest(request.id);
+      request.labResults = results;
+    }
+
+    requests.forEach((req) => {
+      req.labResults.forEach((res) => {
+        req.labTests = req.labTests.filter((test) => {
+          return test.id !== res.labTest.id;
+        });
+      });
+    });
 
     return requests;
   }
