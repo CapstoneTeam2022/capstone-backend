@@ -347,7 +347,7 @@ export class UserService {
       from: 'robelshewan21@gmail.com',
       subject: 'Reset your EMR password',
       text: 'Password forget  ',
-      html: '<p>Someone (hopefully you) has requested a password reset for your EMR account. Follow the link below to set a new password: </p> <a href ="http://localhost:3000/500/?email={{toemail}}>http://localhost:3000/500/?email={{toemail}}</a> <h2>The EMR Team</h2>',
+      html: `<p>Someone (hopefully you) has requested a password reset for your EMR account. Follow the link below to set a new password: </p> <a href ="http://localhost:3000/500/?email=${toemail}">click here</a> <h2>The EMR Team</h2>`,
     });
     console.log(result);
     return 'success';
