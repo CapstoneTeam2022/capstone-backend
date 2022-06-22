@@ -166,6 +166,7 @@ export class PatientService {
           id: userId,
         },
       },
+      relations: ['user'],
     });
     if (patient) return patient;
     throw new NotFoundException(`Patient with user id ${userId} not found`);
