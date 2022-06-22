@@ -8,11 +8,15 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { PatientDto } from './dto';
-import { JwtGuard } from '../auth/guard';
+import { JwtGuard, RolesGuard } from '../auth/guard';
+import { Request } from 'express';
+import { User } from '../user/user.entity';
+import { Roles } from '../auth/decorator';
 
 @UseGuards(JwtGuard)
 @Controller('patient')
@@ -22,6 +26,14 @@ export class PatientController {
   @Get()
   getAll() {
     return this.patientService.getAllPatients();
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles('Patient')
+  @Get('user/profile')
+  getProfile(@Req() request: Request) {
+    const user = request.user as User;
+    return this.patientService.getUser(user.id);
   }
 
   @Get(':id')

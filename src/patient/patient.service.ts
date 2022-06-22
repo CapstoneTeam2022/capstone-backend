@@ -158,4 +158,16 @@ export class PatientService {
       },
     });
   }
+
+  async getUser(userId: number) {
+    const patient = await this.patientRepository.findOne({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
+    if (patient) return patient;
+    throw new NotFoundException(`Patient with user id ${userId} not found`);
+  }
 }
