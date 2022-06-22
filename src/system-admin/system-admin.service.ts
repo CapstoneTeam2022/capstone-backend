@@ -82,9 +82,9 @@ export class SystemAdminService {
       if (days !== 365 && days !== 0) {
         start = new Date(end.getDate() - days);
       } else if (days == 365) {
-        start = new Date(end.getFullYear() - 1, end.getMonth(), end.getDate());
+        start = new Date("2021-06-22T16:32:33.393Z");
       } else if (days == 0) {
-        start = new Date(end.getFullYear() - 4,  end.getMonth(), end.getDate());
+        start = new Date("2000-06-22T16:32:33.393Z");
       }
       const items = await this.getReport({ start, end });
       const hospitalInfo = items[ReportInfo.HOSPITAL];
@@ -96,7 +96,7 @@ export class SystemAdminService {
       const radiologyTests = items[ReportInfo.RADIOLOGY];
 
       doc.fontSize(25).text('Report', 100, 80);
-
+      doc.fontSize(10).text(`Date from ${start} to ${end}`, 100, 80);
       doc.fontSize(20).moveDown().text('Health Centers');
 
       if (hospitalInfo) {

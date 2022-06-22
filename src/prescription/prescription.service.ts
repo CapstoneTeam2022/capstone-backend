@@ -98,24 +98,37 @@ export class PrescriptionService {
       });
 
       let info = '';
+      let filledBy = '';
+      let filledAt = '';
+      let filledPlace = '';
 
       try {
         const finalData = resData['medications'].map(
           (data) =>
             `\n Name: ${data.name} \n Dosage: ${data.dosage} \n Instructions: ${data.instructions}`,
         );
+        filledBy = resData['diagnosis']['filledBy']['id'].toString();
+        filledAt = new Date(resData['createdAt']).toDateString();
+        filledPlace = resData['diagnosis']['filledBy']['healthCenter']['name'];
+
+
+
 
         finalData.forEach((line) => {
           info = info + line;
         });
+
       } catch (err) {
         console.log(err);
         throw new InternalServerErrorException('internal server error');
       }
 
       //  customize your PDF document
-      doc.text(info, 100, 50);
-
+      doc.fontSize(16).text(filledPlace);
+      
+      doc.fontSize(12).text(info, 100, 50);
+      doc.fontSize(11).text(`Prescribed By ${filledBy}`);
+      doc.fontSize(11).text(`Prescribed At ${filledAt}`);
       doc.end();
 
       const buffer = [];
