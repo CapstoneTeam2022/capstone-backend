@@ -7,6 +7,7 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { PrescriptionService } from './prescription.service';
 import { CreatePrescriptionDto } from './dto';
@@ -36,6 +37,13 @@ export class PrescriptionController {
   @Get('diagnosis/:id')
   getAllForDiagnosis(@Param('id', ParseIntPipe) id: number) {
     return this.prescriptionService.findAllForDiagnosis(id);
+  }
+
+  @Get('patient/:refId')
+  getPrescriptionsForPatient(
+    @Param('refId', new ParseUUIDPipe()) refId: string,
+  ) {
+    return this.prescriptionService.getPrescriptionsForPatient(refId);
   }
 
   @Get('export/pdf/:id')
