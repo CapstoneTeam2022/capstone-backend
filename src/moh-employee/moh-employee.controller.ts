@@ -7,11 +7,14 @@ import {
   Put,
   ParseIntPipe,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { MohEmployeeService } from './moh-employee.service';
 import { CreateMohEmployeeDto } from './dto';
 import { UpdateUserDto } from 'src/user/dto';
 import { JwtGuard } from '../auth/guard';
+import { Request } from 'express';
+import { User } from '../user/user.entity';
 
 @UseGuards(JwtGuard)
 @Controller('moh-employee')
@@ -20,8 +23,12 @@ export class MohEmployeeController {
 
   @Post()
   // @UseInterceptors(FileUploadInterceptor('./upload/profileImages'))
-  create(@Body() createMohEmployeeDto: CreateMohEmployeeDto) {
-    return this.mohEmployeeService.create(createMohEmployeeDto);
+  create(
+    @Body() createMohEmployeeDto: CreateMohEmployeeDto,
+    @Req() req: Request,
+  ) {
+    const user = req.user as User;
+    return this.mohEmployeeService.create(createMohEmployeeDto, user.id);
   }
 
   @Get()

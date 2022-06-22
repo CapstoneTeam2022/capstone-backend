@@ -16,8 +16,11 @@ export class MohEmployeeService {
 
   readonly roleName = 'Moh Employee';
 
-  async create({ user, registeredBy, ...data }: CreateMohEmployeeDto) {
-    const newUser = await this.userService.addUser(user, this.roleName);
+  async create({ user, ...data }: CreateMohEmployeeDto, registeredBy: number) {
+    const newUser = await this.userService.addUser(
+      { ...user, isAdmin: false, isResearcher: true },
+      this.roleName,
+    );
     const registerer = await this.userService.getUser(registeredBy);
     const mohEmployee = this.mohEmployeeRepository.create({
       ...data,
