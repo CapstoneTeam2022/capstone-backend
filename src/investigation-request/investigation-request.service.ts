@@ -191,6 +191,7 @@ export class InvestigationRequestService {
   }
 
   async getAllForInvestigationRequest(reqId: number) {
+    await this.getInvestigationRequest(reqId);
     return this.labResultRepository.find({
       where: {
         investigationRequest: {
