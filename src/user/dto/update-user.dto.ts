@@ -47,7 +47,7 @@ export class UpdateUserDto {
   @IsBoolean()
   isAdmin: boolean;
 
-  @IsNotEmpty()
+  //@IsNotEmpty()
   @IsString()
   image: string;
 
