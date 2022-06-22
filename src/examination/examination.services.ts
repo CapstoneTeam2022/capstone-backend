@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -14,6 +16,7 @@ export class ExaminationService {
   constructor(
     @InjectRepository(Examination)
     private readonly examinationRepository: Repository<Examination>,
+    @Inject(forwardRef(() => VitalsService))
     private readonly vitalService: VitalsService,
   ) {}
 

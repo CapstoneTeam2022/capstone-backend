@@ -1,10 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vitals } from './vitals.entity';
 import { Repository } from 'typeorm';
 import { VitalsDto } from './dto';
 import { UserService } from '../user/user.service';
 import { PatientService } from '../patient/patient.service';
+import { ExaminationService } from '../examination/examination.services';
 
 @Injectable()
 export class VitalsService {
@@ -13,6 +19,8 @@ export class VitalsService {
     private vitalsRepository: Repository<Vitals>,
     private userService: UserService,
     private patientService: PatientService,
+    @Inject(forwardRef(() => ExaminationService))
+    private examinationService: ExaminationService,
   ) {}
 
   getAll(): Promise<Vitals[]> {
@@ -36,7 +44,7 @@ export class VitalsService {
     const user = await this.userService.getUser(userId);
     const healthCenterId = user.healthCenter.id;
     await this.patientService.getPatient(patientId); //check for patient with this id
-    return this.vitalsRepository
+    const vitals = await this.vitalsRepository
       .createQueryBuilder('vital')
       .innerJoinAndSelect('vital.patient', 'patient')
       .innerJoinAndSelect('vital.requestedBy', 'user')
@@ -47,6 +55,17 @@ export class VitalsService {
       .select(['vital', 'patient.id', 'patient_user.name'])
       .orderBy('vital.requestedDate', 'DESC')
       .getMany();
+
+    for (const vital of vitals) {
+      try {
+        vital.examination =
+          await this.examinationService.getExaminationForVital(vital.id);
+      } catch (e: any) {
+        vital.examination = null;
+      }
+    }
+
+    return vitals;
   }
 
   async getVital(id: number): Promise<Vitals> {
