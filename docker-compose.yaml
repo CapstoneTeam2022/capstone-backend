@@ -11,5 +11,6 @@ services:
       - '5432:${POSTGRES_PORT}'
     volumes:
       - postgres:/data/postgres
+      - ${PWD}/latest.dump:/latest.dump
 volumes:
   postgres:

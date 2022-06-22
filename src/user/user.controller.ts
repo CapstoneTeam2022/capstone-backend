@@ -26,8 +26,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 @Controller('user')
 export class UserController {
   constructor(
-    private userService: UserService,
-    private mailService: MailerService,
+    private userService: UserService, // private mailService: MailService, //rediet
   ) {}
 
   @Get()
@@ -98,14 +97,6 @@ export class UserController {
 
   @Get('/password-forget/plainTextemail')
   async plainText(@Query('toemail') toemail) {
-    const result = await this.mailService.sendMail({
-      to: toemail,
-      from: 'robelshewan21@gmail.com',
-      subject: 'Reset your EMR password',
-      text: 'Password forget  ',
-      html: '<p>Someone (hopefully you) has requested a password reset for your EMR account. Follow the link below to set a new password: </p> <a href ="http://localhost:3000/forgot-password">http://localhost:3000/forget-passowrd</a> <h2>The EMR Team</h2> ',
-    });
-    console.log(result);
-    return 'success';
+    return this.userService.sendEmail(toemail);
   }
 }
