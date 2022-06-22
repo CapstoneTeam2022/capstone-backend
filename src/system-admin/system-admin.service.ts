@@ -96,7 +96,7 @@ export class SystemAdminService {
       const radiologyTests = items[ReportInfo.RADIOLOGY];
 
       doc.fontSize(25).text('Report', 100, 80);
-      doc.fontSize(10).text(`Date from ${start} to ${end}`, 100, 80);
+      doc.fontSize(10).moveDown().text(`Date from ${start} to ${end}`, 100, 80);
       doc.fontSize(20).moveDown().text('Health Centers');
 
       if (hospitalInfo) {
