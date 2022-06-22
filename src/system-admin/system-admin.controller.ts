@@ -56,9 +56,9 @@ export class SystemAdminController {
   @Get('/report/yearly')
   async getPDFYear(
     @Res() res: Response,
-    @Body() report: ReportDto,
+    //@Body() report: ReportDto,
   ): Promise<void> {
-    const buffer = await this.systemAdminService.generatePDF(365);
+    const buffer = await this.systemAdminService.generatePDF(180);
 
     res.set({
       'Content-Type': 'application/pdf',
@@ -72,9 +72,9 @@ export class SystemAdminController {
   @Get('/report/general')
   async getPDFGeneral(
     @Res() res: Response,
-    @Body() report: ReportDto,
+    // @Body() report: ReportDto,
   ): Promise<void> {
-    const buffer = await this.systemAdminService.generatePDF(0);
+    const buffer = await this.systemAdminService.generatePDF(180);
 
     res.set({
       'Content-Type': 'application/pdf',

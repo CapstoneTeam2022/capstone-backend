@@ -79,12 +79,10 @@ export class SystemAdminService {
       });
       const end = new Date();
       let start = new Date();
-      if (days !== 365 && days !== 0) {
+      if (days !== 0) {
         start = new Date(end.getDate() - days);
-      } else if (days == 365) {
-        start = new Date("2021-06-22T16:32:33.393Z");
       } else if (days == 0) {
-        start = new Date("2000-06-22T16:32:33.393Z");
+        start = new Date('2016-09-18T17:34:02.666Z');
       }
       const items = await this.getReport({ start, end });
       const hospitalInfo = items[ReportInfo.HOSPITAL];
@@ -96,7 +94,7 @@ export class SystemAdminService {
       const radiologyTests = items[ReportInfo.RADIOLOGY];
 
       doc.fontSize(25).text('Report', 100, 80);
-      doc.fontSize(10).moveDown().text(`Date from ${start} to ${end}`, 100, 80);
+      doc.fontSize(10).moveDown(3).text(`Date from ${start} to ${end}`);
       doc.fontSize(20).moveDown().text('Health Centers');
 
       if (hospitalInfo) {
@@ -111,22 +109,42 @@ export class SystemAdminService {
 
       if (patients) {
         doc.fontSize(20).moveDown().text('Patients');
-        doc.fontSize(12).moveDown().text(`There are ${patients} patients registered within the selected period.`);
+        doc
+          .fontSize(12)
+          .moveDown()
+          .text(
+            `There are ${patients} patients registered within the selected period.`,
+          );
       }
 
       if (labResults) {
         doc.fontSize(20).moveDown().text('Lab Results');
-        doc.fontSize(12).moveDown().text(`There are ${labResults} laboratory results registered within the selected period.`);
+        doc
+          .fontSize(12)
+          .moveDown()
+          .text(
+            `There are ${labResults} laboratory results registered within the selected period.`,
+          );
       }
 
       if (radiologyTests) {
         doc.fontSize(20).moveDown().text('Radiology');
-        doc.fontSize(12).moveDown().text(`There are ${radiologyTests} radiology test results registered within the selected period.`);
+        doc
+          .fontSize(12)
+          .moveDown()
+          .text(
+            `There are ${radiologyTests} radiology test results registered within the selected period.`,
+          );
       }
 
       if (diagnoses) {
         doc.fontSize(20).moveDown().text('Diagnosis');
-        doc.fontSize(12).moveDown().text(`There are ${diagnoses} health centers registered within the selected period.`);
+        doc
+          .fontSize(12)
+          .moveDown()
+          .text(
+            `There are ${diagnoses} health centers registered within the selected period.`,
+          );
       }
 
       if (researchers) {
