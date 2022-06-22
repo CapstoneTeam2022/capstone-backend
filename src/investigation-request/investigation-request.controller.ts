@@ -39,6 +39,11 @@ export class InvestigationRequestController {
     return this.service.getInvestigationRequest(id);
   }
 
+  @Get(':id/lab-results')
+  getLabResults(@Param('id', ParseIntPipe) id: number) {
+    return this.service.getAllForInvestigationRequest(id);
+  }
+
   @Get('/include/radiology')
   getAllWithRadiology() {
     return this.service.getAllWithRadiology();
